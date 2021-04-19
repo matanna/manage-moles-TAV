@@ -1,0 +1,10 @@
+#logo {
+    width: 200px;
+}
+.btn-home {
+    font-size: 1.8em !important;
+}
+
+.slot > thead > tr:nth-child(2n) {
+    background-color: green;
+}
