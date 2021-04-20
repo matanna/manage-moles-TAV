@@ -28,6 +28,7 @@ class MeulesRectiRepository extends ServiceEntityRepository
         $tableResults = [];
 
         $results = $this->createQueryBuilder('m')
+            ->andWhere(m.)
             ->orderBy('m.position', 'ASC')
             ->getQuery()
             ->getResult()

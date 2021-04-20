@@ -30,9 +30,9 @@ class Machine
     private $meulesRectis;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\OneToMany(targetEntity=Position::class, mappedBy="machine", cascade={"persist", "remove"})
      */
-    private $position = [];
+    private $position;
 
     public function __construct()
     {
@@ -83,13 +83,18 @@ class Machine
         return $this;
     }
 
-    public function getPosition(): ?array
+    public function getPosition(): ?Position
     {
         return $this->position;
     }
 
-    public function setPosition(?array $position): self
+    public function setPosition(Position $position): self
     {
+        // set the owning side of the relation if necessary
+        if ($position->getMachine() !== $this) {
+            $position->setMachine($this);
+        }
+
         $this->position = $position;
 
         return $this;

@@ -18,7 +18,7 @@ class BilatController extends AbstractController
         MachineRepository $machineRepository, EntityManagerInterface $em
     ): Response {
 
-        $stockBilat = $meulesRectiRepository->findAllOrderByPosition();
+        $stockBilat = $meulesRectiRepository->findAllOrderByPosition('BITERALE');
         
         return $this->render('bilat/bilat.html.twig', [
             "stockBilat" => $stockBilat,

@@ -50,11 +50,6 @@ class MeulesRecti
     private $stock;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $stockMini;
-
-    /**
      * @ORM\Column(type="array", nullable=true)
      */
     private $position = [];
@@ -147,18 +142,6 @@ class MeulesRecti
     public function setStock(int $stock): self
     {
         $this->stock = $stock;
-
-        return $this;
-    }
-
-    public function getStockMini(): ?int
-    {
-        return $this->stockMini;
-    }
-
-    public function setStockMini(int $stockMini): self
-    {
-        $this->stockMini = $stockMini;
 
         return $this;
     }
