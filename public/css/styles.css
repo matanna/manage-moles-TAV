@@ -5,6 +5,6 @@
     font-size: 1.8em !important;
 }
 
-.slot > thead > tr:nth-child(2n) {
-    background-color: green;
+.interligne {
+    height: 20px;
 }

@@ -27,7 +27,7 @@ class MeulesRecti
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $DesignationTAV;
+    private $designationTAV;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -60,9 +60,14 @@ class MeulesRecti
     private $position = [];
 
     /**
-     * @ORM\ManyToMany(targetEntity=machine::class, inversedBy="meulesRectis")
+     * @ORM\ManyToMany(targetEntity=Machine::class, inversedBy="meulesRectis")
      */
     private $machine;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Fournisseur::class, inversedBy="meulesRectis")
+     */
+    private $fournisseur;
 
     public function __construct()
     {
@@ -88,12 +93,12 @@ class MeulesRecti
 
     public function getDesignationTAV(): ?string
     {
-        return $this->DesignationTAV;
+        return $this->designationTAV;
     }
 
-    public function setDesignationTAV(string $DesignationTAV): self
+    public function setDesignationTAV(string $designationTAV): self
     {
-        $this->DesignationTAV = $DesignationTAV;
+        $this->designationTAV = $designationTAV;
 
         return $this;
     }
@@ -190,6 +195,18 @@ class MeulesRecti
     public function removeMachine(machine $machine): self
     {
         $this->machine->removeElement($machine);
+
+        return $this;
+    }
+
+    public function getFournisseur(): ?Fournisseur
+    {
+        return $this->fournisseur;
+    }
+
+    public function setFournisseur(?Fournisseur $fournisseur): self
+    {
+        $this->fournisseur = $fournisseur;
 
         return $this;
     }

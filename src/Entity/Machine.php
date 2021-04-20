@@ -29,6 +29,11 @@ class Machine
      */
     private $meulesRectis;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $position = [];
+
     public function __construct()
     {
         $this->meulesRectis = new ArrayCollection();
@@ -77,4 +82,17 @@ class Machine
 
         return $this;
     }
+
+    public function getPosition(): ?array
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?array $position): self
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
 }

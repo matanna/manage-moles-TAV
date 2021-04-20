@@ -4,10 +4,9 @@
 
 {% block body %}
 <div class="row">
-    <h2 class="ml-5 mt-4">Slot Meules Bilatérale</h2>
+    <h2 class="ml-5 mt-4">Stock Meules Bilatérale</h2>
 </div>
-<div class="m-3">
-<table class="table table-hover slot">
+<table class="table table-hover stock-bilat">
     
     <thead>
         <tr class="table-primary">
@@ -40,6 +39,7 @@
             <td class="text-center">Périphérique</td>
             <td class="text-center">Périphérique</td>
             <td class="text-center">Périphérique</td>
+            
         </tr>
         
         <tr class="table-light">
@@ -59,21 +59,55 @@
 
         <tr class="table-light">
             <th scope="col">Matière</th>
-            <td class="text-center">Diamant</td>
-            <td class="text-center">Diamant</td>
-            <td class="text-center">Diamant / Résine</td>
-            <td class="text-center">Diamant</td>
+            <td class="text-center">Diamanté</td>
+            <td class="text-center">Diamanté</td>
+            <td class="text-center">Résine</td>
+            <td class="text-center">Diamanté/Résine</td>
             <td class="text-center">Polissante</td>
             <td class="text-center">Polissante</td>
             <td class="text-center">Polissante</td>
             <td class="text-center">Cérium</td>
-            <td class="text-center">Diamant</td>
-            <td class="text-center">Diamant</td>
+            <td class="text-center">Diamanté</td>
+            <td class="text-center">Diamanté</td>
             <td class="text-center">Polissante</td>
         </tr>
-    
-    
+
     </tbody>
 </table>
 
+ <div class="interligne"></div>
+
+
+<table class="table table-hover table-fournisseur">
+    <thead>
+        <tr class="table-primary">
+            <th scope="col" class="text-center">Position</th>
+            <th scope="col" class="text-center">Fournisseur</th>
+            <th scope="col" class="text-center">Rèférence</th>
+            <th scope="col" class="text-center">Désignation TAV</th>
+            <th scope="col" class="text-center">Grain</th>
+            <th scope="col" class="text-center">Diamètre</th>
+            <th scope="col" class="text-center">Hauteur</th>
+            <th scope="col" class="text-center">Stock</th>
+            <th scope="col" class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for stockBilatParPosition in stockBilat %}
+    {% for meule in stockBilatParPosition %}
+        <tr class="table-success">
+            <th scope="col" class="text-center">{{ meule.position[0] }}</th>
+            <td class="text-center">{{ meule.fournisseur.name }}</td>
+            <td class="text-center">{{ meule.ref }}</td>
+            <td class="text-center">{{ meule.designationTAV }}</td>
+            <td class="text-center">{{ meule.grain }}</td>
+            <td class="text-center">{{ meule.diametre }}</td>
+            <td class="text-center">{{ meule.hauteur }}</td>
+            <td class="text-center">{{ meule.stock }}</td>
+            <td class="text-center"><a href="#">Modifier</a></td>
+        </tr>
+    {% endfor %}
+{% endfor %}
+    </tbody>
+</table>
 {% endblock %}
