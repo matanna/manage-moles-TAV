@@ -2,10 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\MeulesRecti;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Machine;
+use App\Entity\MeulesRecti;
+use App\Utils\TryMolesResults;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method MeulesRecti|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,40 +16,32 @@ use App\Entity\Machine;
  */
 class MeulesRectiRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $tryMolesResults;
+
+    public function __construct(ManagerRegistry $registry, TryMolesResults $tryMolesResults)
     {
         parent::__construct($registry, MeulesRecti::class);
+        
+        $this->tryMolesResults = $tryMolesResults;
     }
 
     /**
      * @return MeulesRecti[] Returns an array of MeulesRecti objects
      */
-    public function findAllOrderByPosition()
+    public function findAllOrderByPosition($name)
     {
-        //Initialisation du méta tableau
-        $tableResults = [];
-
+        
         $results = $this->createQueryBuilder('me')
-            ->leftJoin(Machine::class, 'ma',)
-            ->andWhere('')
+            ->leftJoin('me.machine', 'ma')
+            ->andWhere('ma.name = :name')
+            ->setParameter('name', $name)
             ->orderBy('me.position', 'ASC')
             ->getQuery()
             ->getResult()
         ;
-
-        //On regroupe les résultats dans un tableau qui a pour index le paramètre position de chaque objet récupéré
-        //Ce tableau est lui même placé dans un méta tableau qui est retourné
-
-        //Initialisation du tableau regroupant les objets avec la même position
-        $resultPerPosition = [];
         
-        foreach ($results as $result) {
-            $position = $result->getPosition(); 
-            $resultPerPosition[] = $result;
-            $tableResults[$position[0]] = $resultPerPosition;       
-        }
+        return $this->tryMolesResults->tryMolesPerPosition($results);
 
-        return $tableResults;
     }
 
     /*
