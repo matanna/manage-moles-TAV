@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\MeulesRecti;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Machine;
 
 /**
  * @method MeulesRecti|null find($id, $lockMode = null, $lockVersion = null)
@@ -27,9 +28,10 @@ class MeulesRectiRepository extends ServiceEntityRepository
         //Initialisation du méta tableau
         $tableResults = [];
 
-        $results = $this->createQueryBuilder('m')
-            ->andWhere(m.)
-            ->orderBy('m.position', 'ASC')
+        $results = $this->createQueryBuilder('me')
+            ->leftJoin(Machine::class, 'ma',)
+            ->andWhere('')
+            ->orderBy('me.position', 'ASC')
             ->getQuery()
             ->getResult()
         ;
