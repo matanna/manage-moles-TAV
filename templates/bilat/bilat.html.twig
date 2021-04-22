@@ -4,125 +4,141 @@
 
 {% block body %}
 <div class="row">
-    <h2 class="ml-5 mt-4">Stock Meules Bilatérale</h2>
+    <h2 class="ml-4 mt-4"><span class="border-bottom mb-5">Stock Meules Bilatérale</span></h2>
 </div>
-<div class="stock-bilat">
-    <div class="row text-center font-weight-bold border-top border-bottom pt-3 pb-3 head-table">
-        <div class="col-1 border-right">Position</div>
-        <div class="col-1">1</div>
-        <div class="col-1">2</div>
-        <div class="col-1">3</div>
-        <div class="col-1">4 et 12</div>
-        <div class="col-1">5 et 13</div>
-        <div class="col-1">9</div>
-        <div class="col-1">10</div>
-        <div class="col-1">11</div>
-        <div class="col-1">6</div>
-        <div class="col-1">7</div>
-        <div class="col-1">8</div>
-    </div>
-    <div class="row text-ccenter pt-3 pb-3 text-center">
-        <div class="col-1 font-weight-bold border-right" class="">Type</div>
-        <div class="col-1">Boisseau</div>
-        <div class="col-1">Boisseau</div>
-        <div class="col-1">Boisseau</div>
-        <div class="col-1">Boisseau</div>
-        <div class="col-1">Boisseau</div>
-        <div class="col-1">Boisseau</div>
-        <div class="col-1">Boisseau</div>
-        <div class="col-1">Boisseau</div>
-        <div class="col-1">Périphérique</div>
-        <div class="col-1">Périphérique</div>
-        <div class="col-1">Périphérique</div>
-    </div>
-    <div class="row text-center pt-3 pb-3 text-center">
-        <div class="col-1 font-weight-bold border-right" class="">Usinage</div>
-        <div class="col-1">Talon</div>
-        <div class="col-1">Talon</div>
-        <div class="col-1">Talon</div>
-        <div class="col-1">Arête</div>
-        <div class="col-1">Arête</div>
-        <div class="col-1">Talon</div>
-        <div class="col-1">Talon</div>
-        <div class="col-1">Talon</div>
-        <div class="col-1">Joint complet</div>
-        <div class="col-1">Joint complet</div>
-        <div class="col-1">Joint complet</div>
-    </div>
-    <div class="row text-center pt-3 pb-3 text-center">
-        <div class="col-1 font-weight-bold border-right" class="">Matière</div>
-        <div class="col-1">Diamanté</div>
-        <div class="col-1">Diamanté</div>
-        <div class="col-1">Résine</div>
-        <div class="col-1">Diamanté/Résine</div>
-        <div class="col-1">Polissante</div>
-        <div class="col-1">Polissante</div>
-        <div class="col-1">Polissante</div>
-        <div class="col-1">Cérium</div>
-        <div class="col-1">Diamanté</div>
-        <div class="col-1">Diamanté</div>
-        <div class="col-1">Polissante</div>
-    </div>
-    <div class="interligne"></div>
-</div>
-
-<div class="stock-bilat">
-    <div class="row text-center font-weight-bold border-top border-bottom pt-3 pb-3 body-table">
-        <div class="col-1">Position</div>
-        <div class="col-11">
-            <div class="row">
-                <div class="col-1">Fournisseur</div>
-                <div class="col-1">Réfèrence</div>
-                <div class="col-1">Désignation TAV</div>
-                <div class="col-1">Grain</div>
-                <div class="col-1">Diamètre</div>
-                <div class="col-1">Hauteur</div>
-                <div class="col-1">Stock</div>
-                <div class="col-1">Actions</div>
-            </div>
+<div class="interligne"></div>
+<div class="row stock-bilat">
+    <div class="col-1">
+        <div class="row d-flex flex-column border-right text-center">
+            <div class="font-weight-bold pt-2 pb-2 head-table border-bottom ">Position</div>
+            <div class="font-weight-bold font-blue1 pt-2 pb-2">Type</div>
+            <div class="font-weight-bold font-blue1 pt-2 pb-2">Usinage</div>
+            <div class="font-weight-bold font-blue1 pt-2 pb-2">Matière</div>
+            <div class="font-weight-bold pt-2 pb-2 font-green1">Stock</div>
         </div>
     </div>
-</div>
+    {% for position in positionTable %}
+    <div class="col-1 hover-cel">
+        <div class="row d-flex flex-column border-right text-center">
 
-<div class="table table-hover table-fournisseur">
-    
-    <tbody>
-{% for stockBilatParPosition in stockBilat %}
-    <div class="row text-center">
-        <div class="col-1">{{stockBilatParPosition[0].position[0]}}</div>
-        <div class="col-11">
-        {% set quantiteTotal = 0 %}
-        {% for meule in stockBilatParPosition %}
-            <div class="row">
-                <div class="col-1">{{ meule.fournisseur.name }}</div>
-                <div class="col-1">{{ meule.ref }}</div>
-                <div class="col-1">{{ meule.designationTAV }}</div>
-                <div class="col-1">{{ meule.grain }}</div>
-                <div class="col-1">{{ meule.diametre }}</div>
-                <div class="col-1">{{ meule.hauteur }}</div>
-                <div class="col-1">{{ meule.stock }}</div>
-                <div class="col-1"><a href="#">Modifier</a></div>
-                {% set quantiteTotal = quantiteTotal + meule.stock %}
-            </div>
-        {% endfor %}
-        </div>
-    </div>
-    <div class="row mb-3 text-center mt-3">
-        <div class="col-1">Stock Mini</div>
-        {% set stockMiniValue = 0 %}
-        {% for stockMini in stockMiniTable %}
-            
-            {% if stockMini.name == stockBilatParPosition[0].position[0] %}
-               {% set stockMiniValue = stockMini.stockMini %} 
+            {% if position.name != null %}
+                <div class="font-weight-bold pt-2 pb-2 head-table border-bottom">{{ position.name }}</div>
+            {% else %}
+                <div class="font-weight-bold pt-2 pb-2 head-table">NULL</div>
             {% endif %}
+
+            {% if position.type != null %}
+                <div class="pt-2 pb-2">{{ position.type }}</div>
+            {% else %}
+                <div class="pt-2 pb-2">NULL</div>
+            {% endif %}
+
+            {% if position.usinage != null %}
+                <div class="pt-2 pb-2">{{ position.usinage }}</div>
+            {% else %}
+                <div class="pt-2 pb-2">NULL</div>
+            {% endif %}
+
+            {% if position.matiere != null %}
+                <div class="pt-2 pb-2">{{ position.matiere }}</div>
+            {% else %}
+                <div class="pt-2 pb-2">NULL</div>
+            {% endif %}
+
+            <div class="font-weight-bold pt-2 pb-2 font-green1">
+            {% if position.stockReel <= position.stockMini %}
+                <span class="badge badge-pill badge-danger">{{ position.stockReel }}</span>
+            {% else %}
+                <span class="badge badge-pill badge-primary">{{ position.stockReel }}</span>
+            {% endif %}
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="interligne"></div>
+
+<div class="row">
+    <h2 class="ml-4 mt-4"><span class="border-bottom mb-5">Détails du stock</span></h2>
+</div>
+
+<div class="interligne"></div>
+
+<div class="row text-center font-weight-bold border-top border-bottom pt-2 pb-2 head-table">
+    <div class="col-1 border-right">Position</div>
+    <div class="col-7">
+        <div class="row">
+            <div class="col-2">Fournisseur</div>
+            <div class="col-2">Réfèrence</div>
+            <div class="col-2">Désignation TAV</div>
+            <div class="col-2">Grain</div>
+            <div class="col-1">Diamètre</div>
+            <div class="col-1">Hauteur</div>
+            <div class="col-1">Stock</div>
+            <div class="col-1">Actions</div>
+        </div>
+    </div>
+    <div class="col-1">Stock mini</div>
+    <div class="col-1">Stock total</div>
+    <div class="col-1">Non livrées</div>
+    <div class="col-1">Commander</div>
+</div>
+
+<div class="interligne"></div>
+
+{% for position in positionTable %}
+<div class="row text-center border-bottom border-top">
+    <div class="col-1 font-blue1 font-weight-bold d-flex align-items-center justify-content-center">{{ position.name }}</div>
+    <div class="col-7">
+        {% for stockBilatParPosition in stockBilat %}
+            
+            {% if stockBilatParPosition[0].position[0] == position.name %}
+                
+                {% for meule in stockBilatParPosition %}
+                    <div class="row pt-2 pb-2 hover-cel">
+                        <div class="col-2">{{ meule.fournisseur.name }}</div>
+                        <div class="col-2">{{ meule.ref }}</div>
+                        <div class="col-2">{{ meule.designationTAV }}</div>
+                        <div class="col-2">{{ meule.grain }}</div>
+                        <div class="col-1">{{ meule.diametre }}</div>
+                        <div class="col-1">{{ meule.hauteur }}</div>
+                        <div class="col-1">{{ meule.stock }}</div>
+                        <div class="col-1">
+                            <a href='#'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-square icon" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                  </svg>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            {% endif %}
+
         {% endfor %}
-        <div class="col-1">{{ stockMiniValue }}</div>
     </div>
-    <div class="row mb-3 text-center border-bottom">
-        <div class="col-1">Stock Réel</div>
-        <div class="col-1">{{ quantiteTotal }}</div>
+    <div class="col-1 d-flex align-items-center justify-content-center font-blue1"><span class="badge badge-pill badge-dark">{{ position.stockMini }}</span></div>
+
+    <div class="col-1 d-flex align-items-center justify-content-center font-green1 font-weight-bold">
+
+        {% set stockPrevu = position.stockReel + position.nonlivre %}
+
+        {% if position.stockReel > position.stockMini %}
+            <span class="badge badge-pill badge-primary">{{ position.stockReel }}</span>
+        {% elseif stockPrevu >= position.stockMini %}
+            <span class="badge badge-pill badge-warning">{{ position.stockReel }}</span>
+        {% else %}
+            <span class="badge badge-pill badge-danger">{{ position.stockReel }}</span>
+        {% endif %}
+
     </div>
+    <div class="col-1 d-flex align-items-center justify-content-center font-blue1"><span class="badge badge-pill badge-info">{{ position.nonLivre }}</span></div>
+    <div class="col-1 d-flex align-items-center justify-content-center"><button type="button" class="btn btn-outline-primary">Commander</button></div>
+</div>
+<div class="interligne-lg"></div>
 {% endfor %}
-    </tbody>
-</table>
+
 {% endblock %}

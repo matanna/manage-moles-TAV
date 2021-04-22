@@ -22,11 +22,11 @@ class BilatController extends AbstractController
 
         $stockBilat = $meulesRectiRepository->findAllOrderByPosition($nameMachine);
         
-        $stockMini = $positionRepository->findPositionByMachine($nameMachine);
-        dump($stockMini);
+        $positionTable = $positionRepository->findPositionByMachine($nameMachine);
+        
         return $this->render('bilat/bilat.html.twig', [
             "stockBilat" => $stockBilat,
-            "stockMiniTable" => $stockMini
+            "positionTable" => $positionTable
         ]);
     }
 }

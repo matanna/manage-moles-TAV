@@ -28,7 +28,6 @@ class PositionRepository extends ServiceEntityRepository
         ->leftJoin('p.machine', 'ma')
         ->andWhere('ma.name = :name')
         ->setParameter('name', $name)
-        ->orderBy('p.name', 'ASC')
         ->getQuery()
         ->getResult()
         ;

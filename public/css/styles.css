@@ -7,10 +7,39 @@
 
 .interligne {
     height: 20px;
-    background-color: #8e8c84;
+}
+.interligne-lg {
+    height: 40px;
+    opacity: 0.5;
+}
+
+h2 {
+    font-size: 2em;
 }
 
 .head-table {
-    background-color: #8e8c84;
+    background-color: #067292;
     color: white;
+}
+
+.font-blue1 {
+    background-color: #8cd1cf;
+}
+
+.font-green1 {
+    background-color: #18bc9c;
+}
+
+.hover-cel:hover {
+    opacity: 0.9;
+    background-color: #067292;;
+    color: white;
+}
+
+.badge {
+    font-size: 1em !important;
+}
+
+.icon {
+    color: black !important;
 }

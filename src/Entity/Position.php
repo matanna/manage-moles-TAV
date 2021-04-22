@@ -33,6 +33,31 @@ class Position
      */
     private $machine;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $usinage;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $matiere;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $stockReel;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nonLivre;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -73,4 +98,65 @@ class Position
 
         return $this;
     }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getUsinage(): ?string
+    {
+        return $this->usinage;
+    }
+
+    public function setUsinage(?string $usinage): self
+    {
+        $this->usinage = $usinage;
+
+        return $this;
+    }
+
+    public function getMatiere(): ?string
+    {
+        return $this->matiere;
+    }
+
+    public function setMatiere(?string $matiere): self
+    {
+        $this->matiere = $matiere;
+
+        return $this;
+    }
+
+    public function getStockReel(): ?int
+    {
+        return $this->stockReel;
+    }
+
+    public function setStockReel(int $stockReel): self
+    {
+        $this->stockReel = $stockReel;
+
+        return $this;
+    }
+
+    public function getNonLivre(): ?int
+    {
+        return $this->nonLivre;
+    }
+
+    public function setNonLivre(?int $nonLivre): self
+    {
+        $this->nonLivre = $nonLivre;
+
+        return $this;
+    }
+
 }
