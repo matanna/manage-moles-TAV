@@ -64,6 +64,11 @@ class MeulesRecti
      */
     private $fournisseur;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nonLivres;
+
     public function __construct()
     {
         $this->machine = new ArrayCollection();
@@ -190,6 +195,18 @@ class MeulesRecti
     public function setFournisseur(?Fournisseur $fournisseur): self
     {
         $this->fournisseur = $fournisseur;
+
+        return $this;
+    }
+
+    public function getNonLivres(): ?int
+    {
+        return $this->nonLivres;
+    }
+
+    public function setNonLivres(?int $nonLivres): self
+    {
+        $this->nonLivres = $nonLivres;
 
         return $this;
     }

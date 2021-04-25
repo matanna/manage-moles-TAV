@@ -32,14 +32,15 @@ h2 {
 
 .hover-cel:hover {
     opacity: 0.9;
-    background-color: #067292;;
+    background-color: #067292;
     color: white;
 }
 
 .badge {
-    font-size: 1em !important;
+    font-size: 0.9rem!important;
 }
 
 .icon {
     color: black !important;
 }
+
