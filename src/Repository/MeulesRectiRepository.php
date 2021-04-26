@@ -26,6 +26,7 @@ class MeulesRectiRepository extends ServiceEntityRepository
     }
 
     /**
+     * This method retrieves all meulesRecti in database for one machine and try it per position
      * @return MeulesRecti[] Returns an array of MeulesRecti objects
      */
     public function findAllOrderByPosition($name)
@@ -41,18 +42,25 @@ class MeulesRectiRepository extends ServiceEntityRepository
         ;
         
         return $this->tryMolesResults->tryMolesPerPosition($results);
-
     }
 
-    /*
-    public function findOneBySomeField($value): ?MeulesRecti
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
+    /**
+     * This method retrieves meulesRecti who are the same machine and position
+    * @return MeulesRecti[] Returns an array of MeulesRecti objects
     */
+    public function findMeulesRectiPerPosition($name, $position)
+    {
+        dump($position);
+        $results = $this->createQueryBuilder('me')
+            ->leftJoin('me.machine', 'ma')
+            ->andWhere('ma.name = :name')
+            ->setParameter('name', $name)
+            ->andWhere('me.position = :position')
+            ->setParameter('position', $position)
+            ->getQuery()
+            ->getResult();
+
+        dump($results);
+        return $results;
+    }
 }

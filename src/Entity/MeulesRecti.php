@@ -50,9 +50,9 @@ class MeulesRecti
     private $stock;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $position = [];
+    private $position;
 
     /**
      * @ORM\ManyToMany(targetEntity=Machine::class, inversedBy="meulesRectis")
@@ -151,12 +151,12 @@ class MeulesRecti
         return $this;
     }
 
-    public function getPosition(): ?array
+    public function getPosition(): ?string
     {
         return $this->position;
     }
 
-    public function setPosition(?array $position): self
+    public function setPosition(?string $position): self
     {
         $this->position = $position;
 

@@ -110,7 +110,7 @@
     <div class="col-8">
         {% for stockBilatParPosition in stockBilat %}
             
-            {% if stockBilatParPosition[0].position[0] == position.name %}
+            {% if stockBilatParPosition[0].position == position.name %}
                 
                 {% for meule in stockBilatParPosition %}
                     <div class="row pt-2 pb-2 hover-cel">

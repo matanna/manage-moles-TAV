@@ -24,7 +24,7 @@ class TryMolesResults
         foreach ($results as $result) {
             //On récupère la position de la meule
             $position = $result->getPosition(); 
-
+            
             //Si le tableau resultPerPosition n'est pas vide
             if ($resultPerPosition != []){
 
@@ -41,9 +41,9 @@ class TryMolesResults
             
             $resultPerPosition[] = $result;
             
-            $tableResults[$position[0]] = $resultPerPosition;        
+            $tableResults[$position] = $resultPerPosition;        
         }
-        
+        dump($tableResults);
         return $tableResults;
     }
     
