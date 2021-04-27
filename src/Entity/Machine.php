@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\MachineRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Position;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\MachineRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=MachineRepository::class)
@@ -37,6 +38,7 @@ class Machine
     public function __construct()
     {
         $this->meulesRectis = new ArrayCollection();
+        $this->position = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -83,11 +85,28 @@ class Machine
         return $this;
     }
 
-    public function getPosition(): ?Position
+    /**
+     * @return Collection|Position[]
+     */
+    public function getPosition(): Collection
     {
         return $this->position;
     }
 
+    public function addPosition(Position $position): self
+    {
+        if (!$this->position->contains($position)) {
+            $this->position->add($position);
+        }
+
+        return $this;
+    }
+
+    public function removePosition(Position $position): void
+    {
+        $this->position->removeElement($position);
+    }
+    
     public function setPosition(Position $position): self
     {
         // set the owning side of the relation if necessary
@@ -100,4 +119,5 @@ class Machine
         return $this;
     }
 
+    
 }

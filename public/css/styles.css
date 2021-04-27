@@ -44,3 +44,10 @@ h2 {
     color: black !important;
 }
 
+.machine-field {
+    width: 20%;
+}
+
+.position-fields {
+    border-right: solid 1px #18bc9c;
+}
