@@ -50,7 +50,6 @@ class MeulesRectiRepository extends ServiceEntityRepository
     */
     public function findMeulesRectiPerPosition($name, $position)
     {
-        dump($position);
         $results = $this->createQueryBuilder('me')
             ->leftJoin('me.machine', 'ma')
             ->andWhere('ma.name = :name')
@@ -60,7 +59,6 @@ class MeulesRectiRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        dump($results);
         return $results;
     }
 }

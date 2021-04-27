@@ -43,7 +43,7 @@ class TryMolesResults
             
             $tableResults[$position] = $resultPerPosition;        
         }
-        dump($tableResults);
+        
         return $tableResults;
     }
     

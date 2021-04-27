@@ -20,11 +20,11 @@ class RectiController extends AbstractController
      * @Route("/rectiligne/{name}", name="rectiligne")
      */
     public function stockBilat(MeulesRectiRepository $meulesRectiRepository,
-        PositionRepository $positionRepository, $name, Request $request
+        PositionRepository $positionRepository, $name
     ): Response {
 
         $stockBilat = $meulesRectiRepository->findAllOrderByPosition($name);
-        dump($stockBilat);
+
         $positionTable = $positionRepository->findPositionByMachine($name);
 
         return $this->render('rectiligne/machine.html.twig', [

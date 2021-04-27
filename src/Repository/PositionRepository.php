@@ -33,15 +33,22 @@ class PositionRepository extends ServiceEntityRepository
         ;
     }
 
-    /*
-    public function findOneBySomeField($value): ?Position
+    /**
+     * @return Position[] Returns an array of Position objects
+     */
+    public function findOnePositionPerMachine($name, $position)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
+        $results = $this->createQueryBuilder('p')
+        ->leftJoin('p.machine', 'ma')
+        ->andWhere('ma.name = :name')
+        ->setParameter('name', $name)
+
+        ->andWhere('p.name = :position')
+        ->setParameter('position', $position)
+        ->getQuery()
+        ->getResult()
         ;
+
+        return $results[0];
     }
-    */
 }
