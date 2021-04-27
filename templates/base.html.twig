@@ -39,14 +39,26 @@
                             <span class="sr-only"></span>
                         </a>
                     </li>
-                    <li class="nav-item pr-3">
-                        <a class="nav-link" href="#">Stock Rectilignes</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Stock Rectilignes</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ asset('rectiligne/bilaterale') }}">Bilatérales BUSETTI</a>
+                            <a class="dropdown-item" href="{{ asset('rectiligne/rock') }}">Rectiligne ROCK</a>
+                            <a class="dropdown-item" href="{{ asset('rectiligne/baudin') }}">Rectiligne BAUDIN</a>
+                        </div>
                     </li>
                     <li class="nav-item pr-3">
                         <a class="nav-link" href="#">Stock Centres d'usinage</a>
                     </li>
                     <li class="nav-item pr-3">
                         <a class="nav-link" href="#">Commandes</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Modifier la Base de données</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Meules</a>
+                            <a class="dropdown-item" href="{{ asset('/manage/machine') }}">Machines</a>
+                        </div>
                     </li>
 
                 </ul>
