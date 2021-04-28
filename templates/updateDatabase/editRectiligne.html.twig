@@ -2,13 +2,93 @@
 
 {% block title %}Modifier {{ nameMachine }}{% endblock %}
 
-{% block javascripts %}
-
-{% endblock %}
-
 {% block body %} 
 
-<h2>Modifier la machine : <span class="text-uppercase">{{ nameMachine }}</span></h2>
+<div class="interligne"></div>
+<h2 class="ml-4">Modifier la machine : <span class="text-uppercase">{{ nameMachine }}</span></h2>
+<hr>
+<div class="interligne"></div>
+    <div class="row ml-4 font-weight-bold">
+        <div class="col-1">Position</div>
+        <div class="col-1">Type</div>
+        <div class="col-1">Usinage</div>
+        <div class="col-1">Matière</div>
+        <div class="col-1">Stock mini</div>
+    </div>
+    <hr>
+    {% set i=0 %}
+    {% for position in positions %}
+    <div class="row ml-4">
+        <div class="col-1">
+            {% if position.name != NULL %}
+                {{ position.name }}
+            {% else %}
+                NULL
+            {% endif %}
+        </div>
+        <div class="col-1">
+            {% if position.type != NULL %}
+                {{ position.type }}
+            {% else %}
+                NULL
+            {% endif %}
+        </div>
+        <div class="col-1">
+            {% if position.usinage != NULL %}
+                {{ position.usinage }}
+            {% else %}
+                NULL
+            {% endif %}
+        </div>
+        <div class="col-1">
+            {% if position.matiere != NULL %}
+                {{ position.matiere }}
+            {% else %}
+                NULL
+            {% endif %}
+        </div>
+        <div class="col-1">
+            {% if position.stockMini != NULL %}
+                {{ position.stockMini }}
+            {% else %}
+                NULL
+            {% endif %}
+        </div>
+        <div class="col-1">
+            <a href="#" data-toggle="modal" data-target="{{ "#change-position" ~ position.name }}">Modifier</a>
+        </div>
+        <div class="col-1">
+            <a href='#'>Supprimer</a>
+        </div>
+    </div>
+    <hr>
+    <!--Modal for edit button - form for change position-->
+    <div class="modal" id="{{ "change-position" ~ position.name }}" tabindex="-1" aria-hidden="true" role="dialog">      
+        <div class="modal-dialog" role="document">
+            <form method="post" action="#">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title">Modifier :</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        {% set form = formPositionTable[i] %}
+                        {{ form(form) }}
+                    </div>
+                    <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--End of Modal-->
+    {% set i = i+1 %}
+    {% endfor %}
+
 
 {% endblock %}
 

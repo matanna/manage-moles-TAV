@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Machine;
 use App\Form\MachineType;
+use App\Form\PositionType;
 use App\Repository\MachineRepository;
 use App\Repository\PositionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,7 +46,7 @@ class ManageRectiligneController extends AbstractController
     }
 
     /**
-     * @Route("delete/rectiligne/{name}", name="delete_rectiligne")
+     * @Route("/delete/{nameMachine}", name="delete_rectiligne")
      */
     public function deleteRectiligne()
     {
@@ -53,12 +54,24 @@ class ManageRectiligneController extends AbstractController
     }
 
     /**
-     * @Route("edit/rectiligne/{name}", name="edit_rectiligne")
+     * @Route("/edit/{nameMachine}", name="edit_rectiligne")
      */
-    public function editRectiligne($name)
+    public function editRectiligne(PositionRepository $positionRepository, $nameMachine)
     {
+        $positions = $positionRepository->findPositionByMachine($nameMachine);
+
+        $formPosition = [];
+
+        foreach ($positions as $position) {
+            $formPositionType = $this->createForm(PositionType::class, $position);
+            $formPosition[] = $formPositionType->createView();
+        }
+        
+
         return $this->render('updateDatabase/editRectiligne.html.twig', [
-            'nameMachine' => $name
+            'nameMachine' => $nameMachine,
+            'positions' => $positions,
+            'formPositionTable' => $formPosition
         ]);
     }
 
