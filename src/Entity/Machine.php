@@ -33,12 +33,12 @@ class Machine
     /**
      * @ORM\OneToMany(targetEntity=Position::class, mappedBy="machine", cascade={"persist", "remove"})
      */
-    private $position;
+    private $positions;
 
     public function __construct()
     {
         $this->meulesRectis = new ArrayCollection();
-        $this->position = new ArrayCollection();
+        $this->positions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,24 +88,25 @@ class Machine
     /**
      * @return Collection|Position[]
      */
-    public function getPosition(): Collection
+    public function getPositions(): Collection
     {
-        return $this->position;
+        return $this->positions;
     }
 
     public function addPosition(Position $position): self
     {
-        if (!$this->position->contains($position)) {
-            $this->position->add($position);
+        if (!$this->positions->contains($position)) {
+            $this->positions[] = $position;
+            $position->setMachine($this);
         }
-
         return $this;
     }
 
     public function removePosition(Position $position): void
     {
-        $this->position->removeElement($position);
+        $this->positions->removeElement($position);
     }
+    
     
     public function setPosition(Position $position): self
     {
@@ -114,7 +115,7 @@ class Machine
             $position->setMachine($this);
         }
 
-        $this->position = $position;
+        $this->positions = $positions;
 
         return $this;
     }

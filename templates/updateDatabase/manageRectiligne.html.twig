@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gérer les rectilignes{% endblock %}
+
+{% block javascripts %}
+<script src="../js/add-new-position.js"></script>
+<script src="../js/delete-position.js"></script>
+{% endblock %}
+
+{% block body %}
+
+<div class="interligne"></div>
+<h2 class="ml-4">Gérer les rectilignes</h2>
+<hr>
+<div class="interligne"></div>
+<div class="row">
+    
+    <div class="col-12 mb-4 ml-4">
+        <h5 class="mb-3">Ajouter une rectiligne :</h5>
+        {{ form_start(form) }}
+            {{ form_label(form.name, 'Nom :') }}
+            {{ form_widget(form.name, {'attr': {'class': 'machine-field' }}) }}
+
+            <button type='button' class="btn btn-secondary add-new-position mt-5 mb-5" data-collection-holder-class="position-fields-list">Ajouter une position</button>
+            
+            <div class="position-fields-list row" data-prototype="{{ form_widget(form.positions.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.positions|length }}">
+            {% for position in form.positions %}
+                <div>
+                {% for field in position %}
+                    <div>
+                        {{ form_errors(field) }}
+                        {{ form_widget(field) }}
+                    </div>
+                {% endfor %}
+                <button type='button' class="btn btn-outline-warning delete-position mt-2 mb-5 ml-4" data-collection-holder-class="position-fields-list">Supprimer</button>
+                </div>
+            {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary mt-5">Ajouter la machine</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+<h4 class="ml-4 mb-3">Machines enregistrées:</h4>
+<hr>
+{% for machine in machines %}
+<div class="row ml-4">
+    <div class="col-1  text-uppercase">{{ machine.name }}</div>
+    <div class="col-9">
+        <div class="row">
+        {% for position in positions %}
+            {% if machine.name == position.machine.name %}
+                <div class="col-1">{{ position.name }}</div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+    <div class="col-1"><a href="{{ asset("/edit/rectiligne/" ~ machine.name) }}">Modifier</a></div>
+    <div class="col-1"><a href='#'>Supprimer</a></div>
+</div>
+<hr>
+{% endfor %}
+    
+
+{% endblock %}
+

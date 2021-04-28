@@ -28,7 +28,7 @@ class Position
     private $stockMini;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Machine::class, inversedBy="position", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Machine::class, inversedBy="positions", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $machine;
@@ -49,7 +49,7 @@ class Position
     private $matiere;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $stockReel;
 

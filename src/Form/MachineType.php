@@ -15,7 +15,7 @@ class MachineType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('position', CollectionType::class, [
+            ->add('positions', CollectionType::class, [
                 'entry_type' => PositionType::class,
                 'allow_add' => true,
                 'label' => false,
