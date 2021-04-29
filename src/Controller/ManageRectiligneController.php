@@ -67,8 +67,6 @@ class ManageRectiligneController extends AbstractController
             $formPositionType = $this->createForm(PositionType::class, $position);
             $formPositionViewTable[] = $formPositionType->createView();
 
-
-
             $handle = $formPositionType->handleRequest($request);
 
             if ($formPositionType->isSubmitted() && $formPositionType->isValid()) {
