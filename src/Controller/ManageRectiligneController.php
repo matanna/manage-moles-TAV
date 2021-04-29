@@ -63,23 +63,26 @@ class ManageRectiligneController extends AbstractController
 
         $formPositionViewTable = [];
 
+        $idPosition = (int)$request->get('position-id');
+
         foreach ($positions as $position) {
-            $formPositionType = $this->createForm(PositionType::class, $position);
+            
+            $formPositionType= $this->createForm(PositionType::class, $position);
             $formPositionViewTable[] = $formPositionType->createView();
 
-            $handle = $formPositionType->handleRequest($request);
-
-            if ($formPositionType->isSubmitted() && $formPositionType->isValid()) {
-                $id = $position->getId();
-                dump($handle);
+            $formPositionType->handleRequest($request);
+            
+            if ($formPositionType->isSubmitted() && $formPositionType->isValid() && $position->getId() === $idPosition) {
+                
                 $manager->persist($position);
-                $manager->flush();
-
+                //$manager->flush();
+               
                 return $this->redirectToRoute('edit_rectiligne', [
                     'nameMachine' => $nameMachine
                 ]);
             }
         }
+
 
         return $this->render('updateDatabase/editRectiligne.html.twig', [
             'nameMachine' => $nameMachine,

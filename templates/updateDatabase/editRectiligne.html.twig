@@ -56,7 +56,7 @@
             {% endif %}
         </div>
         <div class="col-1 text-center">
-            <a href="#" data-toggle="modal" data-target="{{ "#change-position" ~ position.name }}">Modifier</a>
+            <a href="#" data-toggle="modal" data-target="{{ "#change-position" ~ position.id }}">Modifier</a>
         </div>
         <div class="col-1 text-center">
             <a href='#'>Supprimer</a>
@@ -64,7 +64,7 @@
     </div>
     <hr>
     <!--Modal for edit button - form for change position-->
-    <div class="modal" id="{{ "change-position" ~ position.name }}" tabindex="-1" aria-hidden="true" role="dialog">      
+    <div class="modal" id="{{ "change-position" ~ position.id }}" tabindex="-1" aria-hidden="true" role="dialog">      
         <div class="modal-dialog" role="document">
             <form method="post" action="#">
                 <div class="modal-content">
@@ -76,6 +76,7 @@
                     </div>
                     <div class="modal-body">
                         {% set form = formPositionTable[i] %}
+                        <input type="hidden" value="{{ position.id }}" name="position-id">
                         {{ form(form) }}
                     </div>
                     <div class="modal-footer">
