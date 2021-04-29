@@ -56,22 +56,37 @@ class ManageRectiligneController extends AbstractController
     /**
      * @Route("/edit/{nameMachine}", name="edit_rectiligne")
      */
-    public function editRectiligne(PositionRepository $positionRepository, $nameMachine)
-    {
+    public function editRectiligne(PositionRepository $positionRepository, 
+        $nameMachine, Request $request, EntityManagerInterface $manager
+    ) {
         $positions = $positionRepository->findPositionByMachine($nameMachine);
 
-        $formPosition = [];
+        $formPositionViewTable = [];
 
         foreach ($positions as $position) {
             $formPositionType = $this->createForm(PositionType::class, $position);
-            $formPosition[] = $formPositionType->createView();
+            $formPositionViewTable[] = $formPositionType->createView();
+
+
+
+            $handle = $formPositionType->handleRequest($request);
+
+            if ($formPositionType->isSubmitted() && $formPositionType->isValid()) {
+                $id = $position->getId();
+                dump($handle);
+                $manager->persist($position);
+                $manager->flush();
+
+                return $this->redirectToRoute('edit_rectiligne', [
+                    'nameMachine' => $nameMachine
+                ]);
+            }
         }
-        
 
         return $this->render('updateDatabase/editRectiligne.html.twig', [
             'nameMachine' => $nameMachine,
             'positions' => $positions,
-            'formPositionTable' => $formPosition
+            'formPositionTable' => $formPositionViewTable
         ]);
     }
 
