@@ -28,7 +28,7 @@ class Position
     private $stockMini;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Machine::class, inversedBy="positions", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Machine::class, inversedBy="positions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $machine;

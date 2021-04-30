@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Machine;
+use App\Entity\Position;
 use App\Form\MachineType;
 use App\Form\PositionType;
 use App\Repository\MachineRepository;
@@ -46,48 +47,86 @@ class ManageRectiligneController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{nameMachine}", name="delete_rectiligne")
+     * @Route("/delete/{id}", name="delete_machine")
      */
-    public function deleteRectiligne()
-    {
+    public function deleteMachine(MachineRepository $machineRepository,
+        EntityManagerInterface $manager, $id
+    ) {
+        $machine = $machineRepository->findOneBy(['id' => $id]);
 
+        if ($id) {
+            $manager->remove($machine);
+            $manager->flush();
+        }
+
+        return $this->redirectToRoute('manage_rectiligne');
     }
 
     /**
      * @Route("/edit/{nameMachine}", name="edit_rectiligne")
      */
-    public function editRectiligne(PositionRepository $positionRepository, 
-        $nameMachine, Request $request, EntityManagerInterface $manager
+    public function editRectiligne(MachineRepository $machineRepository, 
+        $nameMachine, PositionRepository $positionRepository, EntityManagerInterface $manager
     ) {
-        $positions = $positionRepository->findPositionByMachine($nameMachine);
+        $request = $this->get('request_stack')->getCurrentRequest();
 
-        $formPositionViewTable = [];
+        $machine = $machineRepository->findOneBy(['name' => $nameMachine]);
+        
+        //$formMachine is the form for edit all positions linked
+        $formMachine = $this->createForm(MachineType::class, $machine);
+        
+        $formMachine->handleRequest($request);
 
-        $idPosition = (int)$request->get('position-id');
-
-        foreach ($positions as $position) {
+        if ($formMachine->isSubmitted() && $formMachine->isValid()) {
             
-            $formPositionType= $this->createForm(PositionType::class, $position);
-            $formPositionViewTable[] = $formPositionType->createView();
+            $manager->persist($machine);
+            $manager->flush();
 
-            $formPositionType->handleRequest($request);
-            
-            if ($formPositionType->isSubmitted() && $formPositionType->isValid() && $position->getId() === $idPosition) {
-                
-                $manager->persist($position);
-                //$manager->flush();
-               
-                return $this->redirectToRoute('edit_rectiligne', [
-                    'nameMachine' => $nameMachine
-                ]);
-            }
+            return $this->redirectToRoute('edit_rectiligne', [
+                'nameMachine' => $nameMachine
+            ]);
         }
 
+        $newPosition = new Position();
+
+        //$formPosition is the form for add a new positions in a machine
+        $formPosition = $this->createForm(PositionType::class, $newPosition);
+
+        $formPosition = $formPosition->handleRequest($request);
+
+        if ($formPosition->isSubmitted() && $formPosition->isValid()) {
+            
+            $newPosition->setMachine($machine);
+            $manager->persist($newPosition);
+            $manager->flush();
+
+            return $this->redirectToRoute('edit_rectiligne', [
+                'nameMachine' => $nameMachine
+            ]);
+        }
 
         return $this->render('updateDatabase/editRectiligne.html.twig', [
-            'nameMachine' => $nameMachine,
-            'positions' => $positions,
-            'formPositionTable' => $formPositionViewTable
+            'formMachine' => $formMachine->createView(),
+            'formPosition' => $formPosition->createView(),
+            'machine' => $machine
+        ]);
+    }
+
+    /**
+     * @Route("/delete/{nameMachine}/position/{id}", name="delete_position")
+     */
+    public function deletePosition(PositionRepository $positionRepository,
+    EntityManagerInterface $manager, $id, $nameMachine
+    ) {
+        $position = $positionRepository->findOneBy(['id' => $id]);
+
+        if ($id) {
+            $manager->remove($position);
+            $manager->flush();
+        }
+
+        return $this->redirectToRoute('edit_rectiligne', [
+            'nameMachine' => $nameMachine
         ]);
     }
 
