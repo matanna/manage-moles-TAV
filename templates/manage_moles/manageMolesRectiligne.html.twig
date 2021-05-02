@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gérer les meules rectilignes{% endblock %}
+
+{% block body %}
+
+<div class="interligne"></div>
+<h2 class="ml-4">Gérer les meules rectiligne</h2>
+<hr>
+<div class="interligne"></div>
+
+<table class="table table-hover">
+    <thead>
+      <tr class="table-secondary">
+        <th scope="col">Fournisseur</th>
+        <th scope="col">Réfèrence</th>
+        <th scope="col">Désignation TAV</th>
+        <th scope="col">Grain</th>
+        <th scope="col">Hauteur</th>
+        <th scope="col">Stock</th>
+        <th scope="col">Non Livrées</th>
+        <th scope="col">Machine</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for meule in meulesRecti %}
+        <tr class="table-default">
+            <th scope="row">{{ meule.fournisseur.name }}</th>
+            <td>{{ meule.ref }}</td>
+            <td>{{ meule.designationTav }}</td>
+            <td>{{ meule.grain }}</td>
+            <td>{{ meule.hauteur }}</td>
+            <td>{{ meule.stock }}</td>
+            <td>{{ meule.nonlivres }}</td>
+            {% for machine in meule.machine %}
+            <td>
+                {{ machine.name }}
+            </td>
+            {% endfor %}
+        </tr>
+        
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

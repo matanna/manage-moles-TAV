@@ -27,6 +27,7 @@ class Machine
 
     /**
      * @ORM\ManyToMany(targetEntity=MeulesRecti::class, mappedBy="machine")
+     * 
      */
     private $meulesRectis;
 

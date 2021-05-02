@@ -14,7 +14,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class RectiController extends AbstractController
+class RectiligneController extends AbstractController
 {
     /**
      * @Route("/rectiligne/{name}", name="rectiligne")

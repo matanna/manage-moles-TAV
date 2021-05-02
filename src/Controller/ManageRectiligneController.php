@@ -9,6 +9,7 @@ use App\Form\PositionType;
 use App\Repository\MachineRepository;
 use App\Repository\PositionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\MeulesRectiRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,14 +51,20 @@ class ManageRectiligneController extends AbstractController
      * @Route("/delete/{id}", name="delete_machine")
      */
     public function deleteMachine(MachineRepository $machineRepository,
-        EntityManagerInterface $manager, $id
+        EntityManagerInterface $manager, MeulesRectiRepository $meulesRectiRepository, $id
     ) {
-        $machine = $machineRepository->findOneBy(['id' => $id]);
+        $machine = $machineRepository->findOneBy(['id' => $id]);      
 
-        if ($id) {
+        $meulesRecti = $meulesRectiRepository->findAllOrderByPosition($machine->getName());
+
+        if ($machine && $meulesRecti == NULL) {
             $manager->remove($machine);
             $manager->flush();
+        } else {
+            $message = $this->addFlash('warning', 'Des meules sont liées à cette machine, la suppression est impossible.');
+            
         }
+
 
         return $this->redirectToRoute('manage_rectiligne');
     }
@@ -66,7 +73,7 @@ class ManageRectiligneController extends AbstractController
      * @Route("/edit/{nameMachine}", name="edit_rectiligne")
      */
     public function editRectiligne(MachineRepository $machineRepository, 
-        $nameMachine, PositionRepository $positionRepository, EntityManagerInterface $manager
+        $nameMachine, EntityManagerInterface $manager
     ) {
         $request = $this->get('request_stack')->getCurrentRequest();
 

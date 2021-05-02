@@ -31,7 +31,6 @@ class MeulesRectiRepository extends ServiceEntityRepository
      */
     public function findAllOrderByPosition($name)
     {
-        
         $results = $this->createQueryBuilder('me')
             ->leftJoin('me.machine', 'ma')
             ->andWhere('ma.name = :name')

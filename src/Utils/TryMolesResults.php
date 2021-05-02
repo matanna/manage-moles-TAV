@@ -46,5 +46,4 @@ class TryMolesResults
         
         return $tableResults;
     }
-    
 }
