@@ -26,9 +26,9 @@ class ManageMolesRectiligneController extends AbstractController
         $formNewMeule->handleRequest($request);
 
         if ($formNewMeule->isSubmitted() && $formNewMeule->isValid()) {
-            //dd($newMeuleRecti);
-            $manager->persist($newMeuleRecti);
-            $manager->flush();
+            dd($newMeuleRecti);
+            //$manager->persist($newMeuleRecti);
+            //$manager->flush();
 
             return $this->redirectToRoute('manage_moles_rectiligne');
         }

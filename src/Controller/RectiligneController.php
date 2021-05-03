@@ -17,6 +17,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class RectiligneController extends AbstractController
 {
     /**
+     * @Route("/rectilignes", name="rectilignes")
+     */
+    public function stockAllRectiligne()
+    {
+        return $this->render('rectiligne/all-machines.html.twig', [
+            
+        ]);
+    }
+
+    /**
      * @Route("/rectiligne/{name}", name="rectiligne")
      */
     public function stockBilat(MeulesRectiRepository $meulesRectiRepository,

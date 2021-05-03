@@ -200,5 +200,4 @@ class Position
 
         return $this;
     }
-
 }
