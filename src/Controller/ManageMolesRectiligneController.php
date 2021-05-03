@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\MeulesRecti;
 use App\Form\MeulesRectiType;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\MeulesRectiRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ class ManageMolesRectiligneController extends AbstractController
      * @Route("/manage/moles-rectiligne", name="manage_moles_rectiligne")
      */
     public function manageMolesRectiligne(MeulesRectiRepository $meulesRectiRepository,
-        Request $request
+        Request $request, EntityManagerInterface $manager
     ): Response {
         $newMeuleRecti = new MeulesRecti();
 
@@ -26,10 +27,10 @@ class ManageMolesRectiligneController extends AbstractController
 
         if ($formNewMeule->isSubmitted() && $formNewMeule->isValid()) {
             //dd($newMeuleRecti);
-            //$manager->persist($newMeuleRecti);
-            //$manager->flush();
+            $manager->persist($newMeuleRecti);
+            $manager->flush();
 
-            return $this->redirectToRoute('manage_mole_rectiligne');
+            return $this->redirectToRoute('manage_moles_rectiligne');
         }
 
         $meulesRecti = $meulesRectiRepository->findAll();

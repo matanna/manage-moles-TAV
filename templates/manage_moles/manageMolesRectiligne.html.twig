@@ -32,15 +32,9 @@
           <div class="col-2">
             
               <div class="machine-fields-list row" data-prototype="{{ form_widget(formNewMeule.machine.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ formNewMeule.machine|length }}">
-              {% for machine in formNewMeule.machine %}
-                  <div>
-                  {% for field in machine %}
-                      <div>
-                          {{ form_errors(field) }}
-                          {{ form_widget(field) }}
-                      </div>
-                  {% endfor %}
-                  </div>
+              
+              {% for machine in formNewMeule %}
+                  
               {% endfor %}
               </div>
           </div>

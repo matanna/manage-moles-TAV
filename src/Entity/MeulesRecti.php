@@ -171,7 +171,7 @@ class MeulesRecti
         return $this->machine;
     }
 
-    public function addMachine(machine $machine): self
+    public function addMachine(Machine $machine): self
     {
         if (!$this->machine->contains($machine)) {
             $this->machine[] = $machine;
@@ -180,7 +180,7 @@ class MeulesRecti
         return $this;
     }
 
-    public function removeMachine(machine $machine): self
+    public function removeMachine(Machine $machine): self
     {
         $this->machine->removeElement($machine);
 
