@@ -3,37 +3,35 @@
 namespace App\Utils;
 
 /**
- * Cette classe permet de trier les objets MeulesRecti récupérés par requête à la base de données.
- * On crée un tableau comprenant des tablaeux ayant pour index la valeur du paramètre position de MeulesRecti.
- * Chaque Objets MeulesRecti étant placé dans le tableau ayant pour index la valeur correspondant à son paramètre position 
+ * This class try MeulesRecti objects retrieved by a request on the the database
+ * We create an array with arrays having for index the value of MeulesRecti position parameter
+ * Each MeulesRecti objects is replaced in an array having for index his position parameter
  */
 class TryMolesResults
 {
     public function tryMolesPerPosition($results) 
     {
-        //Initialisation du méta tableau
+        //The meta array is initialize
         $tableResults = [];
-
-        //On regroupe les résultats dans un tableau qui a pour index le paramètre position de chaque objet récupéré
-        //Ce tableau est lui même placé dans un méta tableau qui est retourné
-
-        //Initialisation du tableau regroupant les objets avec la même position
+        
+        //Initialization of the array who are the same index (position parameter name)
         $resultPerPosition = [];
         
         foreach ($results as $result) {
-            //On récupère la position de la meule
-            $position = $result->getPosition(); 
-            dump($position);
-            //Si le tableau resultPerPosition n'est pas vide
+            //We retrieve mole position - There is only one position in the Array Collection because results are only for one machine
+
+            $position = $result->getPositions()[0]->getName(); 
+            
+            //If array resultPerPosition is not empty
             if ($resultPerPosition != []){
 
-                //On récupère la valeur de la dernière ligne du tableau
+                //We retrieve value of the last line of the array
                 $lastResult = end($resultPerPosition);
-                
-                //On compare la position récupérée à la position de la dernière ligne 
-                if ($position != $lastResult->getPosition()) {
-                    
-                    //Si les positions sont différentes, on vide le tableau
+
+                //We compared the position retrieved to the last line position
+                if ($position != $lastResult->getPositions()[0]) {
+
+                    //If the positions are different, we empty the array
                     $resultPerPosition = [];
                 }
             }
@@ -43,9 +41,9 @@ class TryMolesResults
             if ($position == NULL) {
                 $tableResults['NULL'] = $resultPerPosition;
             } else {
-                $tableResults[$position->getName()] = $resultPerPosition; 
+                $tableResults[$position] = $resultPerPosition; 
             }
-                   
+                  
         }
         
         return $tableResults;

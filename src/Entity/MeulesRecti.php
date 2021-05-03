@@ -50,16 +50,6 @@ class MeulesRecti
     private $stock;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Position::class, inversedBy="meulesRectis")
-     */
-    private $position;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Machine::class, inversedBy="meulesRectis")
-     */
-    private $machine;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Fournisseur::class, inversedBy="meulesRectis")
      */
     private $fournisseur;
@@ -69,9 +59,14 @@ class MeulesRecti
      */
     private $nonLivres;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Position::class, mappedBy="meulesRecti")
+     */
+    private $positions;
+
     public function __construct()
     {
-        $this->machine = new ArrayCollection();
+        $this->positions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -151,42 +146,6 @@ class MeulesRecti
         return $this;
     }
 
-    public function getPosition(): ?Position
-    {
-        return $this->position;
-    }
-
-    public function setPosition(?Position $position): self
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|machine[]
-     */
-    public function getMachine(): Collection
-    {
-        return $this->machine;
-    }
-
-    public function addMachine(Machine $machine): self
-    {
-        if (!$this->machine->contains($machine)) {
-            $this->machine[] = $machine;
-        }
-
-        return $this;
-    }
-
-    public function removeMachine(Machine $machine): self
-    {
-        $this->machine->removeElement($machine);
-
-        return $this;
-    }
-
     public function getFournisseur(): ?Fournisseur
     {
         return $this->fournisseur;
@@ -207,6 +166,36 @@ class MeulesRecti
     public function setNonLivres(?int $nonLivres): self
     {
         $this->nonLivres = $nonLivres;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Position[]
+     */
+    public function getPositions(): Collection
+    {
+        return $this->positions;
+    }
+
+    public function addPosition(Position $position): self
+    {
+        if (!$this->positions->contains($position)) {
+            $this->positions[] = $position;
+            $position->setMeulesRecti($this);
+        }
+
+        return $this;
+    }
+
+    public function removePosition(Position $position): self
+    {
+        if ($this->positions->removeElement($position)) {
+            // set the owning side to null (unless already changed)
+            if ($position->getMeulesRecti() === $this) {
+                $position->setMeulesRecti(null);
+            }
+        }
 
         return $this;
     }

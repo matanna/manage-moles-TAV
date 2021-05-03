@@ -60,6 +60,11 @@ class MeulesRectiType extends AbstractType
                 'label' => false,
                 'by_reference' => false
             ])
+            ->add('position', EntityType::class, [
+                'class' => Fournisseur::class,
+                'choice_label' => 'name',
+                'label' => false
+            ])
             ->add('fournisseur', EntityType::class, [
                 'class' => Fournisseur::class,
                 'choice_label' => 'name',

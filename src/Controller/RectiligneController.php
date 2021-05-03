@@ -36,7 +36,7 @@ class RectiligneController extends AbstractController
         $stockBilat = $meulesRectiRepository->findAllOrderByPosition($name);
 
         $positionTable = $positionRepository->findPositionByMachine($name);
-    
+        
         return $this->render('rectiligne/machine.html.twig', [
             "stockBilat" => $stockBilat,
             "positionTable" => $positionTable,

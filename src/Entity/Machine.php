@@ -26,19 +26,12 @@ class Machine
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=MeulesRecti::class, mappedBy="machine")
-     * 
-     */
-    private $meulesRectis;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Position::class, mappedBy="machine", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Position::class, mappedBy="machine")
      */
     private $positions;
 
     public function __construct()
     {
-        $this->meulesRectis = new ArrayCollection();
         $this->positions = new ArrayCollection();
     }
 
@@ -59,31 +52,9 @@ class Machine
         return $this;
     }
 
-    /**
-     * @return Collection|MeulesRecti[]
-     */
-    public function getMeulesRectis(): Collection
+    public function __toString()
     {
-        return $this->meulesRectis;
-    }
-
-    public function addMeulesRecti(MeulesRecti $meulesRecti): self
-    {
-        if (!$this->meulesRectis->contains($meulesRecti)) {
-            $this->meulesRectis[] = $meulesRecti;
-            $meulesRecti->addMachine($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMeulesRecti(MeulesRecti $meulesRecti): self
-    {
-        if ($this->meulesRectis->removeElement($meulesRecti)) {
-            $meulesRecti->removeMachine($this);
-        }
-
-        return $this;
+        return $this->getName();
     }
 
     /**
@@ -100,30 +71,20 @@ class Machine
             $this->positions[] = $position;
             $position->setMachine($this);
         }
+
         return $this;
     }
 
-    public function removePosition(Position $position): void
+    public function removePosition(Position $position): self
     {
-        $this->positions->removeElement($position);
-    }
-    
-    
-    public function setPosition(Position $position): self
-    {
-        // set the owning side of the relation if necessary
-        if ($position->getMachine() !== $this) {
-            $position->setMachine($this);
+        if ($this->positions->removeElement($position)) {
+            // set the owning side to null (unless already changed)
+            if ($position->getMachine() === $this) {
+                $position->setMachine(null);
+            }
         }
 
-        $this->positions = $positions;
-
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
     }
 
     

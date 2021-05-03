@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\MeulesRectiChangeEvent;
 use App\Repository\MeulesRectiRepository;
+use App\Repository\MachineRepository;
 use App\Repository\PositionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -14,15 +15,15 @@ class MeulesRectiSubscriber implements EventSubscriberInterface
 
     private $meulesRectiRepository;
 
-    private $positionRepository;
+    private $machineRepository;
 
     private $manager;
 
     public function __construct(MeulesRectiRepository $meulesRectiRepository, 
-        PositionRepository $positionRepository, EntityManagerInterface $manager
+        MachineRepository $machineRepository, EntityManagerInterface $manager
     ) {
         $this->meulesRectiRepository = $meulesRectiRepository;
-        $this->positionRepository = $positionRepository;
+        $this->machineRepository = $machineRepository;
         $this->manager = $manager;
     }
 
@@ -36,21 +37,36 @@ class MeulesRectiSubscriber implements EventSubscriberInterface
     public function onChangeMeulesRecti(MeulesRectiChangeEvent $event)
     {
         $nameMachine = $event->getNameMachine();
-        $position = $event->getMeulesRecti()->getPosition();
         
-        $meules = $this->meulesRectiRepository->findMeulesRectiPerPosition($nameMachine, $position);
-        
+        $machine = $this->machineRepository->findOneBy(['name' => $nameMachine]);
+
+        $positions = $event->getMeulesRecti()->getPositions();
+
+        foreach ($positions as $position) {
+
+            //We verif if the postition name is in the machine collection positions
+            if (in_array($position, $machine->getPositions()->toArray())) {
+                $namePosition = $position->getName();
+
+                //We save the good position
+                $positionChanged = $position;  
+            }
+        }
+
+        //We call datatbase for retrieve moles corresponding to the machine name and the position linked
+        //Only one duo between position and machine is ok
+        $meules= $this->meulesRectiRepository->findMeulesRectiPerPosition($nameMachine, $namePosition);
+
         $stockTotal = 0;
 
+        //We do sum on stock for moles having the same positions
         foreach ($meules as $meule) {
             $stockTotal += $meule->getStock();
         }
+        
+        $positionChanged->setStockReel($stockTotal);
 
-        $position = $this->positionRepository->findOnePositionPerMachine($nameMachine, $position);
-        dump($position);
-        $position->setStockReel($stockTotal);
-
-        $this->manager->persist($position);
+        $this->manager->persist($positionChanged);
         $this->manager->flush();
 
     }

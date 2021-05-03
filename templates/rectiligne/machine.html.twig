@@ -19,6 +19,7 @@
             <div class="font-weight-bold pt-2 pb-2 font-blue1">Non livrées</div>
         </div>
     </div>
+
     {% for position in positionTable %}
     <div class="col-1 hover-cel">
         <div class="row d-flex flex-column border-right text-center">
@@ -110,7 +111,7 @@
     <div class="col-8">
         {% for stockBilatParPosition in stockBilat %}
             
-            {% if stockBilatParPosition[0].position == position.name %}
+            {% if stockBilatParPosition[0].positions[0].name == position.name %}
                 
                 {% for meule in stockBilatParPosition %}
                     <div class="row pt-2 pb-2 hover-cel">
