@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PositionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -57,6 +59,16 @@ class Position
      * @ORM\Column(type="integer", nullable=true)
      */
     private $nonLivre;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MeulesRecti::class, mappedBy="position")
+     */
+    private $meulesRectis;
+
+    public function __construct()
+    {
+        $this->meulesRectis = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -155,6 +167,36 @@ class Position
     public function setNonLivre(?int $nonLivre): self
     {
         $this->nonLivre = $nonLivre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MeulesRecti[]
+     */
+    public function getMeulesRectis(): Collection
+    {
+        return $this->meulesRectis;
+    }
+
+    public function addMeulesRecti(MeulesRecti $meulesRecti): self
+    {
+        if (!$this->meulesRectis->contains($meulesRecti)) {
+            $this->meulesRectis[] = $meulesRecti;
+            $meulesRecti->setPosition($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeulesRecti(MeulesRecti $meulesRecti): self
+    {
+        if ($this->meulesRectis->removeElement($meulesRecti)) {
+            // set the owning side to null (unless already changed)
+            if ($meulesRecti->getPosition() === $this) {
+                $meulesRecti->setPosition(null);
+            }
+        }
 
         return $this;
     }

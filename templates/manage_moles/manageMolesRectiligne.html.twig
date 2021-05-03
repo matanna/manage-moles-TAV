@@ -2,12 +2,56 @@
 
 {% block title %}Gérer les meules rectilignes{% endblock %}
 
+{% block javascripts %}
+<script src="../js/add-new-machine-for-a-new-mole.js"></script>
+<script src="../js/delete-machine.js"></script>
+{% endblock %}
+
 {% block body %}
 
 <div class="interligne"></div>
 <h2 class="ml-4">Gérer les meules rectiligne</h2>
 <hr>
 <div class="interligne"></div>
+
+<!-- The form for add a new mole in database -->
+<div class="row">
+    <div class="col-12 mb-4 ml-4">
+        <h5 class="mb-3">Ajouter une meule :</h5>
+        {{ form_start(formNewMeule) }}
+        <button type='button' class="btn btn-secondary add-new-machine mt-5 mb-5" data-collection-holder-class="machine-fields-list">Ajouter une machine</button>
+        
+        <div class="row">
+          <div class="col-1">{{ form_row(formNewMeule.fournisseur) }}</div>
+          <div class="col-1">{{ form_row(formNewMeule.ref) }}</div>
+          <div class="col-2">{{ form_row(formNewMeule.designationTAV) }}</div>
+          <div class="col-1">{{ form_row(formNewMeule.grain) }}</div>
+          <div class="col-1">{{ form_row(formNewMeule.diametre) }}</div>
+          <div class="col-1">{{ form_row(formNewMeule.hauteur) }}</div>
+          <div class="col-1">{{ form_row(formNewMeule.stock) }}</div>
+          <div class="col-2">
+            
+              <div class="machine-fields-list row" data-prototype="{{ form_widget(formNewMeule.machine.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ formNewMeule.machine|length }}">
+              {% for machine in formNewMeule.machine %}
+                  <div>
+                  {% for field in machine %}
+                      <div>
+                          {{ form_errors(field) }}
+                          {{ form_widget(field) }}
+                      </div>
+                  {% endfor %}
+                  </div>
+              {% endfor %}
+              </div>
+          </div>
+        </div>
+           
+         
+        <button type="submit" class="btn btn-primary mt-5">Ajouter la meule</button>
+        {{ form_end(formNewMeule) }} 
+    </div>
+</div>
+<h4 class="ml-4 mb-3">Machines enregistrées:</h4>
 
 <table class="table table-hover">
     <thead>

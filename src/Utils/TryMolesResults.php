@@ -11,7 +11,6 @@ class TryMolesResults
 {
     public function tryMolesPerPosition($results) 
     {
-        
         //Initialisation du méta tableau
         $tableResults = [];
 
@@ -24,7 +23,7 @@ class TryMolesResults
         foreach ($results as $result) {
             //On récupère la position de la meule
             $position = $result->getPosition(); 
-            
+            dump($position);
             //Si le tableau resultPerPosition n'est pas vide
             if ($resultPerPosition != []){
 
@@ -41,7 +40,12 @@ class TryMolesResults
             
             $resultPerPosition[] = $result;
             
-            $tableResults[$position] = $resultPerPosition;        
+            if ($position == NULL) {
+                $tableResults['NULL'] = $resultPerPosition;
+            } else {
+                $tableResults[$position->getName()] = $resultPerPosition; 
+            }
+                   
         }
         
         return $tableResults;

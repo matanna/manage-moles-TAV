@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\MeulesRecti;
+use App\Form\MeulesRectiType;
 use App\Repository\MeulesRectiRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,13 +15,28 @@ class ManageMolesRectiligneController extends AbstractController
     /**
      * @Route("/manage/moles-rectiligne", name="manage_moles_rectiligne")
      */
-    public function manageMolesRectiligne(MeulesRectiRepository $meulesRectiRepository
+    public function manageMolesRectiligne(MeulesRectiRepository $meulesRectiRepository,
+        Request $request
     ): Response {
+        $newMeuleRecti = new MeulesRecti();
+
+        $formNewMeule = $this->createForm(MeulesRectiType::class, $newMeuleRecti);
+        
+        $formNewMeule->handleRequest($request);
+
+        if ($formNewMeule->isSubmitted() && $formNewMeule->isValid()) {
+            //dd($newMeuleRecti);
+            //$manager->persist($newMeuleRecti);
+            //$manager->flush();
+
+            return $this->redirectToRoute('manage_mole_rectiligne');
+        }
 
         $meulesRecti = $meulesRectiRepository->findAll();
 
 
         return $this->render('manage_moles/manageMolesRectiligne.html.twig', [
+            'formNewMeule' => $formNewMeule->createView(),
             'meulesRecti' => $meulesRecti
         ]);
     }

@@ -50,7 +50,7 @@ class MeulesRecti
     private $stock;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\ManyToOne(targetEntity=Position::class, inversedBy="meulesRectis")
      */
     private $position;
 
@@ -151,12 +151,12 @@ class MeulesRecti
         return $this;
     }
 
-    public function getPosition(): ?string
+    public function getPosition(): ?Position
     {
         return $this->position;
     }
 
-    public function setPosition(?string $position): self
+    public function setPosition(?Position $position): self
     {
         $this->position = $position;
 
