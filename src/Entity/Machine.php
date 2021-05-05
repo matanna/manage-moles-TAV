@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MachineRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups as Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MachineRepository::class)
@@ -26,7 +27,7 @@ class Machine
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Position::class, mappedBy="machine")
+     * @ORM\OneToMany(targetEntity=Position::class, mappedBy="machine", cascade={"persist"}, orphanRemoval=true)
      */
     private $positions;
 

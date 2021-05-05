@@ -60,14 +60,9 @@ class MeulesRecti
     private $nonLivres;
 
     /**
-     * @ORM\OneToMany(targetEntity=Position::class, mappedBy="meulesRecti")
+     * @ORM\ManyToOne(targetEntity=Position::class, inversedBy="meulesRectis")
      */
-    private $positions;
-
-    public function __construct()
-    {
-        $this->positions = new ArrayCollection();
-    }
+    private $position;
 
     public function getId(): ?int
     {
@@ -170,33 +165,16 @@ class MeulesRecti
         return $this;
     }
 
-    /**
-     * @return Collection|Position[]
-     */
-    public function getPositions(): Collection
+    public function getPosition(): ?Position
     {
-        return $this->positions;
+        return $this->position;
     }
 
-    public function addPosition(Position $position): self
+    public function setPosition(?Position $position): self
     {
-        if (!$this->positions->contains($position)) {
-            $this->positions[] = $position;
-            $position->setMeulesRecti($this);
-        }
+        $this->position = $position;
 
         return $this;
     }
 
-    public function removePosition(Position $position): self
-    {
-        if ($this->positions->removeElement($position)) {
-            // set the owning side to null (unless already changed)
-            if ($position->getMeulesRecti() === $this) {
-                $position->setMeulesRecti(null);
-            }
-        }
-
-        return $this;
-    }
 }

@@ -2,21 +2,37 @@
 
 namespace App\Form;
 
-use App\Entity\MeulesRecti;
+use App\Entity\Machine;
 use App\Form\MachineType;
 use App\Entity\Fournisseur;
+use App\Entity\MeulesRecti;
+use App\Repository\MachineRepository;
+use App\Utils\TryMolesResults;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class MeulesRectiType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    private $machineRepository;
+
+    private $tryMolesResults;
+
+    public function __construct(MachineRepository $machineRepository, TryMolesResults $tryMolesResults)
     {
+        $this->machineRepository = $machineRepository;
+        $this->tryMolesResults= $tryMolesResults;
+    }
+
+    public function buildForm(FormBuilderInterface $builder, array $options) 
+    {
+        $machine = $this->tryMolesResults->nameOnIndexTable($this->machineRepository->findAll());
+
         $builder
             ->add('ref', TextType::class, [
                 'label' => false,
@@ -54,23 +70,23 @@ class MeulesRectiType extends AbstractType
                     'placeholder' => 'Stock'
                 ]
             ])
-            ->add('machine', CollectionType::class, [
-                'entry_type' => MachineChoiceType::class,
-                'allow_add' => true,
-                'label' => false,
-                'by_reference' => false
-            ])
-            ->add('position', EntityType::class, [
-                'class' => Fournisseur::class,
-                'choice_label' => 'name',
-                'label' => false
-            ])
             ->add('fournisseur', EntityType::class, [
                 'class' => Fournisseur::class,
                 'choice_label' => 'name',
                 'label' => false
             ])
+            ->add('machine', ChoiceType::class, [
+                'choices' => $machine,
+                'mapped' => false,
+                'label' => false
+            ])
+            ->add('position', ChoiceType::class, [
+                
+                'mapped' => false,
+                'label' => false
+            ])
         ;
+        $builder->get('position')->resetViewTransformers();
 
     }
 

@@ -3,8 +3,7 @@
 {% block title %}Gérer les meules rectilignes{% endblock %}
 
 {% block javascripts %}
-<script src="../js/add-new-machine-for-a-new-mole.js"></script>
-<script src="../js/delete-machine.js"></script>
+    <script src="/js/ajax-list-position.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -19,9 +18,8 @@
     <div class="col-12 mb-4 ml-4">
         <h5 class="mb-3">Ajouter une meule :</h5>
         {{ form_start(formNewMeule) }}
-        <button type='button' class="btn btn-secondary add-new-machine mt-5 mb-5" data-collection-holder-class="machine-fields-list">Ajouter une machine</button>
         
-        <div class="row">
+        <div class="row" id="js-new-mole">
           <div class="col-1">{{ form_row(formNewMeule.fournisseur) }}</div>
           <div class="col-1">{{ form_row(formNewMeule.ref) }}</div>
           <div class="col-2">{{ form_row(formNewMeule.designationTAV) }}</div>
@@ -29,32 +27,29 @@
           <div class="col-1">{{ form_row(formNewMeule.diametre) }}</div>
           <div class="col-1">{{ form_row(formNewMeule.hauteur) }}</div>
           <div class="col-1">{{ form_row(formNewMeule.stock) }}</div>
-          <div class="col-2">
-            
-              <div class="machine-fields-list row" data-prototype="{{ form_widget(formNewMeule.machine.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ formNewMeule.machine|length }}">
-              
-              </div>
-          </div>
+          <div class="col-1" id="machine">{{ form_row(formNewMeule.machine) }}</div>
+          <div class="col-1" id="position">{{ form_row(formNewMeule.position) }}</div>
         </div>
            
-         
-        <button type="submit" class="btn btn-primary mt-5">Ajouter la meule</button>
+        <button type="submit" class="btn btn-primary">Ajouter la meule</button>
         {{ form_end(formNewMeule) }} 
     </div>
 </div>
-<h4 class="ml-4 mb-3">Machines enregistrées:</h4>
+<h4 class="ml-4 mb-3">Meules enregistrées:</h4>
 
 <table class="table table-hover">
     <thead>
       <tr class="table-secondary">
-        <th scope="col">Fournisseur</th>
-        <th scope="col">Réfèrence</th>
+        <th scope="col"><a href="{{ asset('/manage/moles-rectiligne/fournisseur') }}" class="text-white">Fournisseur</a></th>
+        <th scope="col">Réfèrenc</th>
         <th scope="col">Désignation TAV</th>
         <th scope="col">Grain</th>
+        <th scope="col">Diamètre</th>
         <th scope="col">Hauteur</th>
         <th scope="col">Stock</th>
         <th scope="col">Non Livrées</th>
-        <th scope="col">Machine</th>
+        <th scope="col"><a href="{{ asset('/manage/moles-rectiligne/machine') }}" class="text-white">Machine</a></th>
+        <th scope="col">Position</th>
       </tr>
     </thead>
     <tbody>
@@ -64,14 +59,23 @@
             <td>{{ meule.ref }}</td>
             <td>{{ meule.designationTav }}</td>
             <td>{{ meule.grain }}</td>
+            <td>{{ meule.diametre }}</td>
             <td>{{ meule.hauteur }}</td>
             <td>{{ meule.stock }}</td>
             <td>{{ meule.nonlivres }}</td>
-            {% for machine in meule.machine %}
-            <td>
-                {{ machine.name }}
-            </td>
-            {% endfor %}
+            
+            {% if meule.position != null and meule.position.machine != null %}
+                <td class="text-uppercase">{{ meule.position.machine.name }}</td>
+            {% else %}
+                <td>NULL</td>           
+            {% endif %}
+            
+            {% if meule.position != null and meule.position.machine != null %}
+            <td>{{ meule.position.name }}</td>
+            {% else %}
+            <td>NULL</td>           
+            
+            {% endif %}
         </tr>
         
     {% endfor %}

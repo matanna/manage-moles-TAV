@@ -19,9 +19,8 @@ class TryMolesResults
         
         foreach ($results as $result) {
             //We retrieve mole position - There is only one position in the Array Collection because results are only for one machine
+            $position = $result->getPosition()->getName(); 
 
-            $position = $result->getPositions()[0]->getName(); 
-            
             //If array resultPerPosition is not empty
             if ($resultPerPosition != []){
 
@@ -29,7 +28,7 @@ class TryMolesResults
                 $lastResult = end($resultPerPosition);
 
                 //We compared the position retrieved to the last line position
-                if ($position != $lastResult->getPositions()[0]) {
+                if ($position != $lastResult->getPosition()->getName()) {
 
                     //If the positions are different, we empty the array
                     $resultPerPosition = [];
@@ -37,7 +36,7 @@ class TryMolesResults
             }
             
             $resultPerPosition[] = $result;
-            
+
             if ($position == NULL) {
                 $tableResults['NULL'] = $resultPerPosition;
             } else {
@@ -45,7 +44,18 @@ class TryMolesResults
             }
                   
         }
-        
+  
         return $tableResults;
+    }
+
+    public function nameOnIndexTable($results)
+    {
+        $newResults = [];
+
+        foreach ($results as $result) {
+            $newResults[$result->getName()] = $result->getName();
+        }
+
+        return $newResults;
     }
 }

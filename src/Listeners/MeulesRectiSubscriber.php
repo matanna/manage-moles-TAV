@@ -40,18 +40,9 @@ class MeulesRectiSubscriber implements EventSubscriberInterface
         
         $machine = $this->machineRepository->findOneBy(['name' => $nameMachine]);
 
-        $positions = $event->getMeulesRecti()->getPositions();
+        $position = $event->getMeulesRecti()->getPosition();
 
-        foreach ($positions as $position) {
-
-            //We verif if the postition name is in the machine collection positions
-            if (in_array($position, $machine->getPositions()->toArray())) {
-                $namePosition = $position->getName();
-
-                //We save the good position
-                $positionChanged = $position;  
-            }
-        }
+        $namePosition = $position->getName();
 
         //We call datatbase for retrieve moles corresponding to the machine name and the position linked
         //Only one duo between position and machine is ok
@@ -64,9 +55,9 @@ class MeulesRectiSubscriber implements EventSubscriberInterface
             $stockTotal += $meule->getStock();
         }
         
-        $positionChanged->setStockReel($stockTotal);
+        $position->setStockReel($stockTotal);
 
-        $this->manager->persist($positionChanged);
+        $this->manager->persist($position);
         $this->manager->flush();
 
     }

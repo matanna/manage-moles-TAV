@@ -21,7 +21,7 @@ class ManageRectiligneController extends AbstractController
      * @Route("/manage/rectiligne", name="manage_rectiligne")
      */
     public function manageRectiligne(Request $request, EntityManagerInterface $manager,
-        PositionRepository $positionRepository, MachineRepository $machineRepository
+        MachineRepository $machineRepository
     ): Response {
         $machine = new Machine();
 
@@ -37,12 +37,10 @@ class ManageRectiligneController extends AbstractController
             return $this->redirectToRoute('manage_rectiligne');
         }
 
-        $positions = $positionRepository->findAll();
         $machines = $machineRepository->findAll();
 
         return $this->render('updateDatabase/manageRectiligne.html.twig', [
             'form' => $form->createView(),
-            'positions' => $positions,
             'machines' => $machines
         ]);
     }

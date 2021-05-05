@@ -3,8 +3,7 @@
 {% block title %}Gérer les rectilignes{% endblock %}
 
 {% block javascripts %}
-<script src="../js/add-new-position.js"></script>
-<script src="../js/delete-position.js"></script>
+<script src="/js/add-new-position.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -56,10 +55,8 @@
     <div class="col-1 text-uppercase font-blue1 p-3">{{ machine.name }}</div>
     <div class="col-9 p-3 hover-cel">
         <div class="row ">
-        {% for position in positions %}
-            {% if machine.name == position.machine.name %}
-                <div class="col-1">{{ position.name }}</div>
-            {% endif %}
+        {% for position in machine.positions %}
+            <div class="col-1">{{ position.name }}</div>  
         {% endfor %}
         </div>
     </div>

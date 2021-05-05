@@ -32,7 +32,8 @@ class MeulesRectiRepository extends ServiceEntityRepository
     public function findAllOrderByPosition($name)
     {
         $results = $this->createQueryBuilder('me')
-            ->leftJoin('me.positions', 'p')
+            ->select('p', 'me', 'ma')
+            ->leftJoin('me.position', 'p')
             ->leftJoin('p.machine', 'ma')
             ->andWhere('ma.name = :name')
             ->setParameter('name', $name)
@@ -40,7 +41,6 @@ class MeulesRectiRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-       
         return $this->tryMolesResults->tryMolesPerPosition($results);
     }
 
@@ -51,7 +51,8 @@ class MeulesRectiRepository extends ServiceEntityRepository
     public function findMeulesRectiPerPosition($name, $position)
     {
         $results = $this->createQueryBuilder('me')
-            ->leftJoin('me.positions', 'p')
+            ->select('p', 'me', 'ma')
+            ->leftJoin('me.position', 'p')
             ->leftJoin('p.machine', 'ma')
             ->andWhere('ma.name = :name')
             ->setParameter('name', $name)
@@ -60,6 +61,39 @@ class MeulesRectiRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
             
+        return $results;
+    }
+
+    /**
+     * This method retrieves all meulesRecti in database with try system
+     * @return MeulesRecti[] Returns an array of MeulesRecti objects
+     */
+    public function findAllMeulesRecti($paramTry)
+    {
+        dump($paramTry);
+
+        $qb = $this->createQueryBuilder('me')
+            ->select('p', 'me', 'ma')
+            ->leftJoin('me.position', 'p')
+            ->leftJoin('p.machine', 'ma');
+
+        switch ($paramTry) {
+
+            case 'fournisseur': 
+                $qb ->orderBy('me.fournisseur')
+                    ->addOrderBy('ma.name', 'ASC')
+                    ->addOrderBy('p.name', 'ASC');
+                break;
+
+            case 'machine' : 
+                $qb ->orderBy('ma.name', 'ASC')
+                    ->addOrderBy('p.name', 'ASC')
+                    ->addOrderBy('me.fournisseur', 'ASC');;       
+                break;
+        }
+
+        $results = $qb->getQuery()->getResult();
+    
         return $results;
     }
 }

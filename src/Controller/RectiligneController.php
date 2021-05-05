@@ -37,6 +37,8 @@ class RectiligneController extends AbstractController
 
         $positionTable = $positionRepository->findPositionByMachine($name);
         
+        dump($stockBilat);
+
         return $this->render('rectiligne/machine.html.twig', [
             "stockBilat" => $stockBilat,
             "positionTable" => $positionTable,

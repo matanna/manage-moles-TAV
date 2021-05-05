@@ -109,9 +109,10 @@
 <div class="row text-center border-bottom border-top">
     <div class="col-1 font-blue1 font-weight-bold d-flex align-items-center justify-content-center">{{ position.name }}</div>
     <div class="col-8">
+    
         {% for stockBilatParPosition in stockBilat %}
             
-            {% if stockBilatParPosition[0].positions[0].name == position.name %}
+            {% if stockBilatParPosition[0].position.name == position.name %}
                 
                 {% for meule in stockBilatParPosition %}
                     <div class="row pt-2 pb-2 hover-cel">

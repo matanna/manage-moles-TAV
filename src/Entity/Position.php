@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PositionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\Groups as Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,6 +22,8 @@ class Position
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups("machine_positions")
      */
     private $name;
 
@@ -60,9 +63,14 @@ class Position
     private $machine;
 
     /**
-     * @ORM\ManyToOne(targetEntity=MeulesRecti::class, inversedBy="positions")
+     * @ORM\OneToMany(targetEntity=MeulesRecti::class, mappedBy="position")
      */
-    private $meulesRecti;
+    private $meulesRectis;
+
+    public function __construct()
+    {
+        $this->meulesRectis = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -165,15 +173,34 @@ class Position
         return $this;
     }
 
-    public function getMeulesRecti(): ?MeulesRecti
+    /**
+     * @return Collection|MeulesRecti[]
+     */
+    public function getMeulesRectis(): Collection
     {
-        return $this->meulesRecti;
+        return $this->meulesRectis;
     }
 
-    public function setMeulesRecti(?MeulesRecti $meulesRecti): self
+    public function addMeulesRecti(MeulesRecti $meulesRecti): self
     {
-        $this->meulesRecti = $meulesRecti;
+        if (!$this->meulesRectis->contains($meulesRecti)) {
+            $this->meulesRectis[] = $meulesRecti;
+            $meulesRecti->setPosition($this);
+        }
 
         return $this;
     }
+
+    public function removeMeulesRecti(MeulesRecti $meulesRecti): self
+    {
+        if ($this->meulesRectis->removeElement($meulesRecti)) {
+            // set the owning side to null (unless already changed)
+            if ($meulesRecti->getPosition() === $this) {
+                $meulesRecti->setPosition(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
