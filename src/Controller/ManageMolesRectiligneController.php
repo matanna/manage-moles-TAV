@@ -45,7 +45,8 @@ class ManageMolesRectiligneController extends AbstractController
 
         if ($formNewMeule->isSubmitted() && $formNewMeule->isValid()) {
 
-            $machine = $machineRepository->findBy(['name' => $request->request->get('machine')]);
+            $machine = $machineRepository->findBy(['name' => $request->request->get('meules_recti')]);
+    
             $position = $positionRepository->findBy(['name' => $request->request->get('position'), 'machine' => $machine]);
             //$manager->persist($newMeuleRecti);
             //$manager->flush();
