@@ -26,8 +26,10 @@ class ManageMolesRectiligneController extends AbstractController
         $request = $this->get('request_stack')->getCurrentRequest();
 
         $newMeuleRecti = new MeulesRecti();
-
         $formNewMeule = $this->createForm(MeulesRectiType::class, $newMeuleRecti);
+
+        $editMeulesRecti = $meulesRectiRepository->findAll();
+        $formEditMeule = $this->createForm(MeulesRectiType::class, $editMeulesRecti);
         
         $formNewMeule->handleRequest($request);
 
@@ -36,21 +38,35 @@ class ManageMolesRectiligneController extends AbstractController
 
             $machineName = $request->get('machineName');
 
-            $machine = $machineRepository->findBy(['name' => $machineName]);
+            $machine = $machineRepository->findOneBy(['name' => $machineName]);
 
-            return $this->json($machine[0]->getPositions()->toArray(), 200, [], [
+            return $this->json($machine->getPositions()->toArray(), 200, [], [
                 'groups' => 'machine_positions'
             ]);
         }
 
+        //Form for add a new mole
         if ($formNewMeule->isSubmitted() && $formNewMeule->isValid()) {
 
-            $machine = $machineRepository->findBy(['name' => $request->request->get('meules_recti')]);
-    
-            $position = $positionRepository->findBy(['name' => $request->request->get('position'), 'machine' => $machine]);
-            //$manager->persist($newMeuleRecti);
-            //$manager->flush();
-            dump($position);
+            $machine = $machineRepository->findOneBy(['name' => $request->request->get('meules_recti')['machine']]);
+            $position = $positionRepository->findOneBy(['name' => $request->request->get('meules_recti')['position'], 'machine' => $machine]);
+            
+            $newMeuleRecti->setPosition($position);
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($newMeuleRecti);
+            $manager->flush();
+            
+            return $this->redirectToRoute('manage_moles_rectiligne');
+        }
+
+        //Form for edit moles
+        if ($formEditMeule->isSubmitted() && $formEditMeule->isValid()) {
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($newMeuleRecti);
+            $manager->flush();
+            
             return $this->redirectToRoute('manage_moles_rectiligne');
         }
 
@@ -59,6 +75,7 @@ class ManageMolesRectiligneController extends AbstractController
 
         return $this->render('manage_moles/manageMolesRectiligne.html.twig', [
             'formNewMeule' => $formNewMeule->createView(),
+            'formEditMeule' => $formEditMeule->createView(),
             'meulesRecti' => $meulesRecti
         ]);
     }
