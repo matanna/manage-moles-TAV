@@ -96,8 +96,9 @@
         <!--Modal for edit button - form for change quantity-->
         <div class="modal" id="{{ "modify-meule" ~ meule.id }}" tabindex="-1" aria-hidden="true" role="dialog">      
             <div class="modal-dialog" role="document">
-                {{ form_start(formNewMeule) }}
-                    {{ form_row(formEditMeule.fournisseur) }}
+                
+                {{ form_start(formEditMeuleTable[meule.id]) }}
+                {% set nameForm =  formEditMeuleTable[meule.id].vars.name %}
                     <div class="modal-content">
                         <div class="modal-header">
                         <h5 class="modal-title">Modifier la meule</h5>
@@ -105,15 +106,24 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                         </div>
-                        <div class="modal-body">
-                            <input type="number" id="quantity" name="quantity">
+                        <div class="modal-body" id="js-edit-mole">
+                            {{ form_row(formEditMeuleTable[meule.id]._token, {'id': '_' ~ nameForm ~ '_token_' ~ meule.id}) }}
+                            {{ form_row(formEditMeuleTable[meule.id].fournisseur, {'id': '_' ~ nameForm ~ '_fournisseur_' ~ meule.id})}}
+                            {{ form_row(formEditMeuleTable[meule.id].ref, {'id': '_' ~ nameForm ~ '_ref_' ~ meule.id}) }}
+                            {{ form_row(formEditMeuleTable[meule.id].designationTAV, {'id': '_' ~ nameForm ~ '_designationTAV_' ~ meule.id}) }}
+                            {{ form_row(formEditMeuleTable[meule.id].grain, {'id': '_' ~ nameForm ~ '_grain_' ~ meule.id}) }}
+                            {{ form_row(formEditMeuleTable[meule.id].diametre, {'id': '_' ~ nameForm ~ '_diametre_' ~ meule.id}) }}
+                            {{ form_row(formEditMeuleTable[meule.id].hauteur, {'id': '_' ~ nameForm ~ '_hauteur_' ~ meule.id}) }}
+                            {{ form_row(formEditMeuleTable[meule.id].stock, {'id': '_' ~ nameForm ~ '_stock_' ~ meule.id}) }}
+                            {{ form_row(formEditMeuleTable[meule.id].machine, {'id': '_' ~ nameForm ~ '_machine_' ~ meule.id, 'attr': {'class': 'editMeuleMachine'}}) }}
+                            {{ form_row(formEditMeuleTable[meule.id].position, {'id': '_' ~ nameForm ~ '_position_' ~ meule.id, 'attr': {'class': 'editMeulePosition'}}) }}
                         </div>
                         <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save changes</a>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
-                {{ form_end(formNewMeule) }}
+                {{ form_end(formEditMeuleTable[meule.id]) }}
             </div>
         </div>
         <!--End of Modal-->

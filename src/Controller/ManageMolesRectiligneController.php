@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\MeulesRecti;
 use App\Form\MeulesRectiType;
+use Symfony\Component\Form\Forms;
 use App\Repository\MachineRepository;
 use App\Repository\PositionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +12,7 @@ use App\Repository\MeulesRectiRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ManageMolesRectiligneController extends AbstractController
@@ -27,9 +29,6 @@ class ManageMolesRectiligneController extends AbstractController
 
         $newMeuleRecti = new MeulesRecti();
         $formNewMeule = $this->createForm(MeulesRectiType::class, $newMeuleRecti);
-
-        $editMeulesRecti = $meulesRectiRepository->findAll();
-        $formEditMeule = $this->createForm(MeulesRectiType::class, $editMeulesRecti);
         
         $formNewMeule->handleRequest($request);
 
@@ -60,22 +59,24 @@ class ManageMolesRectiligneController extends AbstractController
             return $this->redirectToRoute('manage_moles_rectiligne');
         }
 
+        $editMeulesRecti = $meulesRectiRepository->findAll();
+
         //Form for edit moles
-        if ($formEditMeule->isSubmitted() && $formEditMeule->isValid()) {
+        
+        $editMeulesFormTable = [];
+        $editMeulesFormTableView = [];
 
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($newMeuleRecti);
-            $manager->flush();
-            
-            return $this->redirectToRoute('manage_moles_rectiligne');
+        foreach ($editMeulesRecti as $editMeule) {
+            $editMeulesFormTable[$editMeule->getId()] = $this->createForm(MeulesRectiType::class, $editMeule);
+            $editMeulesFormTableView[$editMeule->getId()] = $editMeulesFormTable[$editMeule->getId()]->createView();
         }
-
+        dump($editMeulesFormTableView);
         $meulesRecti = $meulesRectiRepository->findAllMeulesRecti($param);
 
 
         return $this->render('manage_moles/manageMolesRectiligne.html.twig', [
             'formNewMeule' => $formNewMeule->createView(),
-            'formEditMeule' => $formEditMeule->createView(),
+            'formEditMeuleTable' => $editMeulesFormTableView,
             'meulesRecti' => $meulesRecti
         ]);
     }
