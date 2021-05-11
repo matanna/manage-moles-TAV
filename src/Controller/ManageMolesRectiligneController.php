@@ -62,15 +62,42 @@ class ManageMolesRectiligneController extends AbstractController
         $editMeulesRecti = $meulesRectiRepository->findAll();
 
         //Form for edit moles
-        
         $editMeulesFormTable = [];
         $editMeulesFormTableView = [];
 
         foreach ($editMeulesRecti as $editMeule) {
             $editMeulesFormTable[$editMeule->getId()] = $this->createForm(MeulesRectiType::class, $editMeule);
             $editMeulesFormTableView[$editMeule->getId()] = $editMeulesFormTable[$editMeule->getId()]->createView();
+
+            if ($editMeulesFormTable[$editMeule->getId()]->isSubmitted() && $editMeulesFormTable[$editMeule->getId()]->isValid()) {
+
+                $machine = $machineRepository->findOneBy(['name' => $request->request->get('meules_recti')['machine']]);
+                $position = $positionRepository->findOneBy(['name' => $request->request->get('meules_recti')['position'], 'machine' => $machine]);
+                
+                $editMeule->setPosition($position);
+
+                $manager = $this->getDoctrine()->getManager();
+                $manager->persist($editMeule);
+                $manager->flush();
+                
+                return $this->redirectToRoute('manage_moles_rectiligne');
+            }
         }
-        dump($editMeulesFormTableView);
+
+        if ($formNewMeule->isSubmitted() && $formNewMeule->isValid()) {
+
+            $machine = $machineRepository->findOneBy(['name' => $request->request->get('meules_recti')['machine']]);
+            $position = $positionRepository->findOneBy(['name' => $request->request->get('meules_recti')['position'], 'machine' => $machine]);
+            
+            $newMeuleRecti->setPosition($position);
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($newMeuleRecti);
+            $manager->flush();
+            
+            return $this->redirectToRoute('manage_moles_rectiligne');
+        }
+
         $meulesRecti = $meulesRectiRepository->findAllMeulesRecti($param);
 
 

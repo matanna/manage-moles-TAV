@@ -27,8 +27,8 @@
           <div class="col-1">{{ form_row(formNewMeule.diametre) }}</div>
           <div class="col-1">{{ form_row(formNewMeule.hauteur) }}</div>
           <div class="col-1">{{ form_row(formNewMeule.stock) }}</div>
-          <div class="col-1" id="machine">{{ form_row(formNewMeule.machine) }}</div>
-          <div class="col-1" id="position">{{ form_row(formNewMeule.position) }}</div>
+          <div class="col-1" id="machine">{{ form_row(formNewMeule.machine, {'attr': {'class': 'machine'}}) }}</div>
+          <div class="col-1" id="position">{{ form_row(formNewMeule.position, {'attr': {'class': 'position'}}) }}</div>
         </div>
            
         <button type="submit" class="btn btn-primary">Ajouter la meule</button>
@@ -115,8 +115,8 @@
                             {{ form_row(formEditMeuleTable[meule.id].diametre, {'id': '_' ~ nameForm ~ '_diametre_' ~ meule.id}) }}
                             {{ form_row(formEditMeuleTable[meule.id].hauteur, {'id': '_' ~ nameForm ~ '_hauteur_' ~ meule.id}) }}
                             {{ form_row(formEditMeuleTable[meule.id].stock, {'id': '_' ~ nameForm ~ '_stock_' ~ meule.id}) }}
-                            {{ form_row(formEditMeuleTable[meule.id].machine, {'id': '_' ~ nameForm ~ '_machine_' ~ meule.id, 'attr': {'class': 'editMeuleMachine'}}) }}
-                            {{ form_row(formEditMeuleTable[meule.id].position, {'id': '_' ~ nameForm ~ '_position_' ~ meule.id, 'attr': {'class': 'editMeulePosition'}}) }}
+                            {{ form_row(formEditMeuleTable[meule.id].machine, {'id': '_' ~ nameForm ~ '_machine_' ~ meule.id, 'attr': {'class': 'machine'}}) }}
+                            {{ form_row(formEditMeuleTable[meule.id].position, {'id': '_' ~ nameForm ~ '_position_' ~ meule.id, 'attr': {'class': 'position'}}) }}
                         </div>
                         <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save changes</a>
