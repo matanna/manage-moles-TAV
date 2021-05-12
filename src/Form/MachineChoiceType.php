@@ -20,6 +20,7 @@ class MachineChoiceType extends AbstractType
             ->add('name', EntityType::class, [
                 'class' => Machine::class,
                 'choice_label' => 'name',
+                'choice_attr' => ['class' => 'machine'],
                 'label' => false
             ])
         ;

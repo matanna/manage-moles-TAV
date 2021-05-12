@@ -4,15 +4,11 @@ namespace App\Controller;
 
 use App\Entity\MeulesRecti;
 use App\Form\MeulesRectiType;
-use Symfony\Component\Form\Forms;
 use App\Repository\MachineRepository;
 use App\Repository\PositionRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\MeulesRectiRepository;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ManageMolesRectiligneController extends AbstractController
@@ -27,11 +23,6 @@ class ManageMolesRectiligneController extends AbstractController
 
         $request = $this->get('request_stack')->getCurrentRequest();
 
-        $newMeuleRecti = new MeulesRecti();
-        $formNewMeule = $this->createForm(MeulesRectiType::class, $newMeuleRecti);
-        
-        $formNewMeule->handleRequest($request);
-
         //Ajax request for adapt positions in terms of machine
         if ($request->isXmlHttpRequest()) {
 
@@ -45,6 +36,10 @@ class ManageMolesRectiligneController extends AbstractController
         }
 
         //Form for add a new mole
+        $newMeuleRecti = new MeulesRecti();
+        $formNewMeule = $this->createForm(MeulesRectiType::class, $newMeuleRecti);
+        $formNewMeule->handleRequest($request);
+
         if ($formNewMeule->isSubmitted() && $formNewMeule->isValid()) {
 
             $machine = $machineRepository->findOneBy(['name' => $request->request->get('meules_recti')['machine']]);
@@ -59,20 +54,25 @@ class ManageMolesRectiligneController extends AbstractController
             return $this->redirectToRoute('manage_moles_rectiligne');
         }
 
-        $editMeulesRecti = $meulesRectiRepository->findAll();
-
         //Form for edit moles
+        $editMeulesRecti = $meulesRectiRepository->findAll();
+        //Initialize array for all forms for edit MeulesRecti
         $editMeulesFormTable = [];
+        //Initialize array for all formsView for edit MeulesRecti
         $editMeulesFormTableView = [];
 
         foreach ($editMeulesRecti as $editMeule) {
-            $editMeulesFormTable[$editMeule->getId()] = $this->createForm(MeulesRectiType::class, $editMeule);
+            
+            //For each form, we give a unique name with id of MeuleRecti
+            $editMeulesFormTable[$editMeule->getId()] = $this->get('form.factory')->createNamed('meule_recti_' . $editMeule->getId(),MeulesRectiType::class, $editMeule);
             $editMeulesFormTableView[$editMeule->getId()] = $editMeulesFormTable[$editMeule->getId()]->createView();
 
-            if ($editMeulesFormTable[$editMeule->getId()]->isSubmitted() && $editMeulesFormTable[$editMeule->getId()]->isValid()) {
+            $editMeulesFormTable[$editMeule->getId()]->handleRequest($request);
 
-                $machine = $machineRepository->findOneBy(['name' => $request->request->get('meules_recti')['machine']]);
-                $position = $positionRepository->findOneBy(['name' => $request->request->get('meules_recti')['position'], 'machine' => $machine]);
+            if ($editMeulesFormTable[$editMeule->getId()]->isSubmitted() && $editMeulesFormTable[$editMeule->getId()]->isValid()) {
+                
+                $machine = $machineRepository->findOneBy(['name' => $request->request->get('meule_recti_' . $editMeule->getId())['machine']]);
+                $position = $positionRepository->findOneBy(['name' => $request->request->get('meule_recti_' . $editMeule->getId())['position'], 'machine' => $machine]);
                 
                 $editMeule->setPosition($position);
 
@@ -84,27 +84,30 @@ class ManageMolesRectiligneController extends AbstractController
             }
         }
 
-        if ($formNewMeule->isSubmitted() && $formNewMeule->isValid()) {
-
-            $machine = $machineRepository->findOneBy(['name' => $request->request->get('meules_recti')['machine']]);
-            $position = $positionRepository->findOneBy(['name' => $request->request->get('meules_recti')['position'], 'machine' => $machine]);
-            
-            $newMeuleRecti->setPosition($position);
-
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($newMeuleRecti);
-            $manager->flush();
-            
-            return $this->redirectToRoute('manage_moles_rectiligne');
-        }
-
         $meulesRecti = $meulesRectiRepository->findAllMeulesRecti($param);
-
 
         return $this->render('manage_moles/manageMolesRectiligne.html.twig', [
             'formNewMeule' => $formNewMeule->createView(),
             'formEditMeuleTable' => $editMeulesFormTableView,
             'meulesRecti' => $meulesRecti
         ]);
+    }
+
+    /**
+     * @Route("delete/mole/{id}", name="delete_mole")
+     */
+    public function deleteMole(MeulesRectiRepository $meulesRectiRepository, $id)
+    {
+        $request = $this->get('request_stack')->getCurrentRequest();
+
+        $meuleRecti = $meulesRectiRepository->find($id);
+
+        if ($meuleRecti) {
+            $manager = $this->getDoctrine()->getManager();
+            $manager->remove($meuleRecti);
+            $manager->flush();
+        }
+
+        return $this->redirectToRoute('manage_moles_rectiligne');
     }
 }

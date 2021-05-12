@@ -46,7 +46,7 @@ class ManageRectiligneController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", name="delete_machine")
+     * @Route("/delete/rectiligne/{id}", name="delete_machine")
      */
     public function deleteMachine(MachineRepository $machineRepository,
         EntityManagerInterface $manager, MeulesRectiRepository $meulesRectiRepository, $id
@@ -68,7 +68,7 @@ class ManageRectiligneController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{nameMachine}", name="edit_rectiligne")
+     * @Route("/edit/rectiligne/{nameMachine}", name="edit_rectiligne")
      */
     public function editRectiligne(MachineRepository $machineRepository, 
         $nameMachine, EntityManagerInterface $manager
