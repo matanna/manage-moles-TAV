@@ -3,8 +3,9 @@
 {% block title %}Stock {{ nameMachine }}{% endblock %}
 
 {% block body %}
-<div class="row">
+<div class="d-flex justify-content-between">
     <h2 class="ml-4 mt-4"><span class="border-bottom mb-5">Stock Meules <span class="text-uppercase">{{ nameMachine }}</span></h2>
+    <a href="{{ asset('rectilignes') }}" class="btn btn-success m-3">Retour au stock total</a>
 </div>
 <div class="interligne"></div>
 <div class="row stock-bilat">

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\MachineRepository;
 use App\Repository\PositionRepository;
 use App\Repository\MeulesRectiRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,17 +14,20 @@ class RectiligneController extends AbstractController
     /**
      * @Route("/rectilignes", name="rectilignes")
      */
-    public function stockAllRectiligne()
+    public function stockAllRectiligne(MeulesRectiRepository $meulesRectiRepository,
+    PositionRepository $positionRepository, MachineRepository $machineRepository)
     {
+        $machines = $machineRepository->findAll();
+
         return $this->render('rectiligne/all-machines.html.twig', [
-            
+            'machines' => $machines
         ]);
     }
 
     /**
      * @Route("/rectiligne/{name}", name="rectiligne")
      */
-    public function stockBilat(MeulesRectiRepository $meulesRectiRepository,
+    public function stockRectiligne(MeulesRectiRepository $meulesRectiRepository,
         PositionRepository $positionRepository, $name
     ): Response {
 

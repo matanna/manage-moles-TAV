@@ -39,12 +39,22 @@
                             <span class="sr-only"></span>
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Stock Rectilignes</a>
+                    <li class="nav-item dropdown pr-3">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Stock Rectilignes/Bilatérales</a>
                         <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ asset('rectilignes') }}">Stock total</a>
                             <a class="dropdown-item" href="{{ asset('rectiligne/bilaterale') }}">Bilatérales BUSETTI</a>
                             <a class="dropdown-item" href="{{ asset('rectiligne/rock') }}">Rectiligne ROCK</a>
                             <a class="dropdown-item" href="{{ asset('rectiligne/baudin') }}">Rectiligne BAUDIN</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown pr-3">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Stock Centres d'usinage</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ asset('rectilignes') }}">Stock total</a>
+                            <a class="dropdown-item" href="{{ asset('cu/vertmax') }}">Cu vertical VERTMAX</a>
+                            <a class="dropdown-item" href="{{ asset('cu/master') }}">Cus horizontaux MASTERS</a>
+                            <a class="dropdown-item" href="{{ asset('cu/vertmax-master') }}">Cus VERTMAX/MASTERS</a>
                         </div>
                     </li>
                     <li class="nav-item pr-3">
@@ -63,10 +73,6 @@
                     </li>
 
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                </form>
             </div>
         </nav>
         {% block body %}{% endblock %}
