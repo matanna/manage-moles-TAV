@@ -2,16 +2,10 @@
 
 namespace App\Controller;
 
-use App\Repository\MachineRepository;
-use App\Events\MeulesRectiChangeEvent;
 use App\Repository\PositionRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\MeulesRectiRepository;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RectiligneController extends AbstractController
@@ -36,8 +30,6 @@ class RectiligneController extends AbstractController
         $stockBilat = $meulesRectiRepository->findAllOrderByPosition($name);
 
         $positionTable = $positionRepository->findPositionByMachine($name);
-        
-        dump($stockBilat);
 
         return $this->render('rectiligne/machine.html.twig', [
             "stockBilat" => $stockBilat,
@@ -50,7 +42,7 @@ class RectiligneController extends AbstractController
      * @Route("/rectiligne/{nameMachine}/change-quantity/{id}", name="recti-meule-change-quantity")
      */
     public function updateQuantityMeule(MeulesRectiRepository $meulesRectiRepository,
-       $id, $nameMachine, EventDispatcherInterface $dispatcher
+       $id, $nameMachine
     ) : Response {
 
         $meule = $meulesRectiRepository->findOneBy(['id' => $id]);
@@ -65,9 +57,6 @@ class RectiligneController extends AbstractController
             $manager->persist($meule);
             $manager->flush();
 
-            //We launch the event for update stock in position table
-            $event = new MeulesRectiChangeEvent($meule, $nameMachine);
-            $dispatcher->dispatch($event, MeulesRectiChangeEvent::NAME);
         }
 
         return $this->redirectToRoute("rectiligne", [
