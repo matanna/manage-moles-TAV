@@ -29,9 +29,15 @@ class Fournisseur
      */
     private $meulesRectis;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MeuleCu::class, mappedBy="fournisseur")
+     */
+    private $meuleCus;
+
     public function __construct()
     {
         $this->meulesRectis = new ArrayCollection();
+        $this->meuleCus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -75,6 +81,36 @@ class Fournisseur
             // set the owning side to null (unless already changed)
             if ($meulesRecti->getFournisseur() === $this) {
                 $meulesRecti->setFournisseur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MeuleCu[]
+     */
+    public function getMeuleCus(): Collection
+    {
+        return $this->meuleCus;
+    }
+
+    public function addMeuleCu(MeuleCu $meuleCu): self
+    {
+        if (!$this->meuleCus->contains($meuleCu)) {
+            $this->meuleCus[] = $meuleCu;
+            $meuleCu->setFournisseur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeuleCu(MeuleCu $meuleCu): self
+    {
+        if ($this->meuleCus->removeElement($meuleCu)) {
+            // set the owning side to null (unless already changed)
+            if ($meuleCu->getFournisseur() === $this) {
+                $meuleCu->setFournisseur(null);
             }
         }
 
