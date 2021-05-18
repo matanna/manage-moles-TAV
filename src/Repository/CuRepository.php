@@ -20,18 +20,22 @@ class CuRepository extends ServiceEntityRepository
     }
 
     /**
-    * @return Cu[] Returns an array of Cu objects
+    * @return Cu Returns an array of Cu objects
     */
     public function findCuByName($name)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+        $result =  $this->createQueryBuilder('cu')
+            ->select('cu', 'tcu', 'mcu', 'f')
+            ->leftJoin('cu.typeMeuleCus', 'tcu')
+            ->leftJoin('tcu.meulesCu', 'mcu')
+            ->leftJoin('mcu.fournisseur', 'f')
+            ->andWhere('cu.name = :name')
+            ->setParameter('name', $name)
             ->getQuery()
             ->getResult()
         ;
+
+        return $result[0];
     }
 
     /*

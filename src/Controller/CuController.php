@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\CuRepository;
+use App\Utils\TryMolesCu;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,12 +23,15 @@ class CuController extends AbstractController
     /**
      * @Route("/cu/{name}", name="cu")
      */
-    public function stockCu(CuRepository $cuRepository, $name): Response
+    public function stockCu(CuRepository $cuRepository, TryMolesCu $tryMoleCu, $name): Response
     {
         $cu = $cuRepository->findCuByName($name);
 
+        $meules = $tryMoleCu->tryMolesPerType($cu->getTypeMeuleCus());
+
         return $this->render('cu/cu.html.twig', [
-            'nameCu' => $name,
+            'cu' => $cu,
+            'meules' => $meules
         ]);
     }
 }

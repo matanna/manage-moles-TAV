@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TypeMeuleCuRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,16 @@ class TypeMeuleCu
      * @ORM\ManyToOne(targetEntity=Cu::class, inversedBy="typeMeuleCus")
      */
     private $cu;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MeuleCu::class, mappedBy="typeMeuleCu")
+     */
+    private $meulesCu;
+
+    public function __construct()
+    {
+        $this->meulesCu = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +149,36 @@ class TypeMeuleCu
     public function setCu(?Cu $cu): self
     {
         $this->cu = $cu;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MeuleCu[]
+     */
+    public function getMeulesCu(): Collection
+    {
+        return $this->meulesCu;
+    }
+
+    public function addMeulesCu(MeuleCu $meulesCu): self
+    {
+        if (!$this->meulesCu->contains($meulesCu)) {
+            $this->meulesCu[] = $meulesCu;
+            $meulesCu->setTypeMeuleCu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeulesCu(MeuleCu $meulesCu): self
+    {
+        if ($this->meulesCu->removeElement($meulesCu)) {
+            // set the owning side to null (unless already changed)
+            if ($meulesCu->getTypeMeuleCu() === $this) {
+                $meulesCu->setTypeMeuleCu(null);
+            }
+        }
 
         return $this;
     }

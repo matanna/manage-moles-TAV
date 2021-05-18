@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Machine;
 use App\Entity\MeulesRecti;
-use App\Utils\TryMolesResults;
+use App\Utils\TryMolesRecti;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -16,13 +16,13 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class MeulesRectiRepository extends ServiceEntityRepository
 {
-    private $tryMolesResults;
+    private $tryMolesRecti;
 
-    public function __construct(ManagerRegistry $registry, TryMolesResults $tryMolesResults)
+    public function __construct(ManagerRegistry $registry, TryMolesRecti $tryMolesRecti)
     {
         parent::__construct($registry, MeulesRecti::class);
         
-        $this->tryMolesResults = $tryMolesResults;
+        $this->tryMolesRecti = $tryMolesRecti;
     }
 
     /**
@@ -41,7 +41,7 @@ class MeulesRectiRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-        return $this->tryMolesResults->tryMolesPerPosition($results);
+        return $this->tryMolesRecti->tryMolesPerPosition($results);
     }
 
     /**

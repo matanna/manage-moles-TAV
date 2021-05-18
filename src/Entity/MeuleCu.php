@@ -42,6 +42,11 @@ class MeuleCu
      */
     private $fournisseur;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=TypeMeuleCu::class, inversedBy="meulesCu")
+     */
+    private $typeMeuleCu;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,18 @@ class MeuleCu
     public function setFournisseur(?Fournisseur $fournisseur): self
     {
         $this->fournisseur = $fournisseur;
+
+        return $this;
+    }
+
+    public function getTypeMeuleCu(): ?TypeMeuleCu
+    {
+        return $this->typeMeuleCu;
+    }
+
+    public function setTypeMeuleCu(?TypeMeuleCu $typeMeuleCu): self
+    {
+        $this->typeMeuleCu = $typeMeuleCu;
 
         return $this;
     }

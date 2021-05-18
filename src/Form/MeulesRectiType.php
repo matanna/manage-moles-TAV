@@ -7,7 +7,7 @@ use App\Form\MachineType;
 use App\Entity\Fournisseur;
 use App\Entity\MeulesRecti;
 use App\Repository\MachineRepository;
-use App\Utils\TryMolesResults;
+use App\Utils\TryMolesRecti;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -21,17 +21,17 @@ class MeulesRectiType extends AbstractType
 {
     private $machineRepository;
 
-    private $tryMolesResults;
+    private $tryMolesRecti;
 
-    public function __construct(MachineRepository $machineRepository, TryMolesResults $tryMolesResults)
+    public function __construct(MachineRepository $machineRepository, TryMolesRecti $tryMolesRecti)
     {
         $this->machineRepository = $machineRepository;
-        $this->tryMolesResults= $tryMolesResults;
+        $this->tryMolesRecti = $tryMolesRecti;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) 
     {
-        $machine = $this->tryMolesResults->nameOnIndexTable($this->machineRepository->findAll());
+        $machine = $this->tryMolesRecti->nameOnIndexTable($this->machineRepository->findAll());
 
         $builder
             ->add('ref', TextType::class, [

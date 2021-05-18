@@ -7,7 +7,7 @@ namespace App\Utils;
  * We create an array with arrays having for index the value of MeulesRecti position parameter
  * Each MeulesRecti objects is replaced in an array having for index his position parameter
  */
-class TryMolesResults
+class TryMolesRecti
 {
     public function tryMolesPerPosition($results) 
     {
