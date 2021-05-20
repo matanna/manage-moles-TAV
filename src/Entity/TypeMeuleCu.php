@@ -27,7 +27,7 @@ class TypeMeuleCu
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $TypeMeule;
+    private $typeMeule;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -59,6 +59,11 @@ class TypeMeuleCu
      */
     private $meulesCu;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nonLivrees;
+
     public function __construct()
     {
         $this->meulesCu = new ArrayCollection();
@@ -83,12 +88,12 @@ class TypeMeuleCu
 
     public function getTypeMeule(): ?string
     {
-        return $this->TypeMeule;
+        return $this->typeMeule;
     }
 
-    public function setTypeMeule(?string $TypeMeule): self
+    public function setTypeMeule(?string $typeMeule): self
     {
-        $this->TypeMeule = $TypeMeule;
+        $this->typeMeule = $typeMeule;
 
         return $this;
     }
@@ -179,6 +184,18 @@ class TypeMeuleCu
                 $meulesCu->setTypeMeuleCu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNonLivrees(): ?int
+    {
+        return $this->nonLivrees;
+    }
+
+    public function setNonLivrees(?int $nonLivrees): self
+    {
+        $this->nonLivrees = $nonLivrees;
 
         return $this;
     }

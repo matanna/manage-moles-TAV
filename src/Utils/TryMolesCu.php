@@ -11,13 +11,10 @@ class TryMolesCu
 {
     public function tryMolesPerType($typeMoles) 
     {
-        //The meta array is initialize
-        $tableResults = [];
-        
 
         foreach ($typeMoles as $mole) {
             $type = $mole->getTypeMeule();
-            $tableResults[$type] = $mole;
+            $tableResults[$type][] = $mole;
         }
        
         return $tableResults;
