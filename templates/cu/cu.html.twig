@@ -11,76 +11,107 @@
 
 <div class="row text-center font-weight-bold border-top border-bottom pt-2 pb-2 head-table">
     <div class="col-1 border-right">Type de meule</div>
-    <div class="col-8">
+    <div class="col-11">
         <div class="row">
-            <div class="col-3">Désignation TAV</div>
-            <div class="col-2">Type de meule</div>
-            <div class="col-2">Matiere</div>
-            <div class="col-2">Type de verre</div>
-            <div class="col-2">Détail des meules</div>
-            <div class="col-1">Non livrées</div>
+            <div class="col-1">Type de verre</div>
+            <div class="col-10">
+                <div class="row">
+                    <div class="col-2">Type de meule</div>
+                    <div class="col-4">Désignation TAV</div>
+                    <div class="col-2">Matiere</div>
+                    <div class="col-1">Détail des meules</div>
+                    <div class="col-1">Non livrées</div>
+                    <div class="col-1">Stock mini</div>
+                    <div class="col-1">Stock total</div>
+                </div>
+            </div>
+            <div class="col-1">Commander</div>
         </div>
     </div>
-    <div class="col-1">Stock mini</div>
-    <div class="col-1">Stock total</div>
-    <div class="col-1">Commander</div>
 </div>
 
 {% for type, typeMeules in meules %}
-  <div class="interligne"></div>
-  <div class="row text-center">
+<div class="interligne"></div>
+<div class="row text-center">
     <div class="col-1 font-blue1 font-weight-bold d-flex align-items-center justify-content-center">{{ type }}</div>
     <div class="col-11">
-        {% for meule in typeMeules %}
-          <div class="row hover-cel border-bottom border-top">
-            <div class="col-2">{{ meule.designationTAV }}</div>
-            <div class="col-2">{{ meule.typeMeule }}</div>
-            <div class="col-2">{{ meule.matiere}}</div>
-            <div class="col-1">{{ meule.typeVerre }}</div>
-            <div class="col-1">
-              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-              </svg>
-            </div>
-            <div class="col-1">{{ meule.nonLivrees }}</div>
-            <div class="col-1 d-flex align-items-center justify-content-center font-blue1"><span class="badge badge-pill badge-dark">{{ meule.stockMini }}</span></div>
-            
-            <div class="col-1 d-flex align-items-center justify-content-center font-green1 font-weight-bold">
 
-              {% set stockPrevu = meule.stockReel + meule.nonlivrees %}
+      {% for verre, typeVerre in typeMeules %}
+      <div class="row border-bottom border-top">
+          <div class="col-1 border-right d-flex align-items-center justify-content-center">{{ verre }}</div>
+          <div class="col-10">
 
-              {% if meule.stockReel > meule.stockMini %}
-                  <span class="badge badge-pill badge-primary">{{ meule.stockReel }}</span>
-              {% elseif stockPrevu >= meule.stockMini %}
-                  <span class="badge badge-pill badge-warning">{{ meule.stockReel }}</span>
-              {% else %}
-                  <span class="badge badge-pill badge-danger">{{ meule.stockReel }}</span>
-              {% endif %}
+              {% for meule in  typeVerre %}
+              <div class="row hover-cel pt-2 pb-2 ">
+                  <div class="col-2">{{ meule.typeMeule }}</div>
+                  <div class="col-4">{{ meule.designationTAV }}</div>
+                  <div class="col-2">{{ meule.matiere}}</div>
+                  
+                  <div class="col-1">
+                      <a href="#" name=id="{{ 'button-type-mole-' ~ meule.id }}">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                              <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                              <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                          </svg>
+                        </a>
+                  </div>
+                  <div class="col-1">{{ meule.nonLivrees }}</div>
+                  <div class="col-1 d-flex align-items-center justify-content-center font-blue1"><span class="badge badge-pill badge-dark">{{ meule.stockMini }}</span></div>
+                  <div class="col-1 d-flex align-items-center justify-content-center font-green1 font-weight-bold">
 
-            </div>
+                  {% set stockPrevu = meule.stockReel + meule.nonlivrees %}
 
-          </div>
-          <div class="row">
-              <div class="col-2">Fournisseur</div>
-              <div class="col-2">Réference</div>
-              <div class="col-2">Grain</div>
-              <div class="col-2">Diamètre</div>
-              <div class="col-2">Hauteur / Largeur</div>
-          </div>
-          {% for detail in meule.meulesCu %}
-            <div class="row">
-              <div class="col-2">{{ detail.fournisseur.name }}</div>
-              <div class="col-2">Réference</div>
-              <div class="col-2">Grain</div>
-              <div class="col-2">Diamètre</div>
-              <div class="col-2">Hauteur / Largeur</div>
-            </div>
-          {% endfor %}
-        {% endfor %}
-      </div>
+                  {% if meule.stockReel > meule.stockMini %}
+                      <span class="badge badge-pill badge-primary">{{ meule.stockReel }}</span>
+                  {% elseif stockPrevu >= meule.stockMini %}
+                      <span class="badge badge-pill badge-warning">{{ meule.stockReel }}</span>
+                  {% else %}
+                      <span class="badge badge-pill badge-danger">{{ meule.stockReel }}</span>
+                  {% endif %}
+                  </div>
+              </div>
+
+              <div class="row" hidden="hidden" id="{{ 'display-type-mole-' ~ meule.id }}">
+                <div class="col-12">
+                    <div class="row border-top border-right head-table">
+                    <div class="col-2">Fournisseur</div>
+                    <div class="col-2">Réference</div>
+                    <div class="col-2">Grain</div>
+                    <div class="col-2">Diamètre</div>
+                    <div class="col-2">Hauteur / Largeur</div>
+                </div>
+                {% for detail in meule.meulesCu %}
+                <div class="row">
+                    {% if detail.fournisseur is not null %}
+                    <div class="col-2">{{ detail.fournisseur.name }}</div>
+                    {% else %}
+                    <div class="col-2">NULL</div>
+                    {% endif %}
+                    <div class="col-2">{{ detail.ref }}</div>
+                    <div class="col-2">{{ detail.grain }}</div>
+                    <div class="col-2">{{ detail.diametre }}</div>
+                    <div class="col-2">{{ detail.hauteur }}</div>
+                </div>
+                {% endfor %}
+                </div>
+              </div>
+              
+
+              {% endfor %}
+
+          </div> 
+          <div class="col-1 d-flex align-items-center justify-content-center"><button type="button" class="btn btn-outline-primary">Commander</button></div>
+          
+      </div>   
+    {% endfor %}
+
     </div>
-  </div>
+</div>
+
+    
+        
+        
+   
 {% endfor %}
 
 

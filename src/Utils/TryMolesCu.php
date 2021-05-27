@@ -4,7 +4,7 @@ namespace App\Utils;
 
 /**
  * This class try MeuleTypeCus objects retrieved by a request on the the database
- * The moles are try by there type
+ * The moles are try by there type and type of glass
  * We create an array taking for index the type of moles
  */
 class TryMolesCu
@@ -14,9 +14,11 @@ class TryMolesCu
 
         foreach ($typeMoles as $mole) {
             $type = $mole->getTypeMeule();
-            $tableResults[$type][] = $mole;
+            $typeVerre = $mole->getTypeVerre();
+
+            $tableResults[$type][$typeVerre][] = $mole;
         }
-       
+        
         return $tableResults;
     }
 }
