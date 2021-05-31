@@ -43,7 +43,7 @@ class HomeController extends AbstractController
                 $verre_keys = array_rand($verre, 1);
 
                 $newTypeMeuleCu->setDesignationTAV('désignation' . $i)
-                               ->setTypeUsinage($typeUsinage[$typeUsinage_keys])
+                               ->setTypeMeule($typeUsinage[$typeUsinage_keys])
                                ->setMatiere($matiere[$matiere_keys])
                                ->setTypeVerre($verre[$verre_keys])
                                ->setStockMini(rand(2, 10))

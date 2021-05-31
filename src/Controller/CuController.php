@@ -27,7 +27,7 @@ class CuController extends AbstractController
     {
         $cu = $cuRepository->findCuByName($name);
         $meules = $tryMoleCu->tryMolesPerType($cu->getTypeMeuleCus());
-
+        dump($meules);
         return $this->render('cu/cu.html.twig', [
             'cu' => $cu,
             'meules' => $meules
