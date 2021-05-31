@@ -55,3 +55,7 @@ h3 {
 .position-fields {
     border-right: solid 1px #18bc9c;
 }
+
+.border-mole {
+    border: solid 1px #2c3e50;
+}
