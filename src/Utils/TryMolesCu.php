@@ -14,9 +14,9 @@ class TryMolesCu
 
         foreach ($typeMoles as $mole) {
             $type = $mole->getTypeMeule();
-            $typeVerre = $mole->getTypeVerre();
+            $typical = $mole->getTypical();
 
-            $tableResults[$type][$typeVerre][] = $mole;
+            $tableResults[$type][$typical][] = $mole;
         }
         
         return $tableResults;

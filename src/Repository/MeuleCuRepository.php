@@ -47,4 +47,26 @@ class MeuleCuRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+    * @return Cu Returns an array of MeuleCu objects
+    */
+    public function findMolesCuByTypical($cuName, $typeMeule, $typical)
+    {
+
+        $result =  $this->createQueryBuilder('mcu')
+            ->select('mcu', 'tcu', 'cu')
+            ->leftJoin('mcu.typeMeuleCu', 'tcu')
+            ->leftJoin('tcu.cu', 'cu')
+            ->andWhere('tcu.typical = :typical')
+            ->andWhere('tcu.typeMeule = :typeMeule')
+            ->andWhere('cu.name = :cuName')
+            ->setParameter('typical', $typical)
+            ->setParameter('typeMeule', $typeMeule)
+            ->setParameter('cuName', $cuName)
+            ->getQuery()
+            ->getResult()
+        ;
+        return $result;
+    }
 }

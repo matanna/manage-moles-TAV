@@ -30,6 +30,15 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Listeners\DatabaseActivitySubscriber:
+    # These services listen doctrine events and do the sum of stocks
+    App\Listeners\DatabaseActivityRectiSubscriber:
         tags:
             - { name: 'doctrine.event_subscriber' }
+
+    App\Listeners\DatabaseActivityCuSubscriber:
+        tags:
+            - { name: 'doctrine.event_subscriber' }
+
+    App\Twig\TwigGlobalVarsSubscriber:
+        tags:
+            - { name: 'twig.globalVars_subscriber', event: kernel.controller }

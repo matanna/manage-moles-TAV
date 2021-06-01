@@ -8,6 +8,7 @@ use App\Repository\MeulesRectiRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RectiligneController extends AbstractController
 {
@@ -45,11 +46,15 @@ class RectiligneController extends AbstractController
     /**
      * @Route("/rectiligne/{nameMachine}/change-quantity/{id}", name="recti-meule-change-quantity")
      */
-    public function updateQuantityMeule(MeulesRectiRepository $meulesRectiRepository,
+    public function updateQuantityRectiMole(MeulesRectiRepository $meulesRectiRepository,
        $id, $nameMachine
     ) : Response {
 
         $meule = $meulesRectiRepository->findOneBy(['id' => $id]);
+
+        if (!$meule) {
+            throw new NotFoundHttpException('Cette page n\'existe pas');
+        }
 
         $data = $this->get('request_stack')->getCurrentRequest()->request->all();
         

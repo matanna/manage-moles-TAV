@@ -24,7 +24,7 @@ class CuRepository extends ServiceEntityRepository
     */
     public function findCuByName($name)
     {
-        dump($name);
+
         $result =  $this->createQueryBuilder('cu')
             ->select('cu', 'tcu', 'mcu', 'f')
             ->leftJoin('cu.typeMeuleCus', 'tcu')

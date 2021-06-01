@@ -7,19 +7,22 @@ window.onload = function() {
     //For each "details", we listen click event for retrieve his id
     for(let i = 0; i < details.length; i++) {
         details[i].addEventListener('click', function(){
-            let id = details[i].getAttribute('id');
+            let typeId = details[i].getAttribute('id');
 
             //We replace the word "button" in id by "display" for display the div with moles
-            id = id.replace('button', 'display');
+            let moleId = typeId.replace('button', 'display');
             
-            if (document.getElementById(id).getAttribute("hidden")) {
-                document.getElementById(id).removeAttribute("hidden"); 
+            if (document.getElementById(moleId).getAttribute("hidden")) {
+                document.getElementById(moleId).removeAttribute("hidden");
+
             } else {
-                document.getElementById(id).setAttribute("hidden", ""); 
+                document.getElementById(moleId).setAttribute("hidden", "");
+                document.location.reload();
             }
 
             
 
         });
     }
+    
 }

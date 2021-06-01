@@ -50,8 +50,10 @@
             {% endif %}
 
             <div class="font-weight-bold pt-2 pb-2 font-green1">
-            {% if position.stockReel <= position.stockMini %}
+            {% if position.stockReel < position.stockMini %}
                 <span class="badge badge-pill badge-danger">{{ position.stockReel }}</span>
+            {% elseif position.stockReel == position.stockMini %}
+                <span class="badge badge-pill badge-warning">{{ position.stockReel }}</span>
             {% else %}
                 <span class="badge badge-pill badge-primary">{{ position.stockReel }}</span>
             {% endif %}
@@ -82,6 +84,7 @@
     <h2 class="ml-4 mt-4"><span class="border-bottom mb-5">Détails du stock</span></h2>
 </div>
 
+<a href="{{ asset("/manage/moles-rectiligne") }}" class="btn btn-outline-success ml-2 mt-2">Enregistrer une nouvelle meule</a>
 <div class="interligne"></div>
 
 <div class="row text-center font-weight-bold border-top border-bottom pt-2 pb-2 head-table">

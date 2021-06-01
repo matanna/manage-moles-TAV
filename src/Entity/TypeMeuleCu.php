@@ -37,7 +37,7 @@ class TypeMeuleCu
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $typeVerre;
+    private $typical;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -110,14 +110,14 @@ class TypeMeuleCu
         return $this;
     }
 
-    public function getTypeVerre(): ?string
+    public function getTypical(): ?string
     {
-        return $this->typeVerre;
+        return $this->typical;
     }
 
-    public function setTypeVerre(?string $typeVerre): self
+    public function setTypical(?string $typical): self
     {
-        $this->typeVerre = $typeVerre;
+        $this->typical = $typical;
 
         return $this;
     }

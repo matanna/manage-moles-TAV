@@ -47,6 +47,11 @@ class MeuleCu
      */
     private $typeMeuleCu;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $stock;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +125,18 @@ class MeuleCu
     public function setTypeMeuleCu(?TypeMeuleCu $typeMeuleCu): self
     {
         $this->typeMeuleCu = $typeMeuleCu;
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(?int $stock): self
+    {
+        $this->stock = $stock;
 
         return $this;
     }

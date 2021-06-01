@@ -11,9 +11,9 @@ use App\Repository\MeulesRectiRepository;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Common\EventSubscriber;
 
-class DatabaseActivitySubscriber implements EventSubscriber
+class DatabaseActivityRectiSubscriber implements EventSubscriber
 {
-    const NAME = 'database.subscriber';
+    const NAME = 'database.recti.subscriber';
 
     private $meulesRectiRepository;
 
@@ -63,8 +63,6 @@ class DatabaseActivitySubscriber implements EventSubscriber
         }
 
         $nameMachine = $entity->getPosition()->getMachine()->getName();
-        
-        $machine = $this->machineRepository->findOneBy(['name' => $entity->getPosition()->getMachine()->getName()]);
 
         $namePosition = $entity->getPosition()->getName();
 
