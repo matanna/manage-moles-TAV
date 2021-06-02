@@ -39,15 +39,19 @@ class CuRepository extends ServiceEntityRepository
         return $result[0];
     }
 
-    /*
-    public function findOneBySomeField($value): ?Cu
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
+    /**
+    * @return Cus Returns an array of Cu objects
     */
+    public function findAllCus()
+    {
+
+        $results =  $this->createQueryBuilder('cu')
+            ->select('cu', 'tcu')
+            ->leftJoin('cu.typeMeuleCus', 'tcu')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $results;
+    }
 }

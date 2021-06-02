@@ -27,6 +27,7 @@ class Cu
      * @ORM\OneToMany(targetEntity=TypeMeuleCu::class, mappedBy="cu")
      */
     private $typeMeuleCus;
+    
     public function __construct()
     {
         $this->typeMeuleCus = new ArrayCollection();

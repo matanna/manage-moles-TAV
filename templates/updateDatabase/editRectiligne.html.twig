@@ -17,92 +17,119 @@
               </svg>
         </a>
     </div>
+    <div class="row ml-4">
+        <div class="col-12"><a href="#" class="btn btn-outline-success" data-toggle="modal" data-target="#rename-rectiligne">Renommer la rectiligne</a></div>
+        <!--Modal for rename rectiligne-->
+        <div class="modal" id="rename-rectiligne" tabindex="-1" aria-hidden="true" role="dialog">      
+            <div class="modal-dialog" role="document">
+                <form method="post" action="{{ asset('manage/' ~ machine.name ~ '/change-name') }}">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title">Renommer la rectiligne</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="newRectiligneName" class="pr-2">Nouveau nom : </label>
+                            <input type="text" name="newRectiligneName" id="newRectiligneName">
+                        </div>
+                        <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Enregistrer</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--End of Modal-->
+    </div>
 </div>
 
 <hr>
 <div class="interligne"></div>
-    <div class="row ml-4 font-weight-bold">
-        <div class="col-1">Position</div>
-        <div class="col-1">Type</div>
-        <div class="col-1">Usinage</div>
-        <div class="col-1">Matière</div>
-        <div class="col-1">Stock mini</div>
-        <div class="col-2 text-center">Actions</div>
-    </div>
-    <hr>
+<div class="row ml-4 font-weight-bold">
+    <div class="col-1">Position</div>
+    <div class="col-1">Type</div>
+    <div class="col-1">Usinage</div>
+    <div class="col-1">Matière</div>
+    <div class="col-1">Stock mini</div>
+    <div class="col-2 text-center">Actions</div>
+</div>
+<hr>
 
-    <!-- Form is render in a loop for display all positions of one machine-->
-    {{ form_start(formMachine) }}
-        {{ form_row(formMachine.name, {'attr': {'hidden': 'hidden'}, 'label': false }) }}
-        {% for position in formMachine.positions %}
-        <div class="row ml-4 d-flex align-items-center">
-                <div class="col-1">
-                    {{ form_row(position.name) }}
-                </div>
-                <div class="col-1">
-                    {{ form_row(position.type) }}
-                </div>
-                <div class="col-1">
-                    {{ form_row(position.usinage) }}
-                </div>
-                <div class="col-1">
-                    {{ form_row(position.matiere) }}
-                </div>
-                <div class="col-1">
-                    {{ form_row(position.stockMini) }}
-                </div>
-                <div class="col-1 text-center">
-                    <button type="submit" class="btn btn-outline-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-save" viewBox="0 0 16 16">
-                            <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z"/>
-                          </svg>
-                    </button>
-                </div>
-                <div class="col-1 text-center">
-
-                    <a href={{ asset('/delete/' ~ machine.name ~ '/position/' ~ position.vars.value.id) }}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25 " height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                          </svg>
-                    </a>
-                </div>
+<!-- Form is render in a loop for display all positions of one machine-->
+{{ form_start(formMachine) }}
+    {{ form_row(formMachine.name, {'attr': {'hidden': 'hidden'}, 'label': false }) }}
+    {% for position in formMachine.positions %}
+    <div class="row ml-4 d-flex align-items-center">
+            <div class="col-1">
+                {{ form_row(position.name) }}
             </div>
-            <hr>
-        </div>
-        {% endfor %}
-    {{ form_end(formMachine) }}
+            <div class="col-1">
+                {{ form_row(position.type) }}
+            </div>
+            <div class="col-1">
+                {{ form_row(position.usinage) }}
+            </div>
+            <div class="col-1">
+                {{ form_row(position.matiere) }}
+            </div>
+            <div class="col-1">
+                {{ form_row(position.stockMini) }}
+            </div>
+            <div class="col-1 text-center">
+                <button type="submit" class="btn btn-outline-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-save" viewBox="0 0 16 16">
+                        <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z"/>
+                        </svg>
+                </button>
+            </div>
+            <div class="col-1 text-center">
 
-    <h4 class="ml-4">Ajouter une position : </h4>
-    <hr>
-    <!--Form for add a new position-->
-    {{ form_start(formPosition) }}
-    <div class="row ml-4 d-flex align-items-center">   
-        <div class="col-1">
-            {{ form_row(formPosition.name) }}
+                <a href={{ asset('/delete/' ~ machine.name ~ '/position/' ~ position.vars.value.id) }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25 " height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                </a>
+            </div>
         </div>
-        <div class="col-1">
-            {{ form_row(formPosition.type) }}
-        </div>
-        <div class="col-1">
-            {{ form_row(formPosition.usinage) }}
-        </div>
-        <div class="col-1">
-            {{ form_row(formPosition.matiere) }}
-        </div>
-        <div class="col-1">
-            {{ form_row(formPosition.stockMini) }}
-        </div>
-        <div class="col-1 text-center">
-            <button type="submit" class="btn btn-outline-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-save" viewBox="0 0 16 16">
-                    <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z"/>
-                  </svg>
-            </button>
-        </div>
-        
-    </div>   
-    {{ form_end(formPosition) }}
+        <hr>
+    </div>
+    {% endfor %}
+{{ form_end(formMachine) }}
+
+<h4 class="ml-4">Ajouter une position : </h4>
+<hr>
+<!--Form for add a new position-->
+{{ form_start(formPosition) }}
+<div class="row ml-4 d-flex align-items-center">   
+    <div class="col-1">
+        {{ form_row(formPosition.name) }}
+    </div>
+    <div class="col-1">
+        {{ form_row(formPosition.type) }}
+    </div>
+    <div class="col-1">
+        {{ form_row(formPosition.usinage) }}
+    </div>
+    <div class="col-1">
+        {{ form_row(formPosition.matiere) }}
+    </div>
+    <div class="col-1">
+        {{ form_row(formPosition.stockMini) }}
+    </div>
+    <div class="col-1 text-center">
+        <button type="submit" class="btn btn-outline-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-save" viewBox="0 0 16 16">
+                <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z"/>
+                </svg>
+        </button>
+    </div>
+    
+</div>   
+{{ form_end(formPosition) }}
 
 {% endblock %}
 

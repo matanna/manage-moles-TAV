@@ -14,22 +14,21 @@
 </div>
 
 <div class="row text-center font-weight-bold border-top border-bottom pt-2 pb-2 head-table">
-    <div class="col-1 border-right">Type de meule</div>
-    <div class="col-11">
+    <div class="col-2 border-right">Type de meule</div>
+    <div class="col-10">
         <div class="row">
-            <div class="col-1">Diamètre / type de verre</div>
-            <div class="col-10">
+            <div class="col-2">Spécification</div>
+            <div class="col-8">
                 <div class="row">
-                    <div class="col-2">Type de meule</div>
-                    <div class="col-4">Désignation TAV</div>
+                    <div class="col-3">Désignation TAV</div>
                     <div class="col-2">Matiere</div>
-                    <div class="col-1">Détail des meules</div>
-                    <div class="col-1">Non livrées</div>
-                    <div class="col-1">Stock mini</div>
-                    <div class="col-1">Stock total</div>
+                    <div class="col-1">Détail</div>
+                    <div class="col-2">Non livrées</div>
+                    <div class="col-2">Stock mini</div>
+                    <div class="col-2">Stock total</div>
                 </div>
             </div>
-            <div class="col-1">Commander</div>
+            <div class="col-2">Commander</div>
         </div>
     </div>
 </div>
@@ -37,19 +36,18 @@
 {% for type, typeMeules in meules %}
 <div class="interligne"></div>
 <div class="row text-center">
-    <div class="col-1 font-blue1 font-weight-bold d-flex align-items-center justify-content-center">{{ type }}</div>
-    <div class="col-11">
+    <div class="col-2 font-blue1 font-weight-bold d-flex align-items-center justify-content-center">{{ type }}</div>
+    <div class="col-10">
 
       <!-- "typical" represent the name we usually give at the mole (diameter for forest, tickness of glass for trapezoidal mole) -->
       {% for typical, typicalData in typeMeules %}
       <div class="row border-bottom border-top">
-          <div class="col-1 border-right d-flex align-items-center justify-content-center">{{ typical }}</div>
-          <div class="col-10">
+          <div class="col-2 border-right d-flex align-items-center justify-content-center">{{ typical }}</div>
+          <div class="col-8">
 
               {% for meule in typicalData %}
               <div class="row hover-cel pt-2 pb-2">
-                  <div class="col-2">{{ meule.typeMeule }}</div>
-                  <div class="col-4">{{ meule.designationTAV }}</div>
+                  <div class="col-3">{{ meule.designationTAV }}</div>
                   <div class="col-2">{{ meule.matiere}}</div>
                   
                   <div class="col-1">
@@ -60,9 +58,9 @@
                           </svg>
                         </a>
                   </div>
-                  <div class="col-1">{{ meule.nonLivrees }}</div>
-                  <div class="col-1 d-flex align-items-center justify-content-center font-blue1"><span class="badge badge-pill badge-dark">{{ meule.stockMini }}</span></div>
-                  <div class="col-1 d-flex align-items-center justify-content-center font-green1 font-weight-bold">
+                  <div class="col-2">{{ meule.nonLivrees }}</div>
+                  <div class="col-2 d-flex align-items-center justify-content-center font-blue1"><span class="badge badge-pill badge-dark">{{ meule.stockMini }}</span></div>
+                  <div class="col-2 d-flex align-items-center justify-content-center font-green1 font-weight-bold">
 
                   {% set stockPrevu = meule.stockReel + meule.nonlivrees %}
 
@@ -140,7 +138,7 @@
             </div>
             {% endfor %}
           </div> 
-          <div class="col-1 d-flex align-items-center justify-content-center"><button type="button" class="btn btn-outline-primary">Commander</button></div>
+          <div class="col-2 d-flex align-items-center justify-content-center"><button type="button" class="btn btn-outline-primary">Commander</button></div>
           
       </div>   
     {% endfor %}

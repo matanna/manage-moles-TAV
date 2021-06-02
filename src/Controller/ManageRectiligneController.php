@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ManageRectiligneController extends AbstractController
 {
@@ -46,12 +47,46 @@ class ManageRectiligneController extends AbstractController
     }
 
     /**
+     * @Route("/manage/{nameMachine}/change-name", name="change_name_rectiligne")
+     */
+    public function renameRectiligne(MachineRepository $machineRepository,
+        EntityManagerInterface $manager, $nameMachine
+    ) : Response {
+        $machine = $machineRepository->findOneBy(['name' => $nameMachine]);
+
+        if (!$machine) {
+            throw new NotFoundHttpException("Cette machine n'existe pas");
+        }
+
+        $data = $this->get('request_stack')->getCurrentRequest()->request->all();
+
+        if ($data && $data["newRectiligneName"] != NULL) {
+            
+            $machine->setName($data["newRectiligneName"]);
+            
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($machine);
+            $manager->flush();
+
+        }
+
+        return $this->redirectToRoute('edit_rectiligne', [
+            'nameMachine' => $data["newRectiligneName"]
+        ]);
+
+    }
+
+    /**
      * @Route("/delete/rectiligne/{id}", name="delete_machine")
      */
     public function deleteMachine(MachineRepository $machineRepository,
         EntityManagerInterface $manager, MeulesRectiRepository $meulesRectiRepository, $id
     ) {
-        $machine = $machineRepository->findOneBy(['id' => $id]);      
+        $machine = $machineRepository->findOneBy(['id' => $id]);  
+        
+        if (!$machine) {
+            throw new NotFoundHttpException("Cette machine n'existe pas");
+        }
 
         $meulesRecti = $meulesRectiRepository->findAllOrderByPosition($machine->getName());
 
@@ -76,6 +111,10 @@ class ManageRectiligneController extends AbstractController
         $request = $this->get('request_stack')->getCurrentRequest();
 
         $machine = $machineRepository->findOneBy(['name' => $nameMachine]);
+
+        if (!$machine) {
+            throw new NotFoundHttpException("Cette machine n'existe pas");
+        }
         
         //$formMachine is the form for edit all positions linked
         $formMachine = $this->createForm(MachineType::class, $machine);

@@ -21,7 +21,7 @@ class CuController extends AbstractController
         $cu = $cuRepository->findCuByName($name);
 
         $meules = $cu->getTypeMeuleCus();
-        dump($meules);
+        
         if(count($meules) === 0) {
             throw new Exception('Aucunes meules n\'est enregistrée pour le centre d\'usinage : ' . ucfirst($name));
         }
