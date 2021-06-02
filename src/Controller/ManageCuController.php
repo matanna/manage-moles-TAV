@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Cu;
 use App\Form\CuType;
 use App\Utils\TryMolesCu;
+use App\Form\TypeMeuleCuType;
 use App\Repository\CuRepository;
+use App\Repository\TypeMeuleCuRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,9 +46,12 @@ class ManageCuController extends AbstractController
 
     /**
      * @Route("/edit/cu/{nameCu}", name="edit_cu")
+     * @Route("edit/{nameCu}/type-meule/{id}", name="edit_typeMeule")
      */
-    public function editCu(CuRepository $cuRepository,
-       TryMolesCu $tryMolesCu, $nameCu) : Response {
+    public function editCu(CuRepository $cuRepository, TryMolesCu $tryMolesCu, 
+        TypeMeuleCuRepository $typeMeuleCuRepository, $nameCu, $id = null
+    ) : Response {
+
         $cu = $cuRepository->findCuByName($nameCu);
 
         if (!$cu) {
@@ -54,6 +59,24 @@ class ManageCuController extends AbstractController
         }
 
         $typesMeuleSorted = $tryMolesCu->tryMolesPerType($cu->getTypeMeuleCus());
+
+        if ($id !== null) {
+            $typeMeuleCu = $typeMeuleCuRepository->find($id);
+
+            if(!$typeMeuleCu) {
+                throw new NotFoundHttpException('Ce type de meule n\existe pas');
+            }
+
+            $form = $this->createForm(TypeMeuleCuType::class, $typeMeuleCu);
+
+            $request = $this->get('request_stack')->getCurrentRequest();
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                
+            }
+        }
+        
 
         return $this->render('updateDatabase/editCu.html.twig', [
             'cu' => $cu,
@@ -88,6 +111,19 @@ class ManageCuController extends AbstractController
         return $this->redirectToRoute('edit_cu', [
             'nameCu' => $data["newCuName"]
         ]);
+    }
 
+    /**
+     * @Route("edit/{nameCu}/type-meule/{id}", name="edit_typeMeule")
+     */
+    public function updateTypeMeuleCu(TypeMeuleCuRepository $typeMeuleCuRepository,
+        EntityManagerInterface $manager, $nameCu, $id
+    ) : Response {
+
+        
+
+        return $this->redirectToRoute('edit_cu', [
+            'nameCu' => $nameCu
+        ]);
     }
 }
