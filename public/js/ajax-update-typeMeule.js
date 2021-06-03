@@ -2,26 +2,31 @@
 
 $(document).ready(function(){
     
-    $(".machine").on("click", function(event) {
+    $(".edit-type-meule").on("click", function(event) {
         
         //We retrieve id of the choice list machine
-        let idMachineList = $(this).attr('id');
+        let idTypeMeule = $(this).attr('id');
 
-        //We retrieve value of select machine in the edit mole form
-        let machineName = $('#' + idMachineList + ' option:selected').text();
+        //split function for explode string of characters and return an array 
+        let strToArray = idTypeMeule.split('-')
 
-        //We replace the word 'machine' per the word 'position' in the id of machine for find the id of position
-        let idPositionList = idMachineList.replace('machine', 'position');
+        //'.get(-1)' for retrieve the last element of this array
+        let id = $(strToArray).get(-1);
+
+        //'.get(0)' for retrieve the first element of this array
+        let cuName = $(strToArray).get(0);
 
         $.ajax({
-            url: "/manage/moles-rectiligne",
+            url: "/edit/cu/" + cuName,
             type: "POST",
-            data: 'machineName=' + machineName,
+            data: 'id=' + id,
             dataType: "json",
             async: true,
 
             success: function(data, status) {
 
+                $('#update-typeMeule' + id).append(data);
+                /*
                 let positionOption = '';
                 $('.position-list').remove();
                 let i = 0;
@@ -30,6 +35,7 @@ $(document).ready(function(){
                     i++;
                 }
                 $('#' + idPositionList).append(positionOption);
+                */
             }
         })
         
