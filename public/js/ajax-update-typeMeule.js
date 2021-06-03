@@ -24,8 +24,7 @@ $(document).ready(function(){
             async: true,
 
             success: function(data, status) {
-
-                $('#update-typeMeule' + id).append(data);
+                $('#update-typeMeule' + id).find('.modal-body').append(data.content);
                 /*
                 let positionOption = '';
                 $('.position-list').remove();
