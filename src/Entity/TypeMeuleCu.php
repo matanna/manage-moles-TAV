@@ -74,6 +74,12 @@ class TypeMeuleCu
         return $this->id;
     }
 
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getDesignationTAV(): ?string
     {
         return $this->designationTAV;

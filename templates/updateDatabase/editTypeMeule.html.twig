@@ -1,7 +1,17 @@
 
 {% block body %} 
 
-{{ form(form) }}
+    {{ form_start(form) }}
+        {{ form_row(form.designationTAV) }}
+        {{ form_row(form.typeMeule) }}
+        {{ form_row(form.matiere) }}
+        {{ form_row(form.typical) }}
+        {{ form_row(form.stockMini) }}
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="button" class="btn btn-secondary update-typeMeule-close" data-dismiss="modal">Fermer</button>
+        </div>
+    {{ form_end(form) }}
 
 {% endblock %}
 

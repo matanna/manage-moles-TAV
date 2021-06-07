@@ -6,6 +6,7 @@ use App\Entity\TypeMeuleCu;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class TypeMeuleCuType extends AbstractType
 {
@@ -16,7 +17,7 @@ class TypeMeuleCuType extends AbstractType
             ->add('typeMeule')
             ->add('matiere')
             ->add('typical')
-            ->add('stockMini')
+            ->add('stockMini', IntegerType::class)
         ;
     }
 

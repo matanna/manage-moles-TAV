@@ -24,19 +24,15 @@ $(document).ready(function(){
             async: true,
 
             success: function(data, status) {
-                $('#update-typeMeule' + id).find('.modal-body').append(data.content);
-                /*
-                let positionOption = '';
-                $('.position-list').remove();
-                let i = 0;
-                for (let position of data) {
-                    positionOption = positionOption + '<option value="' + position.name + '"class="position-list">' + position.name + '</option>';
-                    i++;
-                }
-                $('#' + idPositionList).append(positionOption);
-                */
+                $('#update-typeMeule' + id).find('.form-typeMeule').append(data.content);
+                
             }
         })
         
+    });
+
+    //When we close the modal with the form, we remove the form
+    $(".update-typeMeule-close").on("click", function(event) {
+        $('.form-typeMeule').empty();
     })
 });
