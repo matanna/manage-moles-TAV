@@ -32,24 +32,52 @@ class MeuleCuType extends AbstractType
         $cus = $this->transformInAssocArray->changeKeyByNameValue($this->cuRepository->findAll());
 
         $builder
-            ->add('ref', TextType::class)
-            ->add('diametre', IntegerType::class)
-            ->add('hauteur', IntegerType::class)
-            ->add('grain', TextType::class)
-            ->add('stock', IntegerType::class)
+            ->add('ref', TextType::class, [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Réference'
+                ]
+            ])
+            ->add('diametre', IntegerType::class, [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Diamètre'
+                ]
+            ])
+            ->add('hauteur', IntegerType::class, [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Hauteur'
+                ]
+            ])
+            ->add('grain', TextType::class, [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Grain'
+                ]
+            ])
+            ->add('stock', IntegerType::class, [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Stock'
+                ]
+            ])
             ->add('fournisseur', EntityType::class, [
                 'class' => Fournisseur::class,
-                'choice_label' => 'name'
+                'choice_label' => 'name',
+                'label' => false
             ])
             ->add('cu', ChoiceType::class, [
                 'choices' => $cus,
                 'mapped' => false,
-                'data' => ''
+                'label' => false
             ])
             ->add('typeMeuleCu', ChoiceType::class, [
-                
+                'label' => false,
+                'mapped' => false
             ])
         ;
+        $builder->get('typeMeuleCu')->resetViewTransformers();
     }
 
     public function configureOptions(OptionsResolver $resolver)

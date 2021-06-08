@@ -20,15 +20,15 @@
         {{ form_start(formNewMeule) }}
         
         <div class="row" id="js-new-mole">
-          <div class="col-1">{{ form_row(formNewMeule.fournisseur) }}</div>
+          <div class="col-1">{{ form_row(formNewMeule.fournisseur, {'placeholder': 'Fournisseur'}) }}</div>
           <div class="col-1">{{ form_row(formNewMeule.ref) }}</div>
           <div class="col-2">{{ form_row(formNewMeule.designationTAV) }}</div>
           <div class="col-1">{{ form_row(formNewMeule.grain) }}</div>
           <div class="col-1">{{ form_row(formNewMeule.diametre) }}</div>
           <div class="col-1">{{ form_row(formNewMeule.hauteur) }}</div>
           <div class="col-1">{{ form_row(formNewMeule.stock) }}</div>
-          <div class="col-1" id="machine">{{ form_row(formNewMeule.machine, {'attr': {'class': 'machine'}}) }}</div>
-          <div class="col-1" id="position">{{ form_row(formNewMeule.position, {'attr': {'class': 'position'}}) }}</div>
+          <div class="col-1" id="machine">{{ form_row(formNewMeule.machine, {'attr': {'class': 'machine'}, 'placeholder': 'Rectiligne' }) }}</div>
+          <div class="col-1" id="position">{{ form_row(formNewMeule.position, {'attr': {'class': 'position'}, 'placeholder': 'Position'}) }}</div>
         </div>
            
         <button type="submit" class="btn btn-primary">Ajouter la meule</button>

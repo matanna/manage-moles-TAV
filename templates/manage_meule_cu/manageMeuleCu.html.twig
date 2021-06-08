@@ -12,22 +12,25 @@
 <div class="interligne"></div>
 
 <!-- The form for add a new rectiligne in database -->
-<div class="row">
-    <div class="col-12 mb-4 ml-4">
+<div class="row ml-2">
+    <div class="col-12">
         <h5 class="mb-3">Ajouter une meule :</h5>
     </div>
 </div>
 
 {{ form_start(form) }}
-<div class="row mb-4 ml-4">
-    <div class="col-2">{{ form_row(form.cu, {'attr': {'class': 'cu'} }) }}</div>
-    <div class="col-2">{{ form_row(form.typeMeuleCu, {'attr': {'class': 'typeMeuleCu'} }) }}</div>
-    <div class="col-2">{{ form_row(form.fournisseur) }}</div>
+<div class="row mb-4 ml-2">
+    <div class="col-2">{{ form_row(form.cu, {'attr': {'class': 'cu'}, 'placeholder': 'Cu' }) }}</div>
+    <div class="col-2">{{ form_row(form.typeMeuleCu, {'attr': {'class': 'typeMeuleCu'}, 'placeholder': 'Type de meule' }) }}</div>
+    <div class="col-2">{{ form_row(form.fournisseur, { 'placeholder': 'Fournisseur' }) }}</div>
     <div class="col-1">{{ form_row(form.ref) }}</div>
     <div class="col-1">{{ form_row(form.diametre) }}</div>
     <div class="col-1">{{ form_row(form.hauteur) }}</div>
     <div class="col-1">{{ form_row(form.grain) }}</div>
     <div class="col-1">{{ form_row(form.stock) }}</div>
+</div>
+<div class="row mb-4 ml-2">
+    <div class="col-2"><button type="submit" class="btn btn-primary">Enregistrer</button></div>
 </div>
 {{ form_end(form) }}
 

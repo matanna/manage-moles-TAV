@@ -35,8 +35,6 @@ class ManageMeuleCuController extends AbstractController
                 throw new NotFoundHttpException("Cette machine n'existe pas");
             }
 
-            dump($cu->getTypeMeuleCus());
-
             return $this->json($cu->getTypeMeuleCus()->toArray(), 200, [], [
                 'groups' => 'cu_type_meule'
             ]); 
@@ -47,8 +45,11 @@ class ManageMeuleCuController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($meuleCu);
-            $manager->flush();
+            $datas = $request->request->all();
+            
+            dump($typeMeuleCu);
+            //$manager->persist($meuleCu);
+            //$manager->flush();
 
             return $this->redirectToRoute('manage_meule_cu');
         }
