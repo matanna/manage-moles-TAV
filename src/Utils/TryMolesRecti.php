@@ -47,15 +47,4 @@ class TryMolesRecti
   
         return $tableResults;
     }
-
-    public function nameOnIndexTable($results)
-    {
-        $newResults = [];
-
-        foreach ($results as $result) {
-            $newResults[$result->getName()] = $result->getName();
-        }
-
-        return $newResults;
-    }
 }

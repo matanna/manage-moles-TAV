@@ -94,10 +94,8 @@ class ManageRectiligneController extends AbstractController
             $manager->remove($machine);
             $manager->flush();
         } else {
-            $message = $this->addFlash('warning', 'Des meules sont liées à cette machine, la suppression est impossible.');
-            
+            $message = $this->addFlash('warning', 'Des meules sont liées à cette machine, la suppression est impossible.'); 
         }
-
 
         return $this->redirectToRoute('manage_rectiligne');
     }

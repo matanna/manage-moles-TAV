@@ -2,12 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\Machine;
-use App\Form\MachineType;
 use App\Entity\Fournisseur;
 use App\Entity\MeulesRecti;
+use App\Utils\TransformInAssocArray;
 use App\Repository\MachineRepository;
-use App\Utils\TryMolesRecti;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -15,23 +13,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class MeulesRectiType extends AbstractType
 {
     private $machineRepository;
 
-    private $tryMolesRecti;
+    private $transformInAssocArray;
 
-    public function __construct(MachineRepository $machineRepository, TryMolesRecti $tryMolesRecti)
+    public function __construct(MachineRepository $machineRepository, TransformInAssocArray $transformInAssocArray)
     {
         $this->machineRepository = $machineRepository;
-        $this->tryMolesRecti = $tryMolesRecti;
+        $this->transformInAssocArray = $transformInAssocArray;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) 
     {
-        $machine = $this->tryMolesRecti->nameOnIndexTable($this->machineRepository->findAll());
+        $machine = $this->transformInAssocArray->changeKeyByNameValue($this->machineRepository->findAll());
 
         $builder
             ->add('ref', TextType::class, [
@@ -81,7 +78,6 @@ class MeulesRectiType extends AbstractType
                 'label' => false
             ])
             ->add('position', ChoiceType::class, [
-                
                 'mapped' => false,
                 'label' => false
             ])

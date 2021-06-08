@@ -1,8 +1,8 @@
-//This file is for adapt position list hen a machine is choose on add/edit mole page
+//This file is for adapt position list when a machine is choose on add/edit mole page
 
 $(document).ready(function(){
     
-    $(".machine").on("click", function(event) {
+    $(".machine").on("change", function(event) {
         
         //We retrieve id of the choice list machine
         let idMachineList = $(this).attr('id');
@@ -10,7 +10,7 @@ $(document).ready(function(){
         //We retrieve value of select machine in the edit mole form
         let machineName = $('#' + idMachineList + ' option:selected').text();
 
-        //We replace the word 'machine' per the word 'position' in the id of machine for find the id of position
+        //We replace the word 'machine' by the word 'position' in the id of machine for find the id of position
         let idPositionList = idMachineList.replace('machine', 'position');
 
         $.ajax({

@@ -69,6 +69,13 @@
 </div>
 <hr>
 
+{% for message in app.flashes('warning') %}
+    <div class="alert alert-dismissible alert-warning m-4">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <p class="mb-0">{{ message }}</p>
+    </div>
+{% endfor %}
+
 {% for nameTypeMeule, typeMeule in typesMeule %}
 <div class="row ml-4 text-center border-top">
     <div class="col-1 font-blue1 font-weight-bold d-flex align-items-center justify-content-center pt-2 pm-2">{{ nameTypeMeule }}</div>
