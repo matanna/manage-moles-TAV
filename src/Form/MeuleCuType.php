@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Cu;
 use App\Entity\MeuleCu;
 use App\Entity\Fournisseur;
+use App\Entity\TypeMeuleCu;
 use App\Repository\CuRepository;
 use App\Utils\TransformInAssocArray;
 use Symfony\Component\Form\AbstractType;
@@ -12,7 +13,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class MeuleCuType extends AbstractType
@@ -21,8 +21,9 @@ class MeuleCuType extends AbstractType
 
     private $transformInAssocArray;
 
-    public function __construct(CuRepository $cuRepository, TransformInAssocArray $transformInAssocArray)
-    {
+    public function __construct(CuRepository $cuRepository, 
+        TransformInAssocArray $transformInAssocArray
+    ) {
         $this->cuRepository = $cuRepository;
         $this->transformInAssocArray = $transformInAssocArray;
     }
@@ -67,17 +68,20 @@ class MeuleCuType extends AbstractType
                 'choice_label' => 'name',
                 'label' => false
             ])
-            ->add('cu', ChoiceType::class, [
-                'choices' => $cus,
+            ->add('cu', EntityType::class, [
+                'class' => Cu::class,
+                'choice_label' => 'name',
+                'choice_value' => 'name',
                 'mapped' => false,
                 'label' => false
             ])
-            ->add('typeMeuleCu', ChoiceType::class, [
-                'label' => false,
-                'mapped' => false
+            ->add('typeMeuleCu', EntityType::class, [
+                'class' => TypeMeuleCu::class,
+                'choice_label' => 'typeMeule',
+                'choice_value' => 'typeMeule',
+                'label' => false
             ])
         ;
-        $builder->get('typeMeuleCu')->resetViewTransformers();
     }
 
     public function configureOptions(OptionsResolver $resolver)

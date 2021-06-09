@@ -45,9 +45,8 @@ class ManageMeuleCuController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $datas = $request->request->all();
             
-            dump($typeMeuleCu);
+            dump($meuleCu);
             //$manager->persist($meuleCu);
             //$manager->flush();
 
