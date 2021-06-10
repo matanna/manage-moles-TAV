@@ -9,12 +9,12 @@
 {% block body %}
 
 <div class="d-flex justify-content-between">
-    <h2 class="ml-4 mt-4 border-bottom mb-5">Stock Meules <span class="text-uppercase">{{ cu.name }}</span></h2>
+    <h2 class="ml-4 mt-4 border-bottom mb-5">Stock wheelss <span class="text-uppercase">{{ cu.name }}</span></h2>
     <a href="{{ asset('cus') }}" class="btn btn-success m-5">Retour au stock total</a>
 </div>
 
 <div class="row text-center font-weight-bold border-top border-bottom pt-2 pb-2 head-table">
-    <div class="col-2 border-right">Type de meule</div>
+    <div class="col-2 border-right">Type de wheels</div>
     <div class="col-10">
         <div class="row">
             <div class="col-2">Spécification</div>
@@ -33,48 +33,48 @@
     </div>
 </div>
 
-{% for type, typeMeules in meules %}
+{% for type, wheelsType in wheels %}
 <div class="interligne"></div>
 <div class="row text-center">
     <div class="col-2 font-blue1 font-weight-bold d-flex align-items-center justify-content-center">{{ type }}</div>
     <div class="col-10">
 
       <!-- "typical" represent the name we usually give at the mole (diameter for forest, tickness of glass for trapezoidal mole) -->
-      {% for typical, typicalData in typeMeules %}
+      {% for typical, typicalData in wheelsType %}
       <div class="row border-bottom border-top">
           <div class="col-2 border-right d-flex align-items-center justify-content-center">{{ typical }}</div>
           <div class="col-8">
 
-              {% for meule in typicalData %}
+              {% for wheels in typicalData %}
               <div class="row hover-cel pt-2 pb-2">
-                  <div class="col-3">{{ meule.designationTAV }}</div>
-                  <div class="col-2">{{ meule.matiere}}</div>
+                  <div class="col-3">{{ wheels.TAVname }}</div>
+                  <div class="col-2">{{ wheels.matters}}</div>
                   
                   <div class="col-1">
-                      <a href="#" id="{{ 'button-type-mole-' ~ meule.id }}" class="details">
+                      <a href="#" id="{{ 'button-type-mole-' ~ wheels.id }}" class="details">
                           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                               <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
                               <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
                           </svg>
                         </a>
                   </div>
-                  <div class="col-2">{{ meule.nonLivrees }}</div>
-                  <div class="col-2 d-flex align-items-center justify-content-center font-blue1"><span class="badge badge-pill badge-dark">{{ meule.stockMini }}</span></div>
+                  <div class="col-2">{{ wheels.totalNotDelivered }}</div>
+                  <div class="col-2 d-flex align-items-center justify-content-center font-blue1"><span class="badge badge-pill badge-dark">{{ wheels.stockMini }}</span></div>
                   <div class="col-2 d-flex align-items-center justify-content-center font-green1 font-weight-bold">
 
-                  {% set stockPrevu = meule.stockReel + meule.nonlivrees %}
+                  {% set stockExcepted = wheels.stockReal + wheels.totalNotDelivered %}
 
-                  {% if meule.stockReel > meule.stockMini %}
-                      <span class="badge badge-pill badge-primary">{{ meule.stockReel }}</span>
-                  {% elseif stockPrevu >= meule.stockMini %}
-                      <span class="badge badge-pill badge-warning">{{ meule.stockReel }}</span>
+                  {% if wheels.stockReal > wheels.stockMini %}
+                      <span class="badge badge-pill badge-primary">{{ wheels.stockReal }}</span>
+                  {% elseif stockExcepted >= wheels.stockMini %}
+                      <span class="badge badge-pill badge-warning">{{ wheels.stockReal }}</span>
                   {% else %}
-                      <span class="badge badge-pill badge-danger">{{ meule.stockReel }}</span>
+                      <span class="badge badge-pill badge-danger">{{ wheels.stockReal }}</span>
                   {% endif %}
                   </div>
               </div>
 
-              <div class="row border-mole" id="{{ 'display-type-mole-' ~ meule.id }}" hidden="hidden">  
+              <div class="row border-mole" id="{{ 'display-type-mole-' ~ wheels.id }}" hidden="hidden">  
                 <div class="col-12">
                     <div class="row border-top border-right head-table pt-2 pb-2">
                         <div class="col-2">Fournisseur</div>
@@ -85,21 +85,21 @@
                         <div class="col-2">Stock</div>
                         <div class="col-1">Actions</div>
                     </div>
-                    
-                    {% for detail in meule.meulesCu %}
+                    {{ dump(wheels) }}
+                    {% for details in wheels.wheelsCus %}
                     <div class="row border-top border-right pt-2 pb-2">
-                        {% if detail.fournisseur is not null %}
-                        <div class="col-2">{{ detail.fournisseur.name }}</div>
+                        {% if details.provider is not null %}
+                        <div class="col-2">{{ details.provider.name }}</div>
                         {% else %}
                         <div class="col-2">NULL</div>
                         {% endif %}
-                        <div class="col-2">{{ detail.ref }}</div>
-                        <div class="col-2">{{ detail.grain }}</div>
-                        <div class="col-1">{{ detail.diametre }}</div>
-                        <div class="col-2">{{ detail.hauteur }}</div>
-                        <div class="col-2"><span class="badge badge-pill badge-light">{{ detail.stock }}</span></div>
+                        <div class="col-2">{{ details.ref }}</div>
+                        <div class="col-2">{{ details.grain }}</div>
+                        <div class="col-1">{{ details.diameter }}</div>
+                        <div class="col-2">{{ details.height }}</div>
+                        <div class="col-2"><span class="badge badge-pill badge-light">{{ details.stock }}</span></div>
                         <div class="col-1">
-                            <a href="#" data-toggle="modal" data-target="{{ "#change-quantity" ~ detail.id }}">
+                            <a href="#" data-toggle="modal" data-target="{{ "#change-quantity" ~ details.id }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-square icon" viewBox="0 0 16 16">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -108,9 +108,9 @@
                         </div>
 
                          <!--Modal for edit button - form for change quantity-->
-                        <div class="modal" id="{{ "change-quantity" ~ detail.id }}" tabindex="-1" aria-hidden="true" role="dialog">      
+                        <div class="modal" id="{{ "change-quantity" ~ details.id }}" tabindex="-1" aria-hidden="true" role="dialog">      
                             <div class="modal-dialog" role="document">
-                                <form method="post" action="{{ asset('cu/' ~ cu.name ~ '/change-quantity/' ~ detail.id ) }}">
+                                <form method="post" action="{{ asset('cu/' ~ cu.name ~ '/change-quantity/' ~ details.id ) }}">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                         <h5 class="modal-title">Quantité en stock :</h5>
@@ -122,8 +122,8 @@
                                             <input type="number" name="quantity">
                                         </div>
                                         <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Save changes</a>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Enregistrer</a>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                                         </div>
                                     </div>
                                 </form>

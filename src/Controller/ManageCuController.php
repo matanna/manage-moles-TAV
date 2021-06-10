@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Cu;
-use App\Form\CuType;
-use App\Utils\TryMolesCu;
-use App\Form\TypeMeuleCuType;
+use App\Form\CuFormType;
+use App\Utils\SortWheelsCu;
 use App\Repository\CuRepository;
+use App\Form\WheelsCuTypeFormType;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\TypeMeuleCuRepository;
+use App\Repository\WheelsCuTypeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,11 +21,11 @@ class ManageCuController extends AbstractController
      * @Route("/manage/cus", name="manage_cus")
      */
     public function manageCu(EntityManagerInterface $manager, Request $request,
-        CuRepository $cuRepository, TryMolesCu $tryMolesCu
+        CuRepository $cuRepository
     ): Response {
         $newCu = new Cu();
 
-        $form = $this->createForm(CuType::class, $newCu);
+        $form = $this->createForm(CuFormType::class, $newCu);
 
         $form->handleRequest($request);
 
@@ -47,8 +47,8 @@ class ManageCuController extends AbstractController
     /**
      * @Route("/edit/cu/{nameCu}", name="edit_cu")
      */
-    public function editCu(CuRepository $cuRepository, TryMolesCu $tryMolesCu, 
-        TypeMeuleCuRepository $typeMeuleCuRepository, $nameCu
+    public function editCu(CuRepository $cuRepository, SortWheelsCu $sortWheelsCu, 
+        WheelsCuTypeRepository $wheelsCuTypeRepository, $nameCu
     ) : Response {
 
         $cu = $cuRepository->findCuByName($nameCu);
@@ -57,31 +57,31 @@ class ManageCuController extends AbstractController
             throw new NotFoundHttpException("Cette machine n'existe pas");
         }
 
-        $typesMeuleSorted = $tryMolesCu->tryMolesPerType($cu->getTypeMeuleCus());
+        $wheelsCuTypeSorted =$sortWheelsCu->sortWheelsCuByType($cu->getWheelsCuTypes());
 
         $request = $this->get('request_stack')->getCurrentRequest();
 
-        //This ajax request is used for add form typeMeuleCuType in the modal
+        //This ajax request is used for add form WheelsCuTypeFormType in the modal
         if ($request->isXmlHttpRequest()) {
 
             //We retrieve 'id' parameter send with the ajax request
             $id = $request->get('id');
-            $typeMeuleCu = $typeMeuleCuRepository->find($id);
+            $wheelsCuType = $wheelsCuTypeRepository->find($id);
 
-            if(!$typeMeuleCu) {
+            if(!$wheelsCuType) {
                 throw new NotFoundHttpException('Ce type de meule n\existe pas');
             }
             
             //We create the form and modify the action at another route
-            $form = $this->createForm(TypeMeuleCuType::class, $typeMeuleCu, [
-                'action' => $this->generateUrl('update_typeMeule', [
+            $form = $this->createForm(WheelsCuTypeFormType::class, $wheelsCuType, [
+                'action' => $this->generateUrl('update_wheelsType', [
                     'id' => $id,
                     'nameCu' => $nameCu
                 ])
             ]);
             
             //We render the view in a twig file and we save this in a variable
-            $formRender = $this->render('updateDatabase/editTypeMeule.html.twig', [
+            $formRender = $this->render('updateDatabase/editWheelsCuType.html.twig', [
                 'form' => $form->createView()
             ]);
 
@@ -91,14 +91,14 @@ class ManageCuController extends AbstractController
 
         return $this->render('updateDatabase/editCu.html.twig', [
             'cu' => $cu,
-            'typesMeule' => $typesMeuleSorted
+            'wheelsCuType' => $wheelsCuTypeSorted
         ]);
     }
 
      /**
      * @Route("/manage/{nameCu}/change-name", name="change_name_cu")
      */
-    public function renameRectiligne(CuRepository $cuRepository,
+    public function renameCu(CuRepository $cuRepository,
         EntityManagerInterface $manager, $nameCu
     ) : Response {
         $cu = $cuRepository->findOneBy(['name' => $nameCu]);
@@ -126,7 +126,7 @@ class ManageCuController extends AbstractController
      * @Route("delete/cu/{id}", name="delete_cu")
      */
     public function deleteCu(CuRepository $cuRepository, 
-        TypeMeuleCuRepository $typeMeuleCuRepository, $id
+        WheelsCuTypeRepository $wheelsCuTypeRepository, $id
     ) : Response {
 
         $cu = $cuRepository->find($id);
@@ -135,7 +135,7 @@ class ManageCuController extends AbstractController
             throw new NotFoundHttpException("Cette machine n'existe pas");
         }
 
-        $typeMeuleCus = $typeMeuleCuRepository->findBy(['cu' => $cu]);
+        $typeMeuleCus = $wheelsCuTypeRepository->findBy(['cu' => $cu]);
 
         if ($cu && $typeMeuleCus == NULL) {
             $manager = $this->getDoctrine()->getManager();

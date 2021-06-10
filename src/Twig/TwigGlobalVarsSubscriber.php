@@ -4,7 +4,7 @@ namespace App\Twig;
 
 use Twig\Environment;
 use App\Repository\CuRepository;
-use App\Repository\MachineRepository;
+use App\Repository\RectiMachineRepository;
 use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -20,7 +20,7 @@ class TwigGlobalVarsSubscriber implements EventSubscriberInterface
 
     private $twig;
 
-    public function __construct(CuRepository $cuRepository, MachineRepository $machineRepository,
+    public function __construct(CuRepository $cuRepository, RectiMachineRepository $machineRepository,
         Environment $twig
     ) {
         $this->cuRepository = $cuRepository;

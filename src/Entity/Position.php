@@ -23,7 +23,7 @@ class Position
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups("machine_positions")
+     * @Groups("rectiMachine_positions")
      */
     private $name;
 
@@ -40,36 +40,36 @@ class Position
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $usinage;
+    private $working;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $matiere;
+    private $matters;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $stockReel;
+    private $stockReal;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $nonLivre;
+    private $totalNotDelivered;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Machine::class, inversedBy="positions")
+     * @ORM\ManyToOne(targetEntity=RectiMachine::class, inversedBy="positions")
      */
-    private $machine;
+    private $rectiMachine;
 
     /**
-     * @ORM\OneToMany(targetEntity=MeulesRecti::class, mappedBy="position")
+     * @ORM\OneToMany(targetEntity=WheelsRectiMachine::class, mappedBy="position")
      */
-    private $meulesRectis;
+    private $wheelsRectiMachines;
 
     public function __construct()
     {
-        $this->meulesRectis = new ArrayCollection();
+        $this->wheelsRectiMachines = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -113,90 +113,89 @@ class Position
         return $this;
     }
 
-    public function getUsinage(): ?string
+    public function getWorking(): ?string
     {
-        return $this->usinage;
+        return $this->working;
     }
 
-    public function setUsinage(?string $usinage): self
+    public function setWorking(?string $working): self
     {
-        $this->usinage = $usinage;
+        $this->working = $working;
 
         return $this;
     }
 
-    public function getMatiere(): ?string
+    public function getMatters(): ?string
     {
-        return $this->matiere;
+        return $this->matters;
     }
 
-    public function setMatiere(?string $matiere): self
+    public function setMatters(?string $matters): self
     {
-        $this->matiere = $matiere;
+        $this->matters = $matters;
+        return $this;
+    }
+
+    public function getStockReal(): ?int
+    {
+        return $this->stockReal;
+    }
+
+    public function setStockReal(int $stockReal): self
+    {
+        $this->stockReal = $stockReal;
 
         return $this;
     }
 
-    public function getStockReel(): ?int
+    public function getTotalNotDelivered(): ?int
     {
-        return $this->stockReel;
+        return $this->totalNotDelivered;
     }
 
-    public function setStockReel(int $stockReel): self
+    public function setTotalNotDelivered(?int $totalNotDelivered): self
     {
-        $this->stockReel = $stockReel;
+        $this->totalNotDelivered = $totalNotDelivered;
 
         return $this;
     }
 
-    public function getNonLivre(): ?int
+    public function getRectiMachine(): ?RectiMachine
     {
-        return $this->nonLivre;
+        return $this->rectiMachine;
     }
 
-    public function setNonLivre(?int $nonLivre): self
+    public function setRectiMachine(?RectiMachine $rectiMachine): self
     {
-        $this->nonLivre = $nonLivre;
-
-        return $this;
-    }
-
-    public function getMachine(): ?Machine
-    {
-        return $this->machine;
-    }
-
-    public function setMachine(?Machine $machine): self
-    {
-        $this->machine = $machine;
+        $this->rectiMachine = $rectiMachine;
 
         return $this;
     }
 
     /**
-     * @return Collection|MeulesRecti[]
+     * @return Collection|WheelsRectiMachine[]
      */
-    public function getMeulesRectis(): Collection
+    public function getWheelsRectiMachines(): Collection
     {
-        return $this->meulesRectis;
+        return $this->wheelsRectiMachines;
     }
 
-    public function addMeulesRecti(MeulesRecti $meulesRecti): self
+    public function addWheelsRectiMachine(WheelsRectiMachine $wheelsRectiMachine): self
     {
-        if (!$this->meulesRectis->contains($meulesRecti)) {
-            $this->meulesRectis[] = $meulesRecti;
-            $meulesRecti->setPosition($this);
+        if (!$this->wheelsRectiMachines->contains($wheelsRectiMachine)) {
+            $this->wheelsRectiMachines[] = $wheelsRectiMachine;
+            $wheelsRectiMachine->setPosition($this);
         }
 
         return $this;
     }
 
-    public function removeMeulesRecti(MeulesRecti $meulesRecti): self
+    public function removeMeulesRecti(WheelsRectiMachine $wheelsRectiMachine): self
     {
-        if ($this->meulesRectis->removeElement($meulesRecti)) {
+        if ($this->wheelsRectiMachines->removeElement($wheelsRectiMachine)) {
             // set the owning side to null (unless already changed)
-            if ($meulesRecti->getPosition() === $this) {
-                $meulesRecti->setPosition(null);
+            if ($wheelsRectiMachine->getPosition() === $this) {
+                $wheelsRectiMachine->setPosition(null);
             }
         }
 

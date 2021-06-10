@@ -26,10 +26,10 @@ class CuRepository extends ServiceEntityRepository
     {
 
         $result =  $this->createQueryBuilder('cu')
-            ->select('cu', 'tcu', 'mcu', 'f')
-            ->leftJoin('cu.typeMeuleCus', 'tcu')
-            ->leftJoin('tcu.meulesCu', 'mcu')
-            ->leftJoin('mcu.fournisseur', 'f')
+            ->select('cu', 'wcut', 'wcu', 'f')
+            ->leftJoin('cu.wheelsCuTypes', 'wcut')
+            ->leftJoin('wcut.wheelsCus', 'wcu')
+            ->leftJoin('wcu.provider', 'f')
             ->andWhere('cu.name = :name')
             ->setParameter('name', $name)
             ->getQuery()
@@ -46,8 +46,8 @@ class CuRepository extends ServiceEntityRepository
     {
 
         $results =  $this->createQueryBuilder('cu')
-            ->select('cu', 'tcu')
-            ->leftJoin('cu.typeMeuleCus', 'tcu')
+            ->select('cu', 'wcut')
+            ->leftJoin('cu.wheelsCuTypes', 'wcut')
             ->getQuery()
             ->getResult()
         ;

@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Entity\MeuleCu;
+use App\Entity\WheelsCu;
 use Doctrine\ORM\Events;
 use App\Repository\CuRepository;
 use Doctrine\Common\EventSubscriber;
-use App\Repository\MeuleCuRepository;
+use App\Repository\WheelsCuRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\TypeMeuleCuRepository;
+use App\Repository\WheelsCuTypeRepository;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class DatabaseActivityCuSubscriber implements EventSubscriber
@@ -23,8 +23,8 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
 
     private $manager;
 
-    public function __construct(CuRepository $cuRepository, MeuleCuRepository $meuleCuRepository, 
-        TypeMeuleCuRepository $typeMeuleCuRepository, EntityManagerInterface $manager
+    public function __construct(CuRepository $cuRepository, WheelsCuRepository $meuleCuRepository, 
+        WheelsCuTypeRepository $typeMeuleCuRepository, EntityManagerInterface $manager
     ) {
         $this->cuRepository = $cuRepository;
         $this->meuleCuRepository = $meuleCuRepository;
@@ -61,7 +61,7 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
     {
         $entity = $args->getObject();
 
-        if (!$entity instanceof MeuleCu) {
+        if (!$entity instanceof WheelsCu) {
             return;
         }
 

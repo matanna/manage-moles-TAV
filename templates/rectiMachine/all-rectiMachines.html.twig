@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stock des rectilignes{% endblock %}
+
+{% block body %}
+<div class="row">
+    <h2 class="ml-4 mt-4"><span class="border-bottom mb-5">Stock Rectilignes</h2>
+</div>
+<div class="interligne"></div>
+{% for rectiMachine in rectiMachines %}
+<div class="d-flex justify-content-between">
+    <h3 class="mt-4 ml-3 mb-4"><span class="border-bottom mb-5"><span class="text-uppercase">{{ rectiMachine.name }}</span></h3>
+    <a href="{{ asset('rectiMachine/' ~ rectiMachine.name) }}" class="btn btn-success m-3">Voir le détail de la {{ rectiMachine.name }}</a>
+</div>
+<div class="row stock-bilat">
+    <div class="col-1">
+        <div class="row d-flex flex-column border-right text-center">
+            <div class="font-weight-bold pt-2 pb-2 head-table border-bottom ">Position</div>
+            <div class="font-weight-bold font-blue1 pt-2 pb-2">Type</div>
+            <div class="font-weight-bold font-blue1 pt-2 pb-2">Usinage</div>
+            <div class="font-weight-bold font-blue1 pt-2 pb-2">Matière</div>
+            <div class="font-weight-bold pt-2 pb-2 font-green1">Stock</div>
+            <div class="font-weight-bold pt-2 pb-2 font-blue1">Stock mini</div>
+            <div class="font-weight-bold pt-2 pb-2 font-blue1">Non livrées</div>
+        </div>
+    </div>
+
+    {% for position in rectiMachine.positions %}
+    <div class="col-1 hover-cel">
+        <div class="row d-flex flex-column border-right text-center">
+
+            {% if position.name != null %}
+                <div class="font-weight-bold pt-2 pb-2 head-table border-bottom">{{ position.name }}</div>
+            {% else %}
+                <div class="font-weight-bold pt-2 pb-2 head-table">NULL</div>
+            {% endif %}
+
+            {% if position.type != null %}
+                <div class="pt-2 pb-2">{{ position.type }}</div>
+            {% else %}
+                <div class="pt-2 pb-2">NULL</div>
+            {% endif %}
+
+            {% if position.working != null %}
+                <div class="pt-2 pb-2">{{ position.working }}</div>
+            {% else %}
+                <div class="pt-2 pb-2">NULL</div>
+            {% endif %}
+
+            {% if position.matters != null %}
+                <div class="pt-2 pb-2">{{ position.matters }}</div>
+            {% else %}
+                <div class="pt-2 pb-2">NULL</div>
+            {% endif %}
+
+            <div class="font-weight-bold pt-2 pb-2 font-green1">
+            {% if position.stockReal <= position.stockMini %}
+                <span class="badge badge-pill badge-danger">{{ position.stockReal }}</span>
+            {% else %}
+                <span class="badge badge-pill badge-primary">{{ position.stockReal }}</span>
+            {% endif %}
+            </div>
+
+            {% if position.stockMini != null %}
+                <div class="pt-2 pb-2">{{ position.stockMini }}</div>
+            {% else %}
+                <div class="pt-2 pb-2">0</div>
+            {% endif %}
+
+            <div class="pt-2 pb-2 font-blue1">
+            {% if position.totalNotDelivered != null %}
+                <span class="badge badge-pill badge-info">{{ position.totalNotDelivered }}</span>
+            {% else %}
+                <span class="badge badge-pill badge-secondary">0</span>
+            {% endif %}
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endfor %}
+{% endblock %}

@@ -24,13 +24,13 @@ class Cu
      */
     private $name;
     /**
-     * @ORM\OneToMany(targetEntity=TypeMeuleCu::class, mappedBy="cu")
+     * @ORM\OneToMany(targetEntity=WheelsCuType::class, mappedBy="cu")
      */
-    private $typeMeuleCus;
+    private $wheelsCuTypes;
     
     public function __construct()
     {
-        $this->typeMeuleCus = new ArrayCollection();
+        $this->wheelsCuTypes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,29 +51,29 @@ class Cu
     }
 
     /**
-     * @return Collection|TypeMeuleCu[]
+     * @return Collection|WheelsCuType[]
      */
-    public function getTypeMeuleCus(): Collection
+    public function getWheelsCuTypes(): Collection
     {
-        return $this->typeMeuleCus;
+        return $this->wheelsCuTypes;
     }
 
-    public function addTypeMeuleCu(TypeMeuleCu $typeMeuleCu): self
+    public function addWheelsCuType(WheelsCuType $wheelsCuType): self
     {
-        if (!$this->typeMeuleCus->contains($typeMeuleCu)) {
-            $this->typeMeuleCus[] = $typeMeuleCu;
-            $typeMeuleCu->setCu($this);
+        if (!$this->wheelsCuTypes->contains($wheelsCuType)) {
+            $this->wheelsCuTypes[] = $wheelsCuType;
+            $wheelsCuType->setCu($this);
         }
 
         return $this;
     }
 
-    public function removeTypeMeuleCu(TypeMeuleCu $typeMeuleCu): self
+    public function removeWheelsCuType(WheelsCuType $wheelsCuType): self
     {
-        if ($this->typeMeuleCus->removeElement($typeMeuleCu)) {
+        if ($this->wheelsCuTypes->removeElement($wheelsCuType)) {
             // set the owning side to null (unless already changed)
-            if ($typeMeuleCu->getCu() === $this) {
-                $typeMeuleCu->setCu(null);
+            if ($wheelsCuType->getCu() === $this) {
+                $wheelsCuType->setCu(null);
             }
         }
 
