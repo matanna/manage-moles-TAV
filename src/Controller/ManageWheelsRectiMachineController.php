@@ -32,6 +32,8 @@ class ManageWheelsRectiMachineController extends AbstractController
 
             $positions = $positionRepository->findPositionByRectiMachine($rectiMachineName);
 
+            
+
             $formNewWheelsRectiMachine = $this->createForm(WheelsRectiMachineFormType::class, $newWheelsRectiMachine, [
                 'positions' => $positions
             ]);
