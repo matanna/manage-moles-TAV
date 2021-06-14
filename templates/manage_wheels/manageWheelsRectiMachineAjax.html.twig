@@ -1,22 +1,5 @@
 <!-- This form is generate when a rectiMachine is choose for add a new wheels rectiMachine -->
-<div class="row" id="add-new-wheels">
-    <div class="col-12 mb-4 ml-4">
-        <h5 class="mb-3">Ajouter une meule :</h5>
-        {{ form_start(formNewWheelsRectiMachine) }}
-        
-        <div class="row" id="js-new-mole">
-          <div class="col-1" id="machine">{{ form_row(formNewWheelsRectiMachine.rectiMachine, {'attr': {'class': 'new-machine'}, 'placeholder': 'Rectiligne' }) }}</div>
-          <div class="col-1" id="position">{{ form_row(formNewWheelsRectiMachine.position, {'attr': {'class': 'position'}, 'placeholder': 'Position'}) }}</div>
-          <div class="col-1">{{ form_row(formNewWheelsRectiMachine.provider, {'placeholder': 'Fournisseur'}) }}</div>
-          <div class="col-1">{{ form_row(formNewWheelsRectiMachine.ref) }}</div>
-          <div class="col-2">{{ form_row(formNewWheelsRectiMachine.TAVname) }}</div>
-          <div class="col-1">{{ form_row(formNewWheelsRectiMachine.grain) }}</div>
-          <div class="col-1">{{ form_row(formNewWheelsRectiMachine.diameter) }}</div>
-          <div class="col-1">{{ form_row(formNewWheelsRectiMachine.height) }}</div>
-          <div class="col-1">{{ form_row(formNewWheelsRectiMachine.stock) }}</div>
-        </div>
-           
-        <button type="submit" class="btn btn-primary">Ajouter la meule</button>
-        {{ form_end(formNewWheelsRectiMachine) }} 
-    </div>
-</div>
+{{ form_start(formNewWheelsRectiMachine) }}
+  {{ form_row(formNewWheelsRectiMachine.position, {'attr': {'class': 'position'}, 'placeholder': 'Position'}) }}
+{{ form_end(formNewWheelsRectiMachine) }} 
+ 
