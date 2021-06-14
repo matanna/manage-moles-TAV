@@ -38,7 +38,7 @@ class ManageCuController extends AbstractController
 
         $cus = $cuRepository->findAllCus();
 
-        return $this->render('updateDatabase/manageCus.html.twig', [
+        return $this->render('manage-machine/manageCus.html.twig', [
             'form' => $form->createView(),
             'allCus' => $cus
         ]);
@@ -89,7 +89,7 @@ class ManageCuController extends AbstractController
             return $this->json($formRender, 200);
         }
 
-        return $this->render('updateDatabase/editCu.html.twig', [
+        return $this->render('manage-machine/editCu.html.twig', [
             'cu' => $cu,
             'wheelsCuType' => $wheelsCuTypeSorted
         ]);

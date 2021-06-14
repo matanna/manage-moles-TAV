@@ -22,30 +22,36 @@ class ManageWheelsRectiMachineController extends AbstractController
     ): Response {
 
         $request = $this->get('request_stack')->getCurrentRequest();
+        $newWheelsRectiMachine = new WheelsRectiMachine();
+        $positions = null;
 
         //Ajax request for adapt positions in terms of machine
         if ($request->isXmlHttpRequest()) {
 
             $rectiMachineName = $request->get('rectiMachineName');
 
-            $rectiMachine = $rectiMachineRepository->findOneBy(['name' => $rectiMachineName]);
+            $positions = $positionRepository->findPositionByRectiMachine($rectiMachineName);
 
-            return $this->json($rectiMachine->getPositions()->toArray(), 200, [], [
-                'groups' => 'rectiMachine_positions'
+            $formNewWheelsRectiMachine = $this->createForm(WheelsRectiMachineFormType::class, $newWheelsRectiMachine, [
+                'positions' => $positions
             ]);
+
+            //We create view for the form and render it in a twig template. this template is send with ajax for updated positions
+            $view = $this->render('manage_wheels/manageWheelsRectiMachineAjax.html.twig', [
+                'formNewWheelsRectiMachine' => $formNewWheelsRectiMachine->createView() 
+            ]);
+        
+            return $this->json($view, 200);
         }
 
         //Form for add a new mole
-        $newWheelsRectiMachine = new WheelsRectiMachine();
-        $formNewWheelsRectiMachine = $this->createForm(WheelsRectiMachineFormType::class, $newWheelsRectiMachine);
+        $formNewWheelsRectiMachine = $this->createForm(WheelsRectiMachineFormType::class, $newWheelsRectiMachine, [
+            'positions' => $positions
+        ]);
+        
         $formNewWheelsRectiMachine->handleRequest($request);
 
         if ($formNewWheelsRectiMachine->isSubmitted() && $formNewWheelsRectiMachine->isValid()) {
-
-            $rectiMachine = $rectiMachineRepository->findOneBy(['name' => $request->request->get('wheels_rectiMachine')['rectiMachine']]);
-            $position = $positionRepository->findOneBy(['name' => $request->request->get('wheels_rectiMachine')['position'], 'rectiMachine' => $rectiMachine]);
-            
-            $newWheelsRectiMachine->setPosition($position);
 
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($newWheelsRectiMachine);
@@ -71,10 +77,10 @@ class ManageWheelsRectiMachineController extends AbstractController
 
             if ($editWheelsFormTable[$editWheels->getId()]->isSubmitted() && $editWheelsFormTable[$editWheels->getId()]->isValid()) {
                 
-                $machine = $rectiMachineRepository->findOneBy(['name' => $request->request->get('meule_recti_' . $editWheels->getId())['machine']]);
+                /*$machine = $rectiMachineRepository->findOneBy(['name' => $request->request->get('meule_recti_' . $editWheels->getId())['machine']]);
                 $position = $positionRepository->findOneBy(['name' => $request->request->get('meule_recti_' . $editWheels->getId())['position'], 'machine' => $machine]);
                 
-                $editWheels->setPosition($position);
+                $editWheels->setPosition($position);*/
 
                 $manager = $this->getDoctrine()->getManager();
                 $manager->persist($editWheels);

@@ -3,7 +3,7 @@
 {% block title %}Gérer les meules rectilignes{% endblock %}
 
 {% block javascripts %}
-    <script src="/js/ajax-list-position.js"></script>
+    <script src="/js/ajax-list-position-rectiMachine.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -14,12 +14,14 @@
 <div class="interligne"></div>
 
 <!-- The form for add a new mole in database -->
-<div class="row">
+<div class="row" id="add-new-wheels">
     <div class="col-12 mb-4 ml-4">
         <h5 class="mb-3">Ajouter une meule :</h5>
         {{ form_start(formNewWheelsRectiMachine) }}
         
         <div class="row" id="js-new-mole">
+          <div class="col-1" id="machine">{{ form_row(formNewWheelsRectiMachine.rectiMachine, {'attr': {'class': 'machine'}, 'placeholder': 'Rectiligne' }) }}</div>
+          <div class="col-1" id="position">{{ form_row(formNewWheelsRectiMachine.position, {'attr': {'class': 'position'}, 'placeholder': 'Position'}) }}</div>
           <div class="col-1">{{ form_row(formNewWheelsRectiMachine.provider, {'placeholder': 'Fournisseur'}) }}</div>
           <div class="col-1">{{ form_row(formNewWheelsRectiMachine.ref) }}</div>
           <div class="col-2">{{ form_row(formNewWheelsRectiMachine.TAVname) }}</div>
@@ -27,8 +29,6 @@
           <div class="col-1">{{ form_row(formNewWheelsRectiMachine.diameter) }}</div>
           <div class="col-1">{{ form_row(formNewWheelsRectiMachine.height) }}</div>
           <div class="col-1">{{ form_row(formNewWheelsRectiMachine.stock) }}</div>
-          <div class="col-1" id="machine">{{ form_row(formNewWheelsRectiMachine.rectiMachine, {'attr': {'class': 'machine'}, 'placeholder': 'Rectiligne' }) }}</div>
-          <div class="col-1" id="position">{{ form_row(formNewWheelsRectiMachine.position, {'attr': {'class': 'position'}, 'placeholder': 'Position'}) }}</div>
         </div>
            
         <button type="submit" class="btn btn-primary">Ajouter la meule</button>
@@ -115,7 +115,7 @@
                             {{ form_row(formEditWheelsTable[wheels.id].diameter, {'id': '_' ~ nameForm ~ '_diameter_' ~ wheels.id}) }}
                             {{ form_row(formEditWheelsTable[wheels.id].height, {'id': '_' ~ nameForm ~ '_height_' ~ wheels.id}) }}
                             {{ form_row(formEditWheelsTable[wheels.id].stock, {'id': '_' ~ nameForm ~ '_stock_' ~ wheels.id}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].rectiMachine, {'id': '_' ~ nameForm ~ '_rectiMachine_' ~ wheels.id, 'attr': {'class': 'rectiMachine'}}) }}
+                            {{ form_row(formEditWheelsTable[wheels.id].rectiMachine, {'id': '_' ~ nameForm ~ '_rectiMachine_' ~ wheels.id, 'attr': {'class': 'edit-machine'}}) }}
                             {{ form_row(formEditWheelsTable[wheels.id].position, {'id': '_' ~ nameForm ~ '_position_' ~ wheels.id, 'attr': {'class': 'position'}}) }}
                         </div>
                         <div class="modal-footer">
