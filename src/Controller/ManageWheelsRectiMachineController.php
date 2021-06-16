@@ -24,7 +24,7 @@ class ManageWheelsRectiMachineController extends AbstractController
         $request = $this->get('request_stack')->getCurrentRequest();
         $wheelsRectiMachine = new WheelsRectiMachine();
         $positions = null;
-        dump($request);
+        
         //Ajax request for adapt positions in terms of machine
         if ($request->isXmlHttpRequest()) {
 
@@ -50,6 +50,7 @@ class ManageWheelsRectiMachineController extends AbstractController
         ]);
         
         $formNewWheelsRectiMachine->handleRequest($request);
+        dump($request);
 
         if ($formNewWheelsRectiMachine->isSubmitted() && $formNewWheelsRectiMachine->isValid()) {
             
@@ -69,6 +70,8 @@ class ManageWheelsRectiMachineController extends AbstractController
 
         foreach ($editWheelsRectiMachine as $editWheels) {
 
+            $positions = $editWheels->getPosition()->getRectiMachine()->getPositions();
+
             //For each form, we give a unique name with id of wheelsRectiMachine
             $editWheelsFormTable[$editWheels->getId()] = $this->get('form.factory')->createNamed(
                 'wheels_rectiMachine_' . $editWheels->getId(),
@@ -82,12 +85,12 @@ class ManageWheelsRectiMachineController extends AbstractController
             $editWheelsFormTableView[$editWheels->getId()] = $editWheelsFormTable[$editWheels->getId()]->createView();
 
             $editWheelsFormTable[$editWheels->getId()]->handleRequest($request);
-
+            
             if ($editWheelsFormTable[$editWheels->getId()]->isSubmitted() && $editWheelsFormTable[$editWheels->getId()]->isValid()) {
-                
-                //$manager = $this->getDoctrine()->getManager();
-                //$manager->persist($editWheels);
-                //$manager->flush();
+               
+                $manager = $this->getDoctrine()->getManager();
+                $manager->persist($editWheels);
+                $manager->flush();
                 
                 return $this->redirectToRoute('manage_wheels-rectiMachine');
             }
