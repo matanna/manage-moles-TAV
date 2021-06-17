@@ -79,7 +79,11 @@
 
 <!--All this variables are send by ajax-->
 <div class="popup">
-    <h2 class="pl-2 pt-2">Détail du stock pour : </h2>
+    <div class="d-flex justify-content between m-2">
+        <h2>Détail du stock pour : </h2>
+        <button type="button" class="btn btn-success">Fermer</button>
+    </div>
+    
     <div class="interligne"></div>
     <div class="row no-margin" id="">  
         <div class="col-12 ">
@@ -95,5 +99,6 @@
             </div>
         </div>
     </div>
+    
 </div>
 {% endblock %}
