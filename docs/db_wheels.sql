@@ -101,28 +101,28 @@ INSERT INTO `wheels_recti_machine` (`id`, `ref`, `tavname`, `grain`, `diameter`,
 
 -- --------------------------------------------------------
 
-INSERT INTO `wheels_cu_type` (`id`, `tavname`, `working`, `matters`, `type`, `stock_mini`, `stock_real`, `cu_id`, `total_not_delivered`) VALUES
-(1, 'désignation', 'Diabolo', 'Diamanté', 'Tout', 2, NULL, 7, NULL),
-(3, 'désignation2', 'Fraise', 'Diamantée', '8mm', 5, NULL, 7, NULL),
-(4, 'désignation3', 'Diabolo', 'Diamanté', '4mm', 6, NULL, 7, NULL),
-(5, 'désignation4', 'Diabolo', 'Diamanté', '5mm', 7, NULL, 7, NULL),
-(6, 'désignation0', 'Foret', 'Diamanté', '8mm', 9, 11, 7, NULL),
-(7, 'désignation1', 'Diabolo', 'Diamantée', '4mm', 9, NULL, 7, NULL),
-(8, 'Meule Trapézoidale Grain Fin Diamètre 100', 'Trapèze Fine D100', 'Diamanté', '5mm', 1, NULL, 5, NULL),
-(9, 'désignation3', 'Trapèze D100', 'Polissante', '6mm', 5, NULL, 5, NULL),
-(10, 'désignation4', 'Foret', 'Diamantée', '4mm', 8, NULL, 7, NULL),
-(11, 'désignation5', 'Fraise', 'Diamantée', '6mm', 10, NULL, 7, NULL),
-(12, 'désignation6', 'Ebauche', 'Polissante', '8mm', 2, NULL, 6, NULL),
-(17, 'désignation0', 'Trapèzoidale', 'Polissante', '6mm', 4, NULL, 5, NULL),
-(21, 'désignation4', 'Trapèzoidale', 'Polissante', '4mm', 2, NULL, 6, NULL),
-(22, 'désignation5', 'Ebauche', 'Polissante', '6mm', 3, NULL, 7, NULL),
-(24, 'désignation1', 'Trapèzoidale', 'Résine', '8mm', 9, NULL, 6, NULL),
-(25, 'désignation2', 'Ebauche', 'Diamanté', '8mm', 10, NULL, 7, NULL),
-(28, 'désignation0', 'Trapèzoidale', 'Résine', '6mm', 9, NULL, 7, NULL),
-(29, 'désignation1', 'Diabolo', 'Résine', '5mm', 3, NULL, 5, NULL),
-(31, 'désignation3', 'Diabolo', 'Polissante', '4mm', 3, NULL, 7, NULL),
-(32, 'désignation4', 'Diabolo', 'Résine', '8mm', 9, NULL, 6, NULL),
-(33, 'désignation5', 'Fraise', 'Diamanté', '8mm', 6, NULL, 5, NULL);
+INSERT INTO `wheels_cu_type` (`id`, `working`, `matters`, `type`, `stock_mini`, `stock_real`, `cu_id`, `total_not_delivered`) VALUES
+(1,  'Joint encoche',     'Diamanté', 'Diabolo 5mm D10', 2, NULL, 7, NULL),
+(3,  'Fraise',            'Diamantée', '8mm', 5, NULL, 7, NULL),
+(4,  'Diabolo',           'Diamanté', '4mm', 6, NULL, 7, NULL),
+(5,  'Diabolo',           'Diamanté', '5mm', 7, NULL, 7, NULL),
+(6,  'Foret',             'Diamanté', '8mm', 9, 11, 7, NULL),
+(7,  'Diabolo',           'Diamantée', '4mm', 9, NULL, 7, NULL),
+(8,  'Trapèze Fine D100', 'Diamanté', '5mm', 1, NULL, 5, NULL),
+(9,  'Trapèze Poli D150',  'Polissante', '6mm', 5, NULL, 5, NULL),
+(10, 'Foret', 'Diamantée', '4mm', 8, NULL, 7, NULL),
+(11, 'Fraise', 'Diamantée', '6mm', 10, NULL, 7, NULL),
+(12, 'Ebauche', 'Polissante', '8mm', 2, NULL, 6, NULL),
+(17, 'Trapèzoidale', 'Polissante', '6mm', 4, NULL, 5, NULL),
+(21, 'Trapèzoidale', 'Polissante', '4mm', 2, NULL, 6, NULL),
+(22, 'Ebauche', 'Polissante', '6mm', 3, NULL, 7, NULL),
+(24, 'Trapèzoidale', 'Résine', '8mm', 9, NULL, 6, NULL),
+(25, 'Ebauche', 'Diamanté', '8mm', 10, NULL, 7, NULL),
+(28, 'Trapèzoidale', 'Résine', '6mm', 9, NULL, 7, NULL),
+(29, 'Diabolo', 'Résine', '5mm', 3, NULL, 5, NULL),
+(31, 'Diabolo', 'Polissante', '4mm', 3, NULL, 7, NULL),
+(32, 'Diabolo', 'Résine', '8mm', 9, NULL, 6, NULL),
+(33, 'Fraise', 'Diamanté', '8mm', 6, NULL, 5, NULL);
 
 
 INSERT INTO `wheels_cu` (`id`, `provider_id`, `ref`, `diameter`, `height`, `grain`, `wheels_cu_type_id`, `stock`) VALUES

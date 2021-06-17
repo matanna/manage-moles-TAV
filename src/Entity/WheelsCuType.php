@@ -6,6 +6,7 @@ use App\Repository\WheelsCuTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups as Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -64,6 +65,8 @@ class WheelsCuType
 
     /**
      * @ORM\ManyToOne(targetEntity=CuCategories::class, inversedBy="wheelsCuTypes")
+     * 
+     * @Assert\NotNull
      */
     private $cuCategory;
 

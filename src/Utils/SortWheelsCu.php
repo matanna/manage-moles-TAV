@@ -15,19 +15,10 @@ class SortWheelsCu
     {
         foreach ($wheelsCu as $wheels) {
 
-            if (!($wheels->getCuCategory())) {
-                $category = 'SANS CATEGORIE';
+            $category = $wheels->getCuCategory()->getName();
 
-            } else {
-                $category = $wheels->getCuCategory()->getName();
-            }
-
-
-            $type = $wheels->getType();
-
-            $tableResults[$category][$type][] = $wheels;
+            $tableResults[$category][] = $wheels;
         }
-        
         return $tableResults;
     }
 
