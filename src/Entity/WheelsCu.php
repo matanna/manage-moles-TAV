@@ -23,6 +23,11 @@ class WheelsCu
     private $ref;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tavName;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $diameter;
@@ -65,6 +70,18 @@ class WheelsCu
     public function setRef(?string $ref): self
     {
         $this->ref = $ref;
+
+        return $this;
+    }
+
+    public function getTavName(): ?string
+    {
+        return $this->tavName;
+    }
+
+    public function setTavName(?string $tavName): self
+    {
+        $this->tavName = $tavName;
 
         return $this;
     }

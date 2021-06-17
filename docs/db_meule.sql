@@ -101,7 +101,7 @@ INSERT INTO `wheels_recti_machine` (`id`, `ref`, `tavname`, `grain`, `diameter`,
 
 -- --------------------------------------------------------
 
-INSERT INTO `wheels_cu_type` (`id`, `tavname`, `wheels_type`, `matters`, `typical`, `stock_mini`, `stock_real`, `cu_id`, `total_not_delivered`) VALUES
+INSERT INTO `wheels_cu_type` (`id`, `tavname`, `working`, `matters`, `type`, `stock_mini`, `stock_real`, `cu_id`, `total_not_delivered`) VALUES
 (1, 'désignation', 'Diabolo', 'Diamanté', 'Tout', 2, NULL, 7, NULL),
 (3, 'désignation2', 'Fraise', 'Diamantée', '8mm', 5, NULL, 7, NULL),
 (4, 'désignation3', 'Diabolo', 'Diamanté', '4mm', 6, NULL, 7, NULL),

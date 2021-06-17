@@ -22,15 +22,10 @@ class WheelsCuType
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $TAVname;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups("cu_type_meule")
+     * @Groups("cu_type_wheels")
      */
-    private $wheelsType;
+    private $working;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -40,7 +35,7 @@ class WheelsCuType
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $typical;
+    private $type;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -67,6 +62,11 @@ class WheelsCuType
      */
     private $totalNotDelivered;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=CuCategories::class, inversedBy="wheelsCuTypes")
+     */
+    private $cuCategory;
+
     public function __construct()
     {
         $this->wheelsCu = new ArrayCollection();
@@ -83,26 +83,14 @@ class WheelsCuType
         return $this;
     }
 
-    public function getTAVname(): ?string
+    public function getWorking(): ?string
     {
-        return $this->TAVname;
+        return $this->working;
     }
 
-    public function setTAVname(?string $TAVname): self
+    public function setWorkinge(?string $working): self
     {
-        $this->TAVname = $TAVname;
-
-        return $this;
-    }
-
-    public function getWheelsType(): ?string
-    {
-        return $this->wheelsType;
-    }
-
-    public function setWheelsType(?string $wheelsType): self
-    {
-        $this->wheelsType = $wheelsType;
+        $this->working = $working;
 
         return $this;
     }
@@ -119,14 +107,14 @@ class WheelsCuType
         return $this;
     }
 
-    public function getTypical(): ?string
+    public function getType(): ?string
     {
-        return $this->typical;
+        return $this->type;
     }
 
-    public function setTypical(?string $typical): self
+    public function setType(?string $type): self
     {
-        $this->typical = $typical;
+        $this->type = $type;
 
         return $this;
     }
@@ -163,6 +151,18 @@ class WheelsCuType
     public function setCu(?Cu $cu): self
     {
         $this->cu = $cu;
+
+        return $this;
+    }
+
+    public function getCuCategory(): ?CuCategories
+    {
+        return $this->cuCategory;
+    }
+
+    public function setCuCategory(?CuCategories $cuCategory): self
+    {
+        $this->cuCategory = $cuCategory;
 
         return $this;
     }

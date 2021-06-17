@@ -8,16 +8,24 @@ namespace App\Utils;
 class SortWheelsCu
 {
     /**
-     * Wheels are sort by there type and typical name (thikness of glass or diameter or width according to type of each wheels)
-     * We create an array taking for index the type of wheelsand typical
+     * Wheels are sort by there category and typel name
+     * We create an array taking for index the category of wheels and type
      */
-    public function sortWheelsCuByType($wheelsTypes) 
+    public function sortWheelsCuByType($wheelsCu) 
     {
-        foreach ($wheelsTypes as $wheels) {
-            $type = $wheels->getWheelsType();
-            $typical = $wheels->getTypical();
+        foreach ($wheelsCu as $wheels) {
 
-            $tableResults[$type][$typical][] = $wheels;
+            if (!($wheels->getCuCategory())) {
+                $category = 'SANS CATEGORIE';
+
+            } else {
+                $category = $wheels->getCuCategory()->getName();
+            }
+
+
+            $type = $wheels->getType();
+
+            $tableResults[$category][$type][] = $wheels;
         }
         
         return $tableResults;
