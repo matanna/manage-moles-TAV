@@ -6,13 +6,13 @@ $(document).ready(function(){
         
         //We retrieve id of the choice list machine
         let idCuList = $(this).attr('id');
-        console.log(idCuList);
+        
         //We retrieve value of select machine in the edit mole form
         let cuName = $('#' + idCuList + ' option:selected').text();
-        console.log(cuName);
+        
         //We replace the word 'machine' per the word 'position' in the id of machine for find the id of position
         let idTypeMeuleCuList = idCuList.replace('cu', 'typeMeuleCu');
-        console.log(idTypeMeuleCuList);
+        
         $.ajax({
             url: "/manage/meule-cu",
             type: "POST",
@@ -21,7 +21,7 @@ $(document).ready(function(){
             async: true,
 
             success: function(data, status) {
-                console.log(data);
+                
                 //data is an array of typeMeuleCu received by the controller
                 let typeMeuleCuOption = '';
                 

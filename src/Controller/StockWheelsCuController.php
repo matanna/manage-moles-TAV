@@ -6,6 +6,7 @@ use Exception;
 use App\Utils\SortWheelsCu;
 use App\Repository\CuRepository;
 use App\Repository\WheelsCuRepository;
+use App\Repository\WheelsCuTypeRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,8 +17,11 @@ class StockWheelsCuController extends AbstractController
     /**
      * @Route("/cu/{name}", name="cu")
      */
-    public function stockCu(CuRepository $cuRepository, SortWheelsCu $sortWheelsCu, $name): Response
-    {
+    public function stockCu(CuRepository $cuRepository, SortWheelsCu $sortWheelsCu, 
+        WheelsCuTypeRepository $wheelsCuTypeRepository, $name
+    ): Response {
+        $request = $this->get('request_stack')->getCurrentRequest();
+
         $cu = $cuRepository->findCuByName($name);
 
         $wheels = $cu->getWheelsCuTypes();
@@ -27,6 +31,11 @@ class StockWheelsCuController extends AbstractController
         }
 
         $wheelsStored = $sortWheelsCu->sortWheelsCuByType($wheels);
+
+        if ($request->isXmlHttpRequest()) {
+            $wheelsCuType = $wheelsCuTypeRepository->findWheelsCuType($request->request->get('idWheelsCuType'));
+            dump($wheelsCuType);
+        }
         
         return $this->render('cu/cu.html.twig', [
             'cu' => $cu,

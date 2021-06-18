@@ -3,7 +3,7 @@
 {% block title %}Stock {{ cu.name }}{% endblock %}
 
 {% block javascripts %}
-<script src="/js/display-wheels-cu.js"></script>  
+<script src="/js/popup-display-wheels-cu.js"></script>  
 {% endblock %}
 
 {% block body %}
@@ -77,28 +77,7 @@
 
 {% endfor %}
 
-<!--All this variables are send by ajax-->
-<div class="popup">
-    <div class="d-flex justify-content between m-2">
-        <h2>Détail du stock pour : </h2>
-        <button type="button" class="btn btn-success">Fermer</button>
-    </div>
-    
-    <div class="interligne"></div>
-    <div class="row no-margin" id="">  
-        <div class="col-12 ">
-            <div class="row border-top border-right head-table text-center pt-2 pb-2">
-                <div class="col-1">Fournisseur</div>
-                <div class="col-2">Réference</div>
-                <div class="col-2">Désignation TAV</div>
-                <div class="col-1">Grain</div>
-                <div class="col-1">Diamètre</div>
-                <div class="col-2">Hauteur / Largeur</div>
-                <div class="col-1">Stock</div>
-                <div class="col-2">Actions</div>
-            </div>
-        </div>
-    </div>
-    
-</div>
+<!--We include the popup for display wheelsCu for each wheelsCuType-->
+{% include("cu/cu-detail-wheels.html.twig") %}
+
 {% endblock %}

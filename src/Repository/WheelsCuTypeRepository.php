@@ -19,22 +19,20 @@ class WheelsCuTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, WheelsCuType::class);
     }
 
-    // /**
-    //  * @return WheelsCuType[] Returns an array of WheelsCuType objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return WheelsCuType[] Returns an array of WheelsCuType objects
+     */
+    public function findWheelsCuType($id)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('wcut')
+            ->select('wcut', 'wcu')
+            ->leftJoin('wcut.wheelsCus', 'wcu')
+            ->andWhere('wcut.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?WheelsCuType
