@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\WheelsCuRepository;
+use Symfony\Component\Serializer\Annotation\Groups as Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,36 +15,50 @@ class WheelsCu
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups({"display_wheels"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups({"display_wheels"})
      */
     private $ref;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups({"display_wheels"})
      */
     private $tavName;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Groups({"display_wheels"})
      */
     private $diameter;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Groups({"display_wheels"})
      */
     private $height;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups({"display_wheels"})
      */
     private $grain;
 
     /**
      * @ORM\ManyToOne(targetEntity=Provider::class, inversedBy="wheelsCus")
+     * 
+     * @Groups({"display_wheels"})
      */
     private $provider;
 
@@ -54,6 +69,8 @@ class WheelsCu
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Groups({"display_wheels"})
      */
     private $stock;
 

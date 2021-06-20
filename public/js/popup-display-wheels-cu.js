@@ -24,6 +24,23 @@ $(document).ready(function() {
             async: true,
 
             success: function(data, status) {
+                console.log(data);
+                for (let wheels of data.wheelsCus) {
+                    $('#display-wheels-cu').append(
+                        '<div class="col-12 ">\
+                            <div class="row border-top border-right head-table text-center pt-2 pb-2">\
+                                <div class="col-1">' + wheels['provider'] + '</div>\
+                                <div class="col-2">Réference</div>\
+                                <div class="col-2">Désignation TAV</div>\
+                                <div class="col-1">Grain</div>\
+                                <div class="col-1">Diamètre</div>\
+                                <div class="col-2">Hauteur / Largeur</div>\
+                                <div class="col-1">Stock</div>\
+                                <div class="col-2">Actions</div>\
+                            </div>\
+                        </div>'
+                    );
+                }
                 
             }
         })

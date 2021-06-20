@@ -24,14 +24,17 @@ class WheelsCuTypeRepository extends ServiceEntityRepository
      */
     public function findWheelsCuType($id)
     {
-        return $this->createQueryBuilder('wcut')
-            ->select('wcut', 'wcu')
+        $result = $this->createQueryBuilder('wcut')
+            ->select('wcut', 'wcu', 'p')
             ->leftJoin('wcut.wheelsCus', 'wcu')
+            ->leftJoin('wcu.provider', 'p')
             ->andWhere('wcut.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
         ;
+
+        return $result[0];
     }
 
     /*

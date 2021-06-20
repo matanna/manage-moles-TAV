@@ -34,7 +34,10 @@ class StockWheelsCuController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
             $wheelsCuType = $wheelsCuTypeRepository->findWheelsCuType($request->request->get('idWheelsCuType'));
-            dump($wheelsCuType);
+            
+            return $this->json($wheelsCuType, 200, [], [
+                'groups' => 'display_wheels'
+            ]);
         }
         
         return $this->render('cu/cu.html.twig', [
