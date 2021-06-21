@@ -17,18 +17,18 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
 
     private $cuRepository;
 
-    private $meuleCuRepository;
+    private $wheelsCuRepository;
 
-    private $typeMeuleCuRepository;
+    private $wheelsCuTypeRepository;
 
     private $manager;
 
-    public function __construct(CuRepository $cuRepository, WheelsCuRepository $meuleCuRepository, 
-        WheelsCuTypeRepository $typeMeuleCuRepository, EntityManagerInterface $manager
+    public function __construct(CuRepository $cuRepository, WheelsCuRepository $wheelsCuRepository, 
+        WheelsCuTypeRepository $wheelsCuTypeRepository, EntityManagerInterface $manager
     ) {
         $this->cuRepository = $cuRepository;
-        $this->meuleCuRepository = $meuleCuRepository;
-        $this->typeMeuleCuRepository = $typeMeuleCuRepository;
+        $this->wheelsCuRepository = $wheelsCuRepository;
+        $this->wheelsCuTypeRepositoryy = $wheelsCuTypeRepository;
         $this->manager = $manager;
     }
 
@@ -65,8 +65,8 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
             return;
         }
 
-        $cuName = $entity->getTypeMeuleCu()->getCu()->getName();
-        $typeMeule = $entity->getTypeMeuleCu()->getTypeMeule();
+        $cuName = $entity->getWheelsCuType()->getCu()->getName();
+        $typeMeule = $entity->getWheelsCuType()->getType();
         $typical = $entity->getTypeMeuleCu()->getTypical();
 
         $meules = $this->meuleCuRepository->findMolesCuByTypical($cuName, $typeMeule, $typical);

@@ -9,6 +9,13 @@ $(document).ready(function() {
 
         $(".popup").show();
 
+        $('.wheels-cu').remove();
+
+        //We retrieve cu name by current path
+        let urlExplode = ($(location).attr("href")).split('/');
+        //we use slice for remove "#" present in the end of cuName
+        let cuName = (urlExplode[urlExplode.length - 1]).slice(0, -1);
+
         //We retrieve id of button we explode it for retrieve the num of id of wheelsCuType
         let idWheelsCuTypeExplode = ($(this).attr('id')).split('-');
 
@@ -24,21 +31,50 @@ $(document).ready(function() {
             async: true,
 
             success: function(data, status) {
-                console.log(data);
+                console.log(idWheelsCuTypeExplode);
                 for (let wheels of data.wheelsCus) {
+                    
                     $('#display-wheels-cu').append(
-                        '<div class="col-12 ">\
-                            <div class="row border-top border-right head-table text-center pt-2 pb-2">\
-                                <div class="col-1">' + wheels['provider'] + '</div>\
-                                <div class="col-2">Réference</div>\
-                                <div class="col-2">Désignation TAV</div>\
-                                <div class="col-1">Grain</div>\
-                                <div class="col-1">Diamètre</div>\
-                                <div class="col-2">Hauteur / Largeur</div>\
-                                <div class="col-1">Stock</div>\
-                                <div class="col-2">Actions</div>\
+                        '<div class="col-12 wheels-cu">\
+                            <div class="row border-bottom text-center pt-2 pb-2">\
+                                <div class="col-1">' + wheels['provider']['name'] + '</div>\
+                                <div class="col-2">' + wheels['ref'] + '</div>\
+                                <div class="col-3">' + wheels['tavName'] + '</div>\
+                                <div class="col-1">' + wheels['grain'] + '</div>\
+                                <div class="col-1">' + wheels['diameter'] + '</div>\
+                                <div class="col-2">' + wheels['height'] + '</div>\
+                                <div class="col-1">' + wheels['stock'] + '</div>\
+                                <div class="col-">\
+                                    <a href="#" data-toggle="modal" data-target="#change-quantity' + wheels['id'] + '">\
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-square icon" viewBox="0 0 16 16">\
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>\
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>\
+                                        </svg>\
+                                    </a>\
+                                </div>\
                             </div>\
-                        </div>'
+                        </div>\
+                        <div class="modal" id="change-quantity' + wheels['id'] + '" tabindex="-1" aria-hidden="true" role="dialog">\
+                            <div class="modal-dialog" role="document">\
+                                <form method="post" action="' + cuName + '/change-quantity/' + wheels['id'] + '">\
+                                    <div class="modal-content">\
+                                        <div class="modal-header">\
+                                            <h5 class="modal-title">Quantité en stock :</h5>\
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+                                                <span aria-hidden="true">&times;</span>\
+                                            </button>\
+                                        </div>\
+                                        <div class="modal-body">\
+                                            <input type="number" id="quantity" name="quantity" >\
+                                        </div>\
+                                        <div class="modal-footer">\
+                                            <button type="submit" class="btn btn-primary">Enregistrer</button>\
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>\
+                                        </div>\
+                                    </div>\
+                                </form>\
+                            </div>\
+                        </div>' 
                     );
                 }
                 

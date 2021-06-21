@@ -34,7 +34,7 @@ class StockWheelsCuController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
             $wheelsCuType = $wheelsCuTypeRepository->findWheelsCuType($request->request->get('idWheelsCuType'));
-            
+            dump($wheelsCuType);
             return $this->json($wheelsCuType, 200, [], [
                 'groups' => 'display_wheels'
             ]);
@@ -47,10 +47,10 @@ class StockWheelsCuController extends AbstractController
     }
 
     /**
-     * @Route("/cu/{name}/change-quantity/{id}", name="cu-meule-change-quantity")
+     * @Route("/cu/{cuName}/change-quantity/{id}", name="cu-wheels-change-quantity")
      */
     public function updateQuantityCuMole(WheelsCuRepository $wheelsCuRepository,
-        $name, $id
+        $cuName, $id
     ) : Response {
  
         $wheels = $wheelsCuRepository->find($id);
@@ -59,10 +59,12 @@ class StockWheelsCuController extends AbstractController
             throw new NotFoundHttpException('Cette page n\'existe pas');
         }
 
-        $data = $this->get('request_stack')->getCurrentRequest()->request->all();
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $data = $request->request->all();
+        
 
         if ($data && $data["quantity"] != NULL) {
-            
+
             $wheels->setStock($data["quantity"]);
             
             $manager = $this->getDoctrine()->getManager();
@@ -72,7 +74,7 @@ class StockWheelsCuController extends AbstractController
         }
 
         return $this->redirectToRoute("cu", [
-            'name' => $name
+            'name' => $cuName
         ]);
 
     }
