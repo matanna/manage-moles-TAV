@@ -1,10 +1,10 @@
-//This file is for display popup of wheels cu by type and update their quantity
+//This file is for update he quantity of wheels cu. The form is in the popup
 
 $(document).ready(function() {
 
     //First, we hide the popup
     $(".popup").hide();
-
+    
     $(".details").on("click", function(event) {
 
         $(".popup").show();
@@ -14,7 +14,15 @@ $(document).ready(function() {
         //We retrieve cu name by current path
         let urlExplode = ($(location).attr("href")).split('/');
         //we use slice for remove "#" present in the end of cuName
-        let cuName = (urlExplode[urlExplode.length - 1]).slice(0, -1);
+        
+        let lastChar = (urlExplode[urlExplode.length - 1]).substr(-1);
+
+        let cuName = '';
+        if (lastChar == '#') {
+            cuName = (urlExplode[urlExplode.length - 1]).slice(0, -1);
+        } else {
+            cuName = (urlExplode[urlExplode.length - 1])
+        }
 
         //We retrieve id of button we explode it for retrieve the num of id of wheelsCuType
         let idWheelsCuTypeExplode = ($(this).attr('id')).split('-');
@@ -31,7 +39,7 @@ $(document).ready(function() {
             async: true,
 
             success: function(data, status) {
-                console.log(idWheelsCuTypeExplode);
+                
                 for (let wheels of data.wheelsCus) {
                     
                     $('#display-wheels-cu').append(
@@ -43,8 +51,8 @@ $(document).ready(function() {
                                 <div class="col-1">' + wheels['grain'] + '</div>\
                                 <div class="col-1">' + wheels['diameter'] + '</div>\
                                 <div class="col-2">' + wheels['height'] + '</div>\
-                                <div class="col-1">' + wheels['stock'] + '</div>\
-                                <div class="col-">\
+                                <div class="col-1" id="stock' + wheels['id'] + '">' + wheels['stock'] + '</div>\
+                                <div class="col-1">\
                                     <a href="#" data-toggle="modal" data-target="#change-quantity' + wheels['id'] + '">\
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-square icon" viewBox="0 0 16 16">\
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>\
@@ -56,7 +64,7 @@ $(document).ready(function() {
                         </div>\
                         <div class="modal" id="change-quantity' + wheels['id'] + '" tabindex="-1" aria-hidden="true" role="dialog">\
                             <div class="modal-dialog" role="document">\
-                                <form method="post" action="' + cuName + '/change-quantity/' + wheels['id'] + '">\
+                                <form method="post" action="#">\
                                     <div class="modal-content">\
                                         <div class="modal-header">\
                                             <h5 class="modal-title">Quantité en stock :</h5>\
@@ -65,10 +73,10 @@ $(document).ready(function() {
                                             </button>\
                                         </div>\
                                         <div class="modal-body">\
-                                            <input type="number" id="quantity" name="quantity" >\
+                                            <input type="number" id="quantity' + wheels['id'] + '" name="quantity" >\
                                         </div>\
                                         <div class="modal-footer">\
-                                            <button type="submit" class="btn btn-primary">Enregistrer</button>\
+                                            <button type="button" class="btn btn-primary change-quantity" id="'+ wheels['id'] + '">Enregistrer</button>\
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>\
                                         </div>\
                                     </div>\
@@ -81,10 +89,5 @@ $(document).ready(function() {
             }
         })
 
-    });
-
-    //When we click on close button, the popup close itself
-    $(".close-popup").on("click", function(event) {
-        $(".popup").hide();
     });
 });

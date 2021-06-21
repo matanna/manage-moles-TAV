@@ -41,6 +41,7 @@ class WheelsCuType
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
      * @Groups({"display_wheels"})
+     * @Assert\Unique
      */
     private $type;
 
@@ -156,7 +157,7 @@ class WheelsCuType
         return $this->stockReal;
     }
 
-    public function setStockReel(?int $stockReal): self
+    public function setStockReal(?int $stockReal): self
     {
         $this->stockReal = $stockReal;
 

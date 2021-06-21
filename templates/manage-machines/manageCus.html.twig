@@ -39,7 +39,7 @@
         <div>
 
         <!--This loop retrieve all types linked to a Cu and put them in an array-->
-        {% set typeMeuleList = [] %}
+        {% set WheelsCuTypeList = [] %}
         {% for typeMeuleCu in cu.typeMeuleCus %}
             <!--We add typeMeule in the array only if the value is not present in it-->
             {% if typeMeuleCu.typeMeule not in typeMeuleList %}

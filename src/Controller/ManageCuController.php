@@ -38,7 +38,7 @@ class ManageCuController extends AbstractController
 
         $cus = $cuRepository->findAllCus();
 
-        return $this->render('manage-machine/manageCus.html.twig', [
+        return $this->render('manage-machines/manageCus.html.twig', [
             'form' => $form->createView(),
             'allCus' => $cus
         ]);

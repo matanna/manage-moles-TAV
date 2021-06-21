@@ -28,7 +28,7 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
     ) {
         $this->cuRepository = $cuRepository;
         $this->wheelsCuRepository = $wheelsCuRepository;
-        $this->wheelsCuTypeRepositoryy = $wheelsCuTypeRepository;
+        $this->wheelsCuTypeRepository = $wheelsCuTypeRepository;
         $this->manager = $manager;
     }
 
@@ -65,22 +65,19 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
             return;
         }
 
-        $cuName = $entity->getWheelsCuType()->getCu()->getName();
-        $typeMeule = $entity->getWheelsCuType()->getType();
-        $typical = $entity->getTypeMeuleCu()->getTypical();
+        $wheelsCuType = $this->wheelsCuTypeRepository->findOneBy(['id' => $entity->getWheelsCuType()->getId()]);
 
-        $meules = $this->meuleCuRepository->findMolesCuByTypical($cuName, $typeMeule, $typical);
+        $wheelsCuByType = $this->wheelsCuRepository->findBy(['wheelsCuType' => $wheelsCuType]);
 
         $stockTotal = 0;
 
-        foreach ($meules as $meule) {
-            $stockTotal += $meule->getStock();
+        foreach ($wheelsCuByType as $wheels) {
+            $stockTotal += $wheels->getStock();
         }
 
-        $typeMeuleCu = $entity->getTypeMeuleCu();
-        $typeMeuleCu->setStockReel($stockTotal);
+        $wheelsCuType->setStockReal($stockTotal);
 
-        $this->manager->persist($typeMeuleCu);
+        $this->manager->persist($wheelsCuType);
         $this->manager->flush();
     }
 }

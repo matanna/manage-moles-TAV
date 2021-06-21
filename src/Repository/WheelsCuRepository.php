@@ -19,50 +19,19 @@ class WheelsCuRepository extends ServiceEntityRepository
         parent::__construct($registry, WheelsCu::class);
     }
 
-    // /**
-    //  * @return WheelsCu[] Returns an array of WheelsCu objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?WheelsCu
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
     /**
     * @return Cu Returns an array of WheelsCu objects
     */
-    public function findMolesCuByTypical($cuName, $typeMeule, $typical)
+    public function findWheelsByType($cuName, $wheelsCuType)
     {
 
         $result =  $this->createQueryBuilder('mcu')
             ->select('mcu', 'tcu', 'cu')
-            ->leftJoin('mcu.typeMeuleCu', 'tcu')
+            ->leftJoin('mcu.wheelsCuType', 'tcu')
             ->leftJoin('tcu.cu', 'cu')
-            ->andWhere('tcu.typical = :typical')
-            ->andWhere('tcu.typeMeule = :typeMeule')
+            ->andWhere('tcu.wheelsCuType = :wheelsCuType')
             ->andWhere('cu.name = :cuName')
-            ->setParameter('typical', $typical)
-            ->setParameter('typeMeule', $typeMeule)
+            ->setParameter('wheelsCuType', $wheelsCuType)
             ->setParameter('cuName', $cuName)
             ->getQuery()
             ->getResult()

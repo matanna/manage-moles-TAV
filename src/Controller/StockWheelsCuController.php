@@ -7,6 +7,7 @@ use App\Utils\SortWheelsCu;
 use App\Repository\CuRepository;
 use App\Repository\WheelsCuRepository;
 use App\Repository\WheelsCuTypeRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +35,7 @@ class StockWheelsCuController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
             $wheelsCuType = $wheelsCuTypeRepository->findWheelsCuType($request->request->get('idWheelsCuType'));
-            dump($wheelsCuType);
+            
             return $this->json($wheelsCuType, 200, [], [
                 'groups' => 'display_wheels'
             ]);
@@ -47,35 +48,34 @@ class StockWheelsCuController extends AbstractController
     }
 
     /**
-     * @Route("/cu/{cuName}/change-quantity/{id}", name="cu-wheels-change-quantity")
+     * @Route("/cu/change-quantity/{id}", name="cu-wheels-change-quantity")
      */
     public function updateQuantityCuMole(WheelsCuRepository $wheelsCuRepository,
-        $cuName, $id
+        Request $request, $id
     ) : Response {
  
-        $wheels = $wheelsCuRepository->find($id);
+        if ($request->isXmlHttpRequest()) {
+            $wheels = $wheelsCuRepository->find($id);
 
-        if (!$wheels) {
-            throw new NotFoundHttpException('Cette page n\'existe pas');
-        }
+            if (!$wheels) {
+                throw new NotFoundHttpException('Cette page n\'existe pas');
+            }
 
-        $request = $this->get('request_stack')->getCurrentRequest();
-        $data = $request->request->all();
+            $data = (int)($request->get('quantity'));
         
+            if ($data) {
 
-        if ($data && $data["quantity"] != NULL) {
-
-            $wheels->setStock($data["quantity"]);
+                $wheels->setStock($data);
             
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($wheels);
-            $manager->flush();
+                $manager = $this->getDoctrine()->getManager();
+                $manager->persist($wheels);
+                $manager->flush();
 
+            }
+
+            return $this->json($wheels->getStock(), 200);
         }
-
-        return $this->redirectToRoute("cu", [
-            'name' => $cuName
-        ]);
+        
 
     }
 }
