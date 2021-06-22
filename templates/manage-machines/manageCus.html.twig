@@ -2,6 +2,10 @@
 
 {% block title %}Gérer les centres d'usinage{% endblock %}
 
+{% block javascripts %}
+<script src="/js/modal-list-wheels-cu-type.js"></script>  
+{% endblock %}
+
 {% block body %}
 
 <div class="interligne"></div>
@@ -32,26 +36,10 @@
 
 <hr>
 {% for cu in allCus %}
-<div class="row ml-4 border-bottom border-secondary">
+<div class="row ml-4 border-bottom border-secondary text-center">
     <div class="col-1 text-uppercase font-blue1 p-3">{{ cu.name }}</div>
     <div class="col-9 p-3 hover-cel">
-        
-        <div>
-
-        <!--This loop retrieve all types linked to a Cu and put them in an array-->
-        {% set WheelsCuTypeList = [] %}
-        {% for typeMeuleCu in cu.typeMeuleCus %}
-            <!--We add typeMeule in the array only if the value is not present in it-->
-            {% if typeMeuleCu.typeMeule not in typeMeuleList %}
-                {% set typeMeuleList = typeMeuleList|merge([typeMeuleCu.typeMeule]) %}
-            {% endif %}
-        {% endfor %}
-        
-        {% for typeMeule in typeMeuleList %}
-            <span class="pr-4 pl-4">{{ typeMeule }}</span>
-        {% endfor %}
-
-        </div>
+        <a href="#" class="btn btn-outline-secondary display-list-wheels-type" id="{{ cu.name }}" data-toggle="modal" data-target="{{ "#modal-wheelsCuType-" ~ cu.name }}">Voir les types de meules associées</a>
     </div>
     <div class="col-1 p-3 font-blue1">
         <a href="{{ asset("/edit/cu/" ~ cu.name) }}">
@@ -70,6 +58,30 @@
         </a>
     </div>
 </div>
+
+<!--Modal for rename rectiligne-->
+<div class="modal" id="{{ "modal-wheelsCuType-" ~ cu.name }}" tabindex="-1" aria-hidden="true" role="dialog">      
+    <div class="modal-dialog" role="document">
+        
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Types de meules associés au Cu <span class="text-uppercase">{{ cu.name }}</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        
+    </div>
+</div>
+<!--End of Modal-->
+
 {% endfor %}
 
 

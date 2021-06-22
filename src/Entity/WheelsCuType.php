@@ -2,15 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\WheelsCuTypeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Serializer\Annotation\Groups as Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\WheelsCuTypeRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups as Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=WheelsCuTypeRepository::class)
+ * @UniqueEntity("type")
  */
 class WheelsCuType
 {
@@ -41,7 +43,6 @@ class WheelsCuType
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
      * @Groups({"display_wheels"})
-     * @Assert\Unique
      */
     private $type;
 
@@ -49,6 +50,7 @@ class WheelsCuType
      * @ORM\Column(type="integer", nullable=true)
      * 
      * @Groups({"display_wheels"})
+     * 
      */
     private $stockMini;
 

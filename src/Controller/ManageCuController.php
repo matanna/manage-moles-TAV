@@ -21,9 +21,26 @@ class ManageCuController extends AbstractController
      * @Route("/manage/cus", name="manage_cus")
      */
     public function manageCu(EntityManagerInterface $manager, Request $request,
-        CuRepository $cuRepository
+        CuRepository $cuRepository, SortWheelsCu $sortWheelsCu
     ): Response {
         $newCu = new Cu();
+
+        if ($request->isXmlHttpRequest()) {
+
+            $cuName = $request->get('cuName');
+
+            if (!$cuName) {
+                throw new NotFoundHttpException("Cette machine n'existe pas");
+            }
+
+            $wheelsCuTypes = $sortWheelsCu->sortWheelsCuByType($cuRepository->findCuByName($cuName)->getWheelsCuTypes());
+
+            dump($wheelsCuTypes);
+
+            return $this->json($wheelsCuTypes, 200, [], [
+                'groups' => 'display_wheels'
+            ]);
+        }
 
         $form = $this->createForm(CuFormType::class, $newCu);
 

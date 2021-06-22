@@ -26,10 +26,11 @@ class CuRepository extends ServiceEntityRepository
     {
 
         $result =  $this->createQueryBuilder('cu')
-            ->select('cu', 'wcut', 'wcu', 'f')
+            ->select('cu', 'wcut', 'wcu', 'f', 'c')
             ->leftJoin('cu.wheelsCuTypes', 'wcut')
             ->leftJoin('wcut.wheelsCus', 'wcu')
             ->leftJoin('wcu.provider', 'f')
+            ->leftJoin('wcut.cuCategory', 'c')
             ->andWhere('cu.name = :name')
             ->setParameter('name', $name)
             ->getQuery()
