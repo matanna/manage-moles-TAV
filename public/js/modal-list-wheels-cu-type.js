@@ -6,6 +6,8 @@ $(document).ready(function() {
 
         let cuName = $(this).attr('id');
 
+        $(".modal-body").children().remove();
+
         $.ajax({
             //We retrieve the courant url
             url: $(location).attr("href"),
@@ -18,17 +20,17 @@ $(document).ready(function() {
                 console.log(data);
                 for (let category in data) {
                     $(".modal-body").append(
-                        '<div class="row text-center">\
-                            <div class="col-3">' + category + '</div>\
-                            <div class="col-9 ' + category + '"></div>\
+                        '<div class="row pt-2 pb-2 hover-cel">\
+                            <div class="col-6">' + category + ' : </div>\
+                            <div class="col-6 ' + category + '"></div>\
                         </div>'
                     );
                     
-                    for (let wheelsType in category) {
-                        console.log(category['type']);
+                    for (let key of Object.keys(data[category])) {
+                        
                         $("." + category).append(
-                            '<div class="row text-center">\
-                                    <div class="col-12"></div>\
+                            '<div class="row ">\
+                                    <div class="col-12">' + data[category][key].type + '</div>\
                             </div>'
                         );
                     }
