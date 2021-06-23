@@ -9,13 +9,13 @@
 {% block body %}
 
 <div class="interligne"></div>
-<h2 class="ml-4">Gérer les centres d'usinage</h2>
+<h2 class="ml-3">Gérer les centres d'usinage</h2>
 <hr>
 <div class="interligne"></div>
 
 <!-- The form for add a new rectiligne in database -->
 <div class="row">
-    <div class="col-12 mb-4 ml-4">
+    <div class="col-12 mb-4">
         <h5 class="mb-3">Ajouter un centre d'usinage :</h5>
         {{ form_start(form) }}
             {{ form_label(form.name, 'Nom :') }}
@@ -25,16 +25,23 @@
     </div>
 </div>
 
-<h4 class="ml-4 mb-3">Machines enregistrées:</h4>
+<h4 class="ml-3 mb-3">Machines enregistrées:</h4>
 
 {% for message in app.flashes('warning') %}
-    <div class="alert alert-dismissible alert-warning m-4">
+    <div class="alert alert-dismissible alert-warning m-3">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <p class="mb-0">{{ message }}</p>
     </div>
 {% endfor %}
 
 <hr>
+
+<div class="row ml-4 mb-3 text-center head-table pt-2 pb-2">
+    <div class="col-1 border-right">Cus</div>
+    <div class="col-9 border-right">Type de meules</div>
+    <div class="col-2">Actions</div>
+</div>
+
 {% for cu in allCus %}
 <div class="row ml-4 border-bottom border-secondary text-center">
     <div class="col-1 text-uppercase font-blue1 p-3">{{ cu.name }}</div>
@@ -74,7 +81,8 @@
             
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <a href="{{ asset('edit/cu/' ~ cu.name) }}" class="btn btn-primary">Modifier</a>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
             </div>
         </div>
         

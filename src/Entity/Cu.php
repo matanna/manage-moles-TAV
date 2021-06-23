@@ -5,11 +5,13 @@ namespace App\Entity;
 use App\Repository\CuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups as Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CuRepository::class)
+ * @UniqueEntity("name")
  */
 class Cu
 {

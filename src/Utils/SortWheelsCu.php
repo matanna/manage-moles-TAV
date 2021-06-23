@@ -13,6 +13,7 @@ class SortWheelsCu
      */
     public function sortWheelsCuByType($wheelsCu) 
     {
+
         foreach ($wheelsCu as $wheels) {
 
             $category = $wheels->getCuCategory()->getName();

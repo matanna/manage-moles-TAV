@@ -77,6 +77,16 @@ h3 {
     top: 5vh;
 }
 
+.row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.original-margin {
+    margin-left: -15px !important;
+    margin-right: -15px !important;
+}
+
 .no-margin {
     margin: 0;
 }

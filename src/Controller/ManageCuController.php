@@ -33,9 +33,16 @@ class ManageCuController extends AbstractController
                 throw new NotFoundHttpException("Cette machine n'existe pas");
             }
 
-            $wheelsCuTypes = $sortWheelsCu->sortWheelsCuByType($cuRepository->findCuByName($cuName)->getWheelsCuTypes());
+            $wheelsCuTypes = $cuRepository->findCuByName($cuName)->getWheelsCuTypes();
+           
+            if ($wheelsCuTypes->isEmpty()) {
+                
+                $message['error'] = 'Aucun type de meule n\'est lié à cette machine.'; 
+                
+                return $this->json($message, 200);
+            }
 
-            dump($wheelsCuTypes);
+            $wheelsCuTypes = $sortWheelsCu->sortWheelsCuByType($wheelsCuTypes);
 
             return $this->json($wheelsCuTypes, 200, [], [
                 'groups' => 'display_wheels'
@@ -106,9 +113,9 @@ class ManageCuController extends AbstractController
             return $this->json($formRender, 200);
         }
 
-        return $this->render('manage-machine/editCu.html.twig', [
+        return $this->render('manage-machines/editCu.html.twig', [
             'cu' => $cu,
-            'wheelsCuType' => $wheelsCuTypeSorted
+            'wheelsCuTypeSorted' => $wheelsCuTypeSorted
         ]);
     }
 
@@ -152,9 +159,9 @@ class ManageCuController extends AbstractController
             throw new NotFoundHttpException("Cette machine n'existe pas");
         }
 
-        $typeMeuleCus = $wheelsCuTypeRepository->findBy(['cu' => $cu]);
+        $wheelsCuType = $wheelsCuTypeRepository->findBy(['cu' => $cu]);
 
-        if ($cu && $typeMeuleCus == NULL) {
+        if ($cu && $wheelsCuType === []) {
             $manager = $this->getDoctrine()->getManager();
             $manager->remove($cu);
             $manager->flush();

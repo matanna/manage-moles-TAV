@@ -9,13 +9,13 @@
 {% block body %}
 
 <div class="interligne"></div>
-<h2 class="ml-4">Gérer les rectilignes</h2>
+<h2 class="ml-3">Gérer les rectilignes</h2>
 <hr>
 <div class="interligne"></div>
 
 <!-- The form for add a new rectiligne in database -->
 <div class="row">
-    <div class="col-12 mb-4 ml-4">
+    <div class="col-12 mb-4">
         <h5 class="mb-3">Ajouter une rectiligne :</h5>
         {{ form_start(form) }}
             {{ form_label(form.name, 'Nom :') }}
@@ -40,7 +40,7 @@
         {{ form_end(form) }}
     </div>
 </div>
-<h4 class="ml-4 mb-3">Machines enregistrées:</h4>
+<h4 class="mb-3 ml-3">Machines enregistrées:</h4>
 
 {% for message in app.flashes('warning') %}
     <div class="alert alert-dismissible alert-warning m-4">

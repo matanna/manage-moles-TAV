@@ -8,9 +8,9 @@
     <a href="{{ asset('all-rectiMachines') }}" class="btn btn-success m-3">Retour au stock total</a>
 </div>
 <div class="interligne"></div>
-<div class="row stock-bilat">
+<div class="row original-margin stock-bilat">
     <div class="col-1">
-        <div class="row d-flex flex-column border-right text-center">
+        <div class="row original-margin d-flex flex-column border-right text-center">
             <div class="font-weight-bold pt-2 pb-2 head-table border-bottom ">Position</div>
             <div class="font-weight-bold font-blue1 pt-2 pb-2">Type</div>
             <div class="font-weight-bold font-blue1 pt-2 pb-2">Usinage</div>
@@ -23,7 +23,7 @@
 
     {% for position in positionTable %}
     <div class="col-1 hover-cel">
-        <div class="row d-flex flex-column border-right text-center">
+        <div class="row original-margin d-flex flex-column border-right text-center">
 
             {% if position.name != null %}
                 <div class="font-weight-bold pt-2 pb-2 head-table border-bottom">{{ position.name }}</div>

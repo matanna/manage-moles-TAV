@@ -7,7 +7,7 @@
 <div class="interligne"></div>
 <div class="row d-flex align-items-center">
     <div class="col-6">
-        <h2 class="ml-4">Modifier la machine : <span class="text-uppercase">{{ rectiMachine.name }}</span></h2>
+        <h2 class="">Modifier la machine : <span class="text-uppercase">{{ rectiMachine.name }}</span></h2>
     </div>
     <div class="col-6 text-right">
         <a href={{ asset('/manage/rectiMachine') }} class="btn btn-secondary mr-3">
@@ -100,7 +100,7 @@
     {% endfor %}
 {{ form_end(formRectiMachine) }}
 
-<h4 class="ml-4">Ajouter une position : </h4>
+<h4 class="ml-3">Ajouter une position : </h4>
 <hr>
 <!--Form for add a new position-->
 {{ form_start(formPosition) }}
