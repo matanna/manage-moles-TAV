@@ -111,7 +111,7 @@ class WheelsCuType
         return $this->working;
     }
 
-    public function setWorkinge(?string $working): self
+    public function setWorking(?string $working): self
     {
         $this->working = $working;
 

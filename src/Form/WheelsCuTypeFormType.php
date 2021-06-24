@@ -2,28 +2,33 @@
 
 namespace App\Form;
 
+use App\Entity\CuCategories;
 use App\Entity\WheelsCuType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class WheelsCuTypeFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('TAVname', TextType::class, [
+            ->add('cuCategory', EntityType::class, [
+                'class' => CuCategories::class,
+                'choice_label' => 'name',
+                'label' => false,
+                'placeholder' => 'Catégorie'
+            ])
+            ->add('type', TextType::class, [
                 'label' => false
             ])
-            ->add('wheelsType', TextType::class, [
+            ->add('working', TextType::class, [
                 'label' => false
             ])
             ->add('matters', TextType::class, [
-                'label' => false
-            ])
-            ->add('typical', TextType::class, [
                 'label' => false
             ])
             ->add('stockMini', IntegerType::class, [

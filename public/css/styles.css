@@ -44,6 +44,9 @@ h3 {
     background-color: #067292;
     color: white;
 }
+.hover-cel a:hover {
+    color: white;
+}
 
 .badge {
     font-size: 0.9rem!important;

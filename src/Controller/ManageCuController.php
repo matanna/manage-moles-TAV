@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\Cu;
 use App\Form\CuFormType;
 use App\Utils\SortWheelsCu;
+use App\Entity\WheelsCuType;
 use App\Repository\CuRepository;
 use App\Form\WheelsCuTypeFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CuCategoriesRepository;
 use App\Repository\WheelsCuTypeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +19,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ManageCuController extends AbstractController
 {
+    private $cuCategoriesRepository;
+
+    public function __construct(CuCategoriesRepository $cuCategoryRepository)
+    {
+        $this->cuCategoriesRepository = $cuCategoryRepository;
+    }
+
     /**
      * @Route("/manage/cus", name="manage_cus")
      */
@@ -88,34 +97,33 @@ class ManageCuController extends AbstractController
         //This ajax request is used for add form WheelsCuTypeFormType in the modal
         if ($request->isXmlHttpRequest()) {
 
-            //We retrieve 'id' parameter send with the ajax request
-            $id = $request->get('id');
-            $wheelsCuType = $wheelsCuTypeRepository->find($id);
-
-            if(!$wheelsCuType) {
-                throw new NotFoundHttpException('Ce type de meule n\existe pas');
-            }
             
-            //We create the form and modify the action at another route
-            $form = $this->createForm(WheelsCuTypeFormType::class, $wheelsCuType, [
-                'action' => $this->generateUrl('update_wheelsType', [
-                    'id' => $id,
-                    'nameCu' => $nameCu
-                ])
-            ]);
-            
-            //We render the view in a twig file and we save this in a variable
-            $formRender = $this->render('updateDatabase/editWheelsCuType.html.twig', [
-                'form' => $form->createView()
-            ]);
+        }
 
-            //We return the twig file contain the form in a json format
-            return $this->json($formRender, 200);
+        $newWheelsCuType = new WheelsCuType();
+
+        $newWheelsCuTypeForm = $this->createForm(WheelsCuTypeFormType::class, $newWheelsCuType);
+
+        $newWheelsCuTypeForm->handleRequest($request);
+
+        if ($newWheelsCuTypeForm->isSubmitted() && $newWheelsCuTypeForm->isValid()) {
+            $newWheelsCuType->setCu($cu);
+            $newWheelsCuType->setStockReal(0);
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($newWheelsCuType);
+            $manager->flush();
+
+            return $this->redirectToRoute('edit_cu', [
+                'nameCu' => $nameCu
+            ]);
         }
 
         return $this->render('manage-machines/editCu.html.twig', [
             'cu' => $cu,
-            'wheelsCuTypeSorted' => $wheelsCuTypeSorted
+            'wheelsCuTypeSorted' => $wheelsCuTypeSorted,
+            'newWheelsCuTypeForm' => $newWheelsCuTypeForm->createView(),
+            'categories' => $this->cuCategoriesRepository->findAll()
         ]);
     }
 
