@@ -6,6 +6,7 @@ use App\Repository\CuCategoriesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups as Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,12 +28,13 @@ class CuCategories
     /**
      * @ORM\Column(type="string", length=255)
      * 
+     * @Assert\Length(min = 2, max = 5)
      * @Groups({"display_wheels"})
      */
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=WheelsCuType::class, mappedBy="cuCcategory")
+     * @ORM\OneToMany(targetEntity=WheelsCuType::class, mappedBy="cuCategory")
      */
     private $wheelsCuTypes;
 

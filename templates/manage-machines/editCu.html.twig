@@ -66,9 +66,9 @@
                 <div class="modal-body">
                     <div class="new-category">
                         <p>Ajouter une catégorie de meule :</p>
-                        <form method="post" action="" class="d-flex justify-content-between">
-                            <input type="text" name="new-category" />
-                            <button type="submit" class="btn btn-sm btn-primary text-right">Enregistrer</button>
+                        <form method="post" action="#" class="d-flex justify-content-between">
+                            <input type="text" name="new-category" id="new-category"/>
+                            <button type="button" class="btn btn-sm btn-primary text-right" id="button-new-category">Enregistrer</button>
                         </form>
                     </div>
                     <hr />
@@ -76,10 +76,10 @@
                         <p>Catégorie enregistrées :</p>
                         {% for category in categories %}
                             <div class="row original-margin">
-                                <div class="col-6"><span class="name-category" id="{{ "name-category-" ~ category.name }}">{{ category.name }}</span></div>
+                                <div class="col-6" id="{{ "name-category-" ~ category.name }}"><span class="name-category">{{ category.name }}</span></div>
                                 <div class="col-6 text-right">
                                     <a href="#" class="rename-category" id="{{ "rename-category-" ~ category.name }}">Renomer</a>
-                                    <a href="#" class="ml-3">Supprimer</a>
+                                    <a href="#" class="ml-3 delete-category" id="{{ "delete-category-" ~ category.name }}">Supprimer</a>
                                 </div>
                             </div>
                         {% endfor %}

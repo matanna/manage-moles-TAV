@@ -156,6 +156,9 @@ class WheelsCuType
 
     public function getStockReal(): ?int
     {
+        if ($this->stockReal === null) {
+            return 0;
+        }
         return $this->stockReal;
     }
 
