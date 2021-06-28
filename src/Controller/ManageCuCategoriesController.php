@@ -50,7 +50,7 @@ class ManageCuCategoriesController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             
             $cuCategory = $cuCategoriesRepository->findOneBy(['name' => $nameCategory]);
-
+            
             if (!$cuCategory) {
                 throw new NotFoundHttpException('Cette catégorie n\'existe pas');
             }
@@ -78,8 +78,10 @@ class ManageCuCategoriesController extends AbstractController
             if (!$cuCategory) {
                 throw new NotFoundHttpException('Cette catégorie n\'existe pas');
             }
-            dump($cuCategory->getWheelsCuTypes()->isEmpty());
-            if ($cuCategory->getWheelsCuTypes()->isEmpty() ) {
+            
+            dump($cuCategory->getWheelsCuTypes()->getValues());
+
+            if (!$cuCategory->getWheelsCuTypes()->isEmpty()) {
                 return $this->json(false, 200);
             };
 

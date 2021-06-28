@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-secondary" id="close-categories" data-dismiss="modal">Fermer</button>
                 </div>
             </div>
         </div>
@@ -113,7 +113,6 @@
 </div>
 {{ form_end(newWheelsCuTypeForm) }}   
     
-
 
 <hr>
 <div class="interligne"></div>
@@ -143,19 +142,20 @@
     <div class="col-2 font-blue1 font-weight-bold d-flex align-items-center justify-content-center pt-2 pm-2">{{ category }}</div>
     <div class="col-10">
         {% for type in wheelsCuType %}
+            
         <div class="row pt-2 pb-2">
-            <div class="col-5 border-right">{{ type.type }}</div>
-            <div class="col-2 border-right">{{ type.working }}</div>
-            <div class="col-2 border-right">{{ type.matters }}</div>
-            <div class="col-1 border-right">{{ type.stockMini }}</div>
+            <div class="col-5 border-right">{{ type[0].type }}</div>
+            <div class="col-2 border-right">{{ type[0].working }}</div>
+            <div class="col-2 border-right">{{ type[0].matters }}</div>
+            <div class="col-1 border-right">{{ type[0].stockMini }}</div>
             <div class="col-2">
-                <a href="#" data-toggle="modal" data-target="{{ '#update-typeMeule' ~ type.id }}" id="{{ cu.name ~ '-type-meule-' ~ type.id }}" class="edit-type-meule">
+                <a href="#" data-toggle="modal" data-target="{{ '#update-wheels-type' ~ type[0].id }}" id="{{ cu.name ~ '-wheels-type-' ~ type[0].id }}" class="edit-wheels-type">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="" class="bi bi-pencil-square" viewBox="0 0 16 16">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                     </svg>
                 </a>
-                <a href={{ asset('/delete/' ~ cu.name ~ '/type-meule/' ~ type.id) }} class="ml-3">
+                <a href={{ asset('/delete/' ~ cu.name ~ '/wheels-type/' ~ type[0].id) }} class="ml-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25 " height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -164,7 +164,7 @@
             </div>
                 
             <!--Modal for update typeMeule-->
-            <div class="modal" id="{{ 'update-typeMeule' ~ type.id }}" tabindex="-1" aria-hidden="true" role="dialog">      
+            <div class="modal" id="{{ 'update-wheels-type' ~ type[0].id }}" tabindex="-1" aria-hidden="true" role="dialog">      
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -173,8 +173,15 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                         </div>
-                        <div class="modal-body form-typeMeule">
-                        
+                        <div class="modal-body text-left">
+                            {{ form_start(type[2]) }}
+                                {{ form_row(type[2].cuCategory, {'label': 'Catégorie'}) }}
+                                {{ form_row(type[2].type, {'label': 'Type de meule'}) }}
+                                {{ form_row(type[2].working, {'label': 'Usinage'}) }}
+                                {{ form_row(type[2].matters, {'label': 'Matière'}) }}
+                                {{ form_row(type[2].stockMini, {'label': 'Stock mini'}) }}
+                                <button type="submit" class="btn btn-primary">Modifier</button>
+                            {{ form_end(type[2]) }}
                         </div>
                         
                     </div>

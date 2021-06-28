@@ -8,6 +8,7 @@ use App\Utils\SortWheelsCu;
 use App\Entity\WheelsCuType;
 use App\Repository\CuRepository;
 use App\Form\WheelsCuTypeFormType;
+use App\Repository\WheelsCuRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CuCategoriesRepository;
 use App\Repository\WheelsCuTypeRepository;
@@ -84,6 +85,9 @@ class ManageCuController extends AbstractController
         WheelsCuTypeRepository $wheelsCuTypeRepository, $nameCu
     ) : Response {
 
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $manager = $this->getDoctrine()->getManager();
+
         $cu = $cuRepository->findCuByName($nameCu);
 
         if (!$cu) {
@@ -92,12 +96,36 @@ class ManageCuController extends AbstractController
 
         $wheelsCuTypeSorted =$sortWheelsCu->sortWheelsCuByType($cu->getWheelsCuTypes());
 
-        $request = $this->get('request_stack')->getCurrentRequest();
+        //We add form corresponding entity in the sorted array with in index[0] => wheelsCuType, index[1] => Form and in index[2] => FormView
+        foreach ($wheelsCuTypeSorted as $category => $wheelsCuTypes) {
 
-        //This ajax request is used for add form WheelsCuTypeFormType in the modal
-        if ($request->isXmlHttpRequest()) {
+            foreach ($wheelsCuTypes as $key => $value) {
+                
+                $wheelsCuTypeForm = $this->get('form.factory')
+                    ->createNamed(
+                        'wheelsCuTypeForm' . $value->getId(),
+                        WheelsCuTypeFormType::class,
+                        $value
+                    );
 
+                    $wheelsCuTypeForm->handleRequest($request);
+
+                    if ($wheelsCuTypeForm->isSubmitted() && $wheelsCuTypeForm->isValid()) {
+                    
+                        $manager->persist($value);
+                        $manager->flush();
+
+                        return $this->redirectToRoute('edit_cu', [
+                            'nameCu' => $nameCu
+                        ]);
+                    }
             
+                $wheelsCuTypeSorted[$category][$key] = [];
+                $wheelsCuTypeSorted[$category][$key][] = $value;
+                $wheelsCuTypeSorted[$category][$key][] = $wheelsCuTypeForm;
+                $wheelsCuTypeSorted[$category][$key][] = $wheelsCuTypeForm->createView();
+               
+            }
         }
 
         $newWheelsCuType = new WheelsCuType();
@@ -110,7 +138,6 @@ class ManageCuController extends AbstractController
             $newWheelsCuType->setCu($cu);
             $newWheelsCuType->setStockReal(0);
 
-            $manager = $this->getDoctrine()->getManager();
             $manager->persist($newWheelsCuType);
             $manager->flush();
 
@@ -178,5 +205,32 @@ class ManageCuController extends AbstractController
         }
 
         return $this->redirectToRoute('manage_cus');
+    }
+
+    /**
+     * @Route("delete/wheels-cu-type/{id}", name="delete_typeMeule")
+     */
+    public function deleteWheelsCuType(WheelsCuTypeRepository $wheelsCuTypeRepository, $id): Response 
+    {
+        $wheelsCuType = $wheelsCuTypeRepository->findWheelsCuType($id);
+
+        if(!$wheelsCuType) {
+            throw new NotFoundHttpException('Ce type de meule n\existe pas');
+        }
+
+        $wheelsCus = $wheelsCuType[0]->getWheelsCus();
+
+        if ($wheelsCus->isEmpty()) {
+            $manager = $this->getDoctrine()->getManager();
+            $manager->remove($wheelsCuType);
+            $manager->flush();
+        } else {
+            $message = $this->addFlash('warning', 'Des meules sont liés à ce type de meule, la suppression est impossible.'); 
+        }
+
+        return $this->redirectToRoute('edit_cu', [
+            'nameCu' => $wheelsCuType[0]->getCu()
+        ]);
+
     }
 }

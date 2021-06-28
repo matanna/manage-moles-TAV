@@ -17,7 +17,6 @@ $(document).ready(function() {
             async: true,
 
             success: function(data, status) {
-                console.log(data);
 
                 if (data['error']) {
                     $(".modal-body").append(

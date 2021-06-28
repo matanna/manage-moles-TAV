@@ -50,7 +50,6 @@ class ManageWheelsRectiMachineController extends AbstractController
         ]);
         
         $formNewWheelsRectiMachine->handleRequest($request);
-        dump($request);
 
         if ($formNewWheelsRectiMachine->isSubmitted() && $formNewWheelsRectiMachine->isValid()) {
             
