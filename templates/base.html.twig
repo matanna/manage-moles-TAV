@@ -42,9 +42,9 @@
                     <li class="nav-item dropdown pr-3">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Stock Rectilignes/Bilatérales</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ asset('rectilignes') }}">Stock total</a>
+                            <a class="dropdown-item" href="{{ asset('all-rectiMachines') }}">Stock total</a>
                             {% for rectiligne in rectilignes %}
-                            <a class="dropdown-item" href="{{ asset('rectiligne/' ~ rectiligne.name ) }}">{{'Rectilignes ' ~ rectiligne.name|capitalize }}</a>
+                            <a class="dropdown-item" href="{{ asset('rectiMachine/' ~ rectiligne.name ) }}">{{'Rectilignes ' ~ rectiligne.name|capitalize }}</a>
                             {% endfor %}
                         </div>
                     </li>
@@ -60,13 +60,19 @@
                         <a class="nav-link" href="#">Commandes</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Modifier la Base de données</a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Machines/Outils</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ asset('/manage/rectiligne') }}">Gérer les rectilignes</a>
-                            <a class="dropdown-item" href="{{ asset('/manage/moles-rectiligne') }}">Gérer les meules de rectiligne</a>
+                            <a class="dropdown-item" href="{{ asset('/manage/rectiMachine') }}">Gérer les rectilignes</a>
+                            <a class="dropdown-item" href="{{ asset('/manage/wheels-rectiMachine') }}">Gérer les meules de rectiligne</a>
                             <a class="dropdown-item" href="{{ asset('/manage/cus') }}">Gérer les centres d'usinage</a>
-                            <a class="dropdown-item" href="{{ asset('/manage/meule-cu') }}">Gérer les meules de centre d'usinage</a>
+                            <a class="dropdown-item" href="{{ asset('/manage/wheels-cu') }}">Gérer les meules de centre d'usinage</a>
                             
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ asset('/manage/users') }}">Gérer les utilisateurs</a>
                         </div>
                     </li>
 

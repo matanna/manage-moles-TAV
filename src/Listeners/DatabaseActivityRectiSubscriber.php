@@ -2,30 +2,34 @@
 
 namespace App\Listeners;
 
-use App\Entity\MeulesRecti;
+use App\Entity\WheelsRectiMachine;
 use Doctrine\ORM\Events;
-use App\Repository\MachineRepository;
+use App\Repository\RectiMachineRepository;
 use App\Repository\PositionRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\MeulesRectiRepository;
+use App\Repository\WheelsRectiMachineRepository;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Common\EventSubscriber;
 
+/**
+ * This listener is run at each call to the database with doctrine. Event doctrine listener
+ * It do the sum of wheelsRectiMachine quantities and save the total in stockReal in position table
+ */
 class DatabaseActivityRectiSubscriber implements EventSubscriber
 {
     const NAME = 'database.recti.subscriber';
 
-    private $meulesRectiRepository;
+    private $wheelsRectiMachineRepository;
 
-    private $machineRepository;
+    private $rectiMachineRepository;
 
     private $manager;
 
-    public function __construct(MeulesRectiRepository $meulesRectiRepository, 
-        MachineRepository $machineRepository, EntityManagerInterface $manager
+    public function __construct(WheelsRectiMachineRepository $wheelsRectiMachineRepository, 
+        RectiMachineRepository $rectiMachineRepository, EntityManagerInterface $manager
     ) {
-        $this->meulesRectiRepository = $meulesRectiRepository;
-        $this->machineRepository = $machineRepository;
+        $this->wheelsRectiMachineRepository = $wheelsRectiMachineRepository;
+        $this->rectiMachineRepository = $rectiMachineRepository;
         $this->manager = $manager;
     }
 
@@ -58,26 +62,26 @@ class DatabaseActivityRectiSubscriber implements EventSubscriber
     {
         $entity = $args->getObject();
 
-        if (!$entity instanceof MeulesRecti) {
+        if (!$entity instanceof WheelsRectiMachine) {
             return;
         }
 
-        $nameMachine = $entity->getPosition()->getMachine()->getName();
+        $nameRectiMachine = $entity->getPosition()->getRectiMachine()->getName();
 
         $namePosition = $entity->getPosition()->getName();
 
-        //We call datatbase for retrieve moles corresponding to the machine name and the position linked
-        //Only one duo between position and machine is ok
-        $meules= $this->meulesRectiRepository->findMeulesRectiPerPosition($nameMachine, $namePosition);
+        //We call datatbase for retrieve wheels corresponding to the rectiMachine name and the position linked
+        //Only one duo between position and rectiMachine is ok
+        $wheels = $this->wheelsRectiMachineRepository->findWheelsRectiMachineByPosition($nameRectiMachine, $namePosition);
 
         $stockTotal = 0;
 
         //We do sum on stock for moles having the same positions
-        foreach ($meules as $meule) {
+        foreach ($wheels as $meule) {
             $stockTotal += $meule->getStock();
         }
         
-        $entity->getPosition()->setStockReel($stockTotal);
+        $entity->getPosition()->setStockReal($stockTotal);
 
         $this->manager->persist($entity->getPosition());
         $this->manager->flush();

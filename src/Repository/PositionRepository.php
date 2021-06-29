@@ -22,10 +22,10 @@ class PositionRepository extends ServiceEntityRepository
     /**
      * @return Position[] Returns an array of Position objects
      */
-    public function findPositionByMachine($name)
+    public function findPositionByRectiMachine($name)
     {
         return $this->createQueryBuilder('p')
-        ->leftJoin('p.machine', 'ma')
+        ->leftJoin('p.rectiMachine', 'ma')
         ->andWhere('ma.name = :name')
         ->setParameter('name', $name)
         ->getQuery()

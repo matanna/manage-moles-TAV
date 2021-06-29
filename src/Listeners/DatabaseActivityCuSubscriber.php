@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Entity\MeuleCu;
+use App\Entity\WheelsCu;
 use Doctrine\ORM\Events;
 use App\Repository\CuRepository;
 use Doctrine\Common\EventSubscriber;
-use App\Repository\MeuleCuRepository;
+use App\Repository\WheelsCuRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\TypeMeuleCuRepository;
+use App\Repository\WheelsCuTypeRepository;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class DatabaseActivityCuSubscriber implements EventSubscriber
@@ -17,18 +17,18 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
 
     private $cuRepository;
 
-    private $meuleCuRepository;
+    private $wheelsCuRepository;
 
-    private $typeMeuleCuRepository;
+    private $wheelsCuTypeRepository;
 
     private $manager;
 
-    public function __construct(CuRepository $cuRepository, MeuleCuRepository $meuleCuRepository, 
-        TypeMeuleCuRepository $typeMeuleCuRepository, EntityManagerInterface $manager
+    public function __construct(CuRepository $cuRepository, WheelsCuRepository $wheelsCuRepository, 
+        WheelsCuTypeRepository $wheelsCuTypeRepository, EntityManagerInterface $manager
     ) {
         $this->cuRepository = $cuRepository;
-        $this->meuleCuRepository = $meuleCuRepository;
-        $this->typeMeuleCuRepository = $typeMeuleCuRepository;
+        $this->wheelsCuRepository = $wheelsCuRepository;
+        $this->wheelsCuTypeRepository = $wheelsCuTypeRepository;
         $this->manager = $manager;
     }
 
@@ -61,26 +61,23 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
     {
         $entity = $args->getObject();
 
-        if (!$entity instanceof MeuleCu) {
+        if (!$entity instanceof WheelsCu) {
             return;
         }
 
-        $cuName = $entity->getTypeMeuleCu()->getCu()->getName();
-        $typeMeule = $entity->getTypeMeuleCu()->getTypeMeule();
-        $typical = $entity->getTypeMeuleCu()->getTypical();
+        $wheelsCuType = $this->wheelsCuTypeRepository->findOneBy(['id' => $entity->getWheelsCuType()->getId()]);
 
-        $meules = $this->meuleCuRepository->findMolesCuByTypical($cuName, $typeMeule, $typical);
+        $wheelsCuByType = $this->wheelsCuRepository->findBy(['wheelsCuType' => $wheelsCuType]);
 
         $stockTotal = 0;
 
-        foreach ($meules as $meule) {
-            $stockTotal += $meule->getStock();
+        foreach ($wheelsCuByType as $wheels) {
+            $stockTotal += $wheels->getStock();
         }
 
-        $typeMeuleCu = $entity->getTypeMeuleCu();
-        $typeMeuleCu->setStockReel($stockTotal);
+        $wheelsCuType->setStockReal($stockTotal);
 
-        $this->manager->persist($typeMeuleCu);
+        $this->manager->persist($wheelsCuType);
         $this->manager->flush();
     }
 }

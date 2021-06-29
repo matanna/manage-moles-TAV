@@ -2,18 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\CuRepository;
+use App\Repository\CuCategoriesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups as Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CuRepository::class)
+ * @ORM\Entity(repositoryClass=CuCategoriesRepository::class)
  * @UniqueEntity("name")
  */
-class Cu
+class CuCategories
 {
     /**
      * @ORM\Id
@@ -27,15 +28,16 @@ class Cu
     /**
      * @ORM\Column(type="string", length=255)
      * 
+     * @Assert\Length(min = 2, max = 5)
      * @Groups({"display_wheels"})
      */
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=WheelsCuType::class, mappedBy="cu")
+     * @ORM\OneToMany(targetEntity=WheelsCuType::class, mappedBy="cuCategory")
      */
     private $wheelsCuTypes;
-    
+
     public function __construct()
     {
         $this->wheelsCuTypes = new ArrayCollection();
@@ -70,7 +72,7 @@ class Cu
     {
         if (!$this->wheelsCuTypes->contains($wheelsCuType)) {
             $this->wheelsCuTypes[] = $wheelsCuType;
-            $wheelsCuType->setCu($this);
+            $wheelsCuType->setCuCategory($this);
         }
 
         return $this;
@@ -80,16 +82,11 @@ class Cu
     {
         if ($this->wheelsCuTypes->removeElement($wheelsCuType)) {
             // set the owning side to null (unless already changed)
-            if ($wheelsCuType->getCu() === $this) {
-                $wheelsCuType->setCu(null);
+            if ($wheelsCuType->getCuCategory() === $this) {
+                $wheelsCuType->setCuCategory(null);
             }
         }
 
         return $this;
-    }
-
-        public function __toString()
-    {
-        return $this->getName();
     }
 }

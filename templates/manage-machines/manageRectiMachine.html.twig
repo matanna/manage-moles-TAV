@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gérer les rectilignes{% endblock %}
+
+{% block javascripts %}
+<script src="/js/add-new-position.js"></script>
+{% endblock %}
+
+{% block body %}
+
+<div class="interligne"></div>
+<h2 class="ml-3">Gérer les rectilignes</h2>
+<hr>
+<div class="interligne"></div>
+
+<!-- The form for add a new rectiligne in database -->
+<div class="row">
+    <div class="col-12 mb-4">
+        <h5 class="mb-3">Ajouter une rectiligne :</h5>
+        {{ form_start(form) }}
+            {{ form_label(form.name, 'Nom :') }}
+            {{ form_widget(form.name, {'attr': {'class': 'machine-field' }}) }}
+
+            <button type='button' class="btn btn-secondary add-new-position mt-5 mb-5" data-collection-holder-class="position-fields-list">Ajouter une position</button>
+            
+            <div class="position-fields-list row" data-prototype="{{ form_widget(form.positions.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.positions|length }}">
+            {% for position in form.positions %}
+                <div>
+                {% for field in position %}
+                    <div>
+                        {{ form_errors(field) }}
+                        {{ form_widget(field) }}
+                    </div>
+                {% endfor %}
+                <button type='button' class="btn btn-outline-warning delete-position mt-2 mb-5 ml-4" data-collection-holder-class="position-fields-list">Supprimer</button>
+                </div>
+            {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary mt-5">Ajouter la machine</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+<h4 class="mb-3 ml-3">Machines enregistrées:</h4>
+
+{% for message in app.flashes('warning') %}
+    <div class="alert alert-dismissible alert-warning m-4">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <p class="mb-0">{{ message }}</p>
+    </div>
+{% endfor %}
+
+<hr>
+
+<div class="row ml-4 mb-3 text-center head-table pt-2 pb-2">
+    <div class="col-1 border-right">Machines</div>
+    <div class="col-9 border-right">Positions</div>
+    <div class="col-2">Actions</div>
+</div>
+{% for rectiMachine in rectiMachines %}
+<div class="row ml-4 border-bottom border-secondary">
+    <div class="col-1 text-uppercase font-blue1 p-3">{{ rectiMachine.name }}</div>
+    <div class="col-9 p-3 hover-cel">
+        <div class="row ">
+        {% for position in rectiMachine.positions %}
+            <div class="col-1">{{ position.name }}</div>  
+        {% endfor %}
+        </div>
+    </div>
+    <div class="col-1 p-3 font-blue1">
+        <a href="{{ asset("/edit/rectiMachine/" ~ rectiMachine.name) }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+            </svg>
+        </a>
+    </div>
+    <div class="col-1 p-3 font-blue1">
+        <a href="{{ asset('delete/rectiMachine/' ~ rectiMachine.id) }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25 " height="25" fill="" class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+        </a>
+    </div>
+</div>
+{% endfor %}
+    
+
+{% endblock %}
+
