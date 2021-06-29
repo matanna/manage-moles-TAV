@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gérer les meules de centre d'usinage{% endblock %}
+
+{% block javascripts %}<script src="/js/ajax-list-wheelsCuType.js"></script>{% endblock %}
+
+{% block body %}
+
+<div class="interligne"></div>
+<h2 class="ml-4">Gérer les meules de centre d'usinage</h2>
+<hr>
+<div class="interligne"></div>
+
+<!-- The form for add a new rectiligne in database -->
+<div class="row ml-2">
+    <div class="col-12">
+        <h5 class="mb-3">Ajouter une meule :</h5>
+    </div>
+</div>
+
+{{ form_start(form) }}
+<div class="row mb-4 ml-2">
+    <div class="col-1">{{ form_row(form.cu, {'attr': {'class': 'cu'}, 'placeholder': 'Cu' }) }}</div>
+    <div class="col-2">{{ form_row(form.wheelsCuType, {'attr': {'class': 'wheelsCuType'}, 'placeholder': 'Type de meule' }) }}</div>
+    <div class="col-2">{{ form_row(form.provider, { 'placeholder': 'Fournisseur' }) }}</div>
+    <div class="col-1">{{ form_row(form.ref) }}</div>
+    <div class="col-2">{{ form_row(form.tavname) }}</div>
+    <div class="col-1">{{ form_row(form.diameter) }}</div>
+    <div class="col-1">{{ form_row(form.height) }}</div>
+    <div class="col-1">{{ form_row(form.grain) }}</div>
+    <div class="col-1">{{ form_row(form.stock) }}</div>
+</div>
+<div class="row mb-4 ml-2">
+    <div class="col-2"><button type="submit" class="btn btn-primary">Enregistrer</button></div>
+</div>
+{{ form_end(form) }}
+
+<hr>
+
+<h4 class="ml-3 mb-3">Meules enregistrées:</h4>
+
+<table class="table table-hover">
+    <thead>
+      <tr class="table-primary text-center">
+            <th scope="col"><a href="{{ asset('/manage/wheels-cu/provider') }}" class="text-white">Fournisseur</a></th>
+            <th scope="col"><a href="{{ asset('/manage/wheels-cu/cu') }}" class="text-white">Cu</a></th>
+            <th scope="col">Type de meule</th>
+            <th scope="col">Réfèrence</th>
+            <th scope="col">Désignation TAV</th>
+            <th scope="col">Grain</th>
+            <th scope="col">Diamètre</th>
+            <th scope="col">Hauteur</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Non Livrées</th>
+            <th scope="col">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+        {% for wheels in wheelsCu %}
+        <tr class="table-default text-center">
+
+            {% if wheels.provider == null %}
+                <th scope="row">NULL</th>
+            {% else %}
+                <th scope="row">{{ wheels.provider.name }}</th>
+            {% endif %}
+
+             {% if (wheels.wheelsCuType == null or wheels.wheelsCuType.cu == null) %}
+                <td scope="row">NULL</td>
+            {% else %}
+                <td scope="row">{{ wheels.wheelsCuType.cu.name }}</td>
+            {% endif %}
+
+            {% if wheels.wheelsCuType == null %}
+                <td scope="row">NULL</td>
+            {% else %}
+                <td>{{ wheels.wheelsCuType.type }}</td>
+            {% endif %}
+
+            <td>{{ wheels.ref }}</td>
+
+            <td>{{ wheels.tavname }}</td>
+            <td>{{ wheels.grain }}</td>
+            <td>{{ wheels.diameter }}</td>
+            <td>{{ wheels.height }}</td>
+            <td>{{ wheels.stock }}</td>
+
+            {% if wheels.notDelivered == null %}
+                <td><span class="badge bg-secondary">0</span></td>
+            {% else %}
+                <td><span class="badge bg-success">{{ wheels.notDelivered }}</span></td>
+            {% endif %}
+           
+            <td>
+                <a href="#" class="mr-4" data-toggle="modal" data-target="{{ "#modify-wheels" ~ wheels.id }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </svg>
+                </a>
+                <a href="{{ asset('delete/wheels-cu/' ~ wheels.id) }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25 " height="25" fill="" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                </a>
+            </td>
+        </tr>
+
+        <!--Modal for edit button - form for change quantity-->
+        <div class="modal" id="{{ "modify-wheels" ~ wheels.id }}" tabindex="-1" aria-hidden="true" role="dialog">      
+            <div class="modal-dialog" role="document">
+                
+                {{ form_start(editWheelsCuFormTable[wheels.id]) }}
+                    {% set nameForm =  editWheelsCuFormTable[wheels.id].vars.name %}
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Modifier la meule</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="{{ "js-edit-wheels-" ~ wheels.id}}">
+                            {{ form_row(editWheelsCuFormTable[wheels.id]._token, {'id': '_' ~ nameForm ~ '_token_' ~ wheels.id}) }}
+                            {{ form_row(editWheelsCuFormTable[wheels.id].provider, {'id': '_' ~ nameForm ~ '_provider_' ~ wheels.id, 'label': 'Fournisseur'})}}
+                            {{ form_row(editWheelsCuFormTable[wheels.id].cu, {'id': '_' ~ nameForm ~ '_cu_' ~ wheels.id, 'label': 'Cu', 'attr': {'class': 'edit-wheels-cu'}} ) }}
+                            {{ form_row(editWheelsCuFormTable[wheels.id].wheelsCuType, {'id': '_' ~ nameForm ~ '_wheelsCuType_' ~ wheels.id, 'label': 'Type de meule', 'attr': {'class': 'edit-wheels-wheelsCuType'}} ) }}
+                            {{ form_row(editWheelsCuFormTable[wheels.id].ref, {'id': '_' ~ nameForm ~ '_ref_' ~ wheels.id, 'label': 'Réference'}) }}
+                            {{ form_row(editWheelsCuFormTable[wheels.id].tavname, {'id': '_' ~ nameForm ~ '_TAVname_' ~ wheels.id, 'label': 'Désignation TAV'}) }}
+                            {{ form_row(editWheelsCuFormTable[wheels.id].grain, {'id': '_' ~ nameForm ~ '_grain_' ~ wheels.id, 'label': 'Grain'}) }}
+                            {{ form_row(editWheelsCuFormTable[wheels.id].diameter, {'id': '_' ~ nameForm ~ '_diameter_' ~ wheels.id, 'label': 'Diamètre'}) }}
+                            {{ form_row(editWheelsCuFormTable[wheels.id].height, {'id': '_' ~ nameForm ~ '_height_' ~ wheels.id, 'label': 'Hauteur'}) }}
+                            {{ form_row(editWheelsCuFormTable[wheels.id].stock, {'id': '_' ~ nameForm ~ '_stock_' ~ wheels.id, 'label': 'Stock'}) }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Enregistrer</a>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                {{ form_end(editWheelsCuFormTable[wheels.id]) }}
+                
+            </div>
+        </div>
+        <!--End of Modal-->
+
+      {% endfor %}
+    </tbody>
+
+</table>   
+
+
+{% endblock %}

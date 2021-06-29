@@ -24,7 +24,6 @@ class CuRepository extends ServiceEntityRepository
     */
     public function findCuByName($name)
     {
-
         $result =  $this->createQueryBuilder('cu')
             ->select('cu', 'wcut', 'wcu', 'f', 'c')
             ->leftJoin('cu.wheelsCuTypes', 'wcut')
@@ -36,6 +35,10 @@ class CuRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+
+        if ($result === []) {
+            return null;
+        }
 
         return $result[0];
     }

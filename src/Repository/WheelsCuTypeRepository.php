@@ -34,6 +34,10 @@ class WheelsCuTypeRepository extends ServiceEntityRepository
             ->getResult()
         ;
 
+        if ($result === []) {
+            return null;
+        }
+        
         return $result[0];
     }
 

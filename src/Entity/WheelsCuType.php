@@ -21,7 +21,7 @@ class WheelsCuType
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels"})
      */
     private $id;
 
@@ -35,21 +35,21 @@ class WheelsCuType
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels"})
      */
     private $matters;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels"})
      */
     private $type;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels"})
      * 
      */
     private $stockMini;
@@ -57,14 +57,14 @@ class WheelsCuType
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels"})
      */
     private $stockReal;
 
     /**
      * @ORM\ManyToOne(targetEntity=Cu::class, inversedBy="wheelsCuTypes")
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels"})
      */
     private $cu;
 
@@ -78,7 +78,7 @@ class WheelsCuType
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels"})
      */
     private $totalNotDelivered;
 
@@ -86,7 +86,7 @@ class WheelsCuType
      * @ORM\ManyToOne(targetEntity=CuCategories::class, inversedBy="wheelsCuTypes")
      * 
      * @Assert\NotNull
-     * @Groups({"display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels"})
      */
     private $cuCategory;
 

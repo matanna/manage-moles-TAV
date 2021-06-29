@@ -39,6 +39,12 @@ class WheelsCuFormType extends AbstractType
                     'placeholder' => 'Réference'
                 ]
             ])
+            ->add('tavname', TextType::class, [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Désignation TAV'
+                ]
+            ])
             ->add('diameter', IntegerType::class, [
                 'label' => false,
                 'attr' => [
@@ -77,8 +83,9 @@ class WheelsCuFormType extends AbstractType
             ])
             ->add('wheelsCuType', EntityType::class, [
                 'class' => WheelsCuType::class,
-                'choice_label' => 'typeMeule',
-                'choice_value' => 'typeMeule',
+                'choices' => $options['wheelsCuType'],
+                'choice_label' => 'type',
+                'choice_value' => 'type',
                 'label' => false
             ])
         ;
@@ -88,6 +95,7 @@ class WheelsCuFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => WheelsCu::class,
+            'wheelsCuType' => null
         ]);
     }
 }

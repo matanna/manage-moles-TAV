@@ -8,7 +8,6 @@ use App\Utils\SortWheelsCu;
 use App\Entity\WheelsCuType;
 use App\Repository\CuRepository;
 use App\Form\WheelsCuTypeFormType;
-use App\Repository\WheelsCuRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CuCategoriesRepository;
 use App\Repository\WheelsCuTypeRepository;
@@ -208,7 +207,7 @@ class ManageCuController extends AbstractController
     }
 
     /**
-     * @Route("delete/wheels-cu-type/{id}", name="delete_typeMeule")
+     * @Route("delete/wheels-cu-type/{id}", name="delete_wheelsCuType")
      */
     public function deleteWheelsCuType(WheelsCuTypeRepository $wheelsCuTypeRepository, $id): Response 
     {
@@ -217,9 +216,9 @@ class ManageCuController extends AbstractController
         if(!$wheelsCuType) {
             throw new NotFoundHttpException('Ce type de meule n\existe pas');
         }
-
-        $wheelsCus = $wheelsCuType[0]->getWheelsCus();
-
+        
+        $wheelsCus = $wheelsCuType->getWheelsCus();
+        
         if ($wheelsCus->isEmpty()) {
             $manager = $this->getDoctrine()->getManager();
             $manager->remove($wheelsCuType);
@@ -229,7 +228,7 @@ class ManageCuController extends AbstractController
         }
 
         return $this->redirectToRoute('edit_cu', [
-            'nameCu' => $wheelsCuType[0]->getCu()
+            'nameCu' => $wheelsCuType->getCu()->getName()
         ]);
 
     }

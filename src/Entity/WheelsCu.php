@@ -63,7 +63,7 @@ class WheelsCu
     private $provider;
 
     /**
-     * @ORM\ManyToOne(targetEntity=WheelsCuType::class, inversedBy="wheelsCu")
+     * @ORM\ManyToOne(targetEntity=WheelsCuType::class, inversedBy="wheelsCus")
      */
     private $wheelsCuType;
 
@@ -73,6 +73,11 @@ class WheelsCu
      * @Groups({"display_wheels"})
      */
     private $stock;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $notDelivered;
 
     public function getId(): ?int
     {
@@ -171,6 +176,18 @@ class WheelsCu
     public function setStock(?int $stock): self
     {
         $this->stock = $stock;
+
+        return $this;
+    }
+
+    public function getNotDelivered(): ?int
+    {
+        return $this->notDelivered;
+    }
+
+    public function setNotDelivered(?int $notDelivered): self
+    {
+        $this->notDelivered = $notDelivered;
 
         return $this;
     }
