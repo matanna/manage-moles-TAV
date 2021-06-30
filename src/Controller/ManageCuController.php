@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+
 class ManageCuController extends AbstractController
 {
     private $cuCategoriesRepository;
@@ -78,7 +79,7 @@ class ManageCuController extends AbstractController
     }
 
     /**
-     * @Route("/edit/cu/{nameCu}", name="edit_cu")
+     * @Route("/manage/edit/cu/{nameCu}", name="edit_cu")
      */
     public function editCu(CuRepository $cuRepository, SortWheelsCu $sortWheelsCu, 
         WheelsCuTypeRepository $wheelsCuTypeRepository, $nameCu
@@ -181,7 +182,7 @@ class ManageCuController extends AbstractController
     }
 
     /**
-     * @Route("delete/cu/{id}", name="delete_cu")
+     * @Route("/manage/delete/cu/{id}", name="delete_cu")
      */
     public function deleteCu(CuRepository $cuRepository, 
         WheelsCuTypeRepository $wheelsCuTypeRepository, $id
@@ -207,7 +208,7 @@ class ManageCuController extends AbstractController
     }
 
     /**
-     * @Route("delete/wheels-cu-type/{id}", name="delete_wheelsCuType")
+     * @Route("/manage/delete/wheels-cu-type/{id}", name="delete_wheelsCuType")
      */
     public function deleteWheelsCuType(WheelsCuTypeRepository $wheelsCuTypeRepository, $id): Response 
     {

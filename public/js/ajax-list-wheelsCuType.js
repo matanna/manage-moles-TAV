@@ -7,7 +7,7 @@ $(document).ready(function() {
         let cuName = $('#wheelsCu_cu' + ' option:selected').text();
 
         $.ajax({
-            url: "/adapt/wheels-cu-type",
+            url: "manage/adapt/wheels-cu-type",
             type: "POST",
             data: 'cuName=' + cuName,
             dataType: "json",
@@ -33,7 +33,7 @@ $(document).ready(function() {
         let cuName = $('#_wheelsCu_' + wheelsCuId + '_cu_' + wheelsCuId + ' option:selected').text();
         console.log(cuName);
         $.ajax({
-            url: "/adapt/wheels-cu-type",
+            url: "/manage/adapt/wheels-cu-type",
             type: "POST",
             data: { cuName: cuName, wheelsCuId: wheelsCuId },
             dataType: "json",

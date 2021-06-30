@@ -105,7 +105,7 @@ class ManageWheelsRectiMachineController extends AbstractController
     }
 
     /**
-     * @Route("delete/wheels-rectiMachine/{id}", name="delete_wheels-rectiMachine")
+     * @Route("/manage/delete/wheels-rectiMachine/{id}", name="delete_wheels-rectiMachine")
      */
     public function deleteMole(WheelsRectiMachineRepository $wheelsRectiMachineRepository, $id)
     {

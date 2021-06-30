@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ManagePositionsRectiMachineController extends AbstractController
 {
     /**
-     * @Route("/edit/rectiMachine/{nameRectiMachine}", name="edit_rectiMachine")
+     * @Route("/manage/edit/rectiMachine/{nameRectiMachine}", name="edit_rectiMachine")
      */
     public function editPositionRectiMachine(RectiMachineRepository $machineRepository, 
         $nameRectiMachine, EntityManagerInterface $manager
@@ -70,7 +70,7 @@ class ManagePositionsRectiMachineController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{nameRectiMachine}/position/{id}", name="delete_position")
+     * @Route("/manage/delete/{nameRectiMachine}/position/{id}", name="delete_position")
      */
     public function deletePosition(PositionRepository $positionRepository,
     EntityManagerInterface $manager, $id, $nameRectiMachine

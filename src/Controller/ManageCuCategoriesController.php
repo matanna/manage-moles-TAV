@@ -78,8 +78,6 @@ class ManageCuCategoriesController extends AbstractController
             if (!$cuCategory) {
                 throw new NotFoundHttpException('Cette catégorie n\'existe pas');
             }
-            
-            dump($cuCategory->getWheelsCuTypes()->getValues());
 
             if (!$cuCategory->getWheelsCuTypes()->isEmpty()) {
                 return $this->json(false, 200);

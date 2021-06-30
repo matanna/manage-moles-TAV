@@ -4,4 +4,20 @@
 
 {% block body %}
 
+<div class="interligne"></div>
+<h2 class="ml-3">Ajouter un utilisateur</h2>
+<hr>
+<div class="interligne">
+
+{{ form_start(newUserForm) }}
+<div class="row mb-4 ml-2">
+    <div class="col-2">{{ form_row(newUserForm.username) }}</div>
+    <div class="col-2">{{ form_row(newUserForm.password) }}</div>
+</div>
+<div class="row mb-4 ml-2">
+    <div class="col-2">{{ form_widget(newUserForm.roles, {'attr': {'class': 'd-flex'}} ) }}</div>
+</div>  
+{{ form_end(newUserForm) }}
+
+
 {% endblock %}

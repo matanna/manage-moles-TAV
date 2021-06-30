@@ -70,7 +70,7 @@ class ManageWheelsCuController extends AbstractController
     }
 
     /**
-     * @Route("adapt/wheels-cu-type", name="adapt-wheels-cu-type")
+     * @Route("/manage/adapt/wheels-cu-type", name="adapt-wheels-cu-type")
      */
     public function newWheelsCu(Request $request, CuRepository $cuRepository,
         WheelsCuRepository $wheelsCuRepository
@@ -111,7 +111,7 @@ class ManageWheelsCuController extends AbstractController
     }
 
     /**
-     * @Route("delete/wheels-cu/{id}", name="delete-wheels-cu")
+     * @Route("/manage/delete/wheels-cu/{id}", name="delete-wheels-cu")
      */
     public function deleteWheelsCu(WheelsCuRepository $wheelsCuRepository, $id): Response
     {

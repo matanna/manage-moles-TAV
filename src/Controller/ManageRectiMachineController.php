@@ -74,7 +74,7 @@ class ManageRectiMachineController extends AbstractController
     }
 
     /**
-     * @Route("/delete/rectiMachine/{id}", name="delete_rectiMachine")
+     * @Route("/manage/delete/rectiMachine/{id}", name="delete_rectiMachine")
      */
     public function deleteRectiMachine(RectiMachineRepository $rectiMachineRepository,
         EntityManagerInterface $manager, WheelsRectiMachineRepository $wheelsRectiMachineRepository, $id

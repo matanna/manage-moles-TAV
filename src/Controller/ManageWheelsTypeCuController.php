@@ -16,7 +16,7 @@ class ManageWheelsTypeCuController extends AbstractController
     
 
     /**
-     * @Route("delete/{nameCu}/type-meule/{id}", name="delete_typeMeule")
+     * @Route("/manage/delete/{nameCu}/type-meule/{id}", name="delete_typeMeule")
      */
     public function deleteTypMeule(WheelsCuTypeRepository $typeMeuleCuRepository, 
         WheelsCuRepository $meuleCuRepository, $nameCu, $id
