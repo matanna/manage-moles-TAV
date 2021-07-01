@@ -21,7 +21,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/admin/users", name="users")
+     * @Route("admin/users", name="users")
      */
     public function manageUsers(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
@@ -35,8 +35,14 @@ class UserController extends AbstractController
             
             $newUser->setPassword($encoder->encodePassword($newUser, $newUser->getPassword()));
             
+            $newUser->setRoles([$request->request->get('user_form')['roles']]);
+            
             $this->manager->persist($newUser);
             $this->manager->flush();
+
+            return $this->render('user/manageUsers.html.twig', [
+                'newUserForm' => $newUserForm->createView()
+            ]);
         }
 
         return $this->render('user/manageUsers.html.twig', [

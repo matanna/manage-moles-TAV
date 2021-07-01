@@ -15,8 +15,9 @@
     <div class="col-2">{{ form_row(newUserForm.password) }}</div>
 </div>
 <div class="row mb-4 ml-2">
-    <div class="col-2">{{ form_widget(newUserForm.roles, {'attr': {'class': 'd-flex'}} ) }}</div>
-</div>  
+    <div class="col-4">{{ form_widget(newUserForm.roles, {'attr': {'class': 'd-flex justify-content-between'}} ) }}</div>
+</div>
+<button type="submit" class="btn btn-success ml-3">Enregistrer</button>
 {{ form_end(newUserForm) }}
 
 

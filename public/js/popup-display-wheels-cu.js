@@ -39,8 +39,8 @@ $(document).ready(function() {
             async: true,
 
             success: function(data, status) {
-                
-                for (let wheels of data.wheelsCus) {
+                console.log(data);
+                for (let wheels of data['wheelsCuType'].wheelsCus) {
                     
                     $('#display-wheels-cu').append(
                         '<div class="col-12 wheels-cu">\

@@ -39,6 +39,10 @@ services:
         tags:
             - { name: 'doctrine.event_subscriber' }
 
+    App\Listener\ExceptionSubscriber: 
+        tags: 
+            - { name: 'kernel.exception' }
+
     App\Twig\TwigGlobalVarsSubscriber:
         tags:
             - { name: 'twig.globalVars_subscriber', event: kernel.controller }
