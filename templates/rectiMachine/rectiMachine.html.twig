@@ -84,7 +84,9 @@
     <h2 class="ml-4 mt-4"><span class="border-bottom mb-5">Détails du stock</span></h2>
 </div>
 
+{% if is_granted('ROLE_SUPER_USER') %}
 <a href="{{ asset("/manage/wheels-rectiMachine") }}" class="btn btn-outline-success ml-2 mt-2">Enregistrer une nouvelle meule</a>
+{% endif %}
 <div class="interligne"></div>
 
 <div class="row text-center font-weight-bold border-top border-bottom pt-2 pb-2 head-table">

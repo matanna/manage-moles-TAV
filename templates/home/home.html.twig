@@ -4,11 +4,62 @@
 {% block active %}active{% endblock %}
 {% block body %}
     <div class="row">
-        <div class="col-6 text-center">
-            <a href="{{ asset('/all-rectiMachines') }}" class="btn btn-secondary btn-lg mt-5 p-5 btn-home">STOCK BILATERALE / RECTILIGNES</a>
+        <div class="col-6 mt-3 text-center border-right border-primary">
+            <h2 class="p-3">STOCK BILATERALE / RECTILIGNES</h2>
+            
+            {% if is_granted('ROLE_USER') %}
+            <div><a href="{{ asset('/update/stock/rectiMachine') }}" class="btn btn-secondary btn-lg mt-5 p-5 btn-home">METTRE A JOUR</a></div>
+            
+            {% else %}
+            <div><a href="#" data-target="#update-rectiMachine" data-toggle="modal" class="btn btn-secondary btn-lg mt-5 p-5 btn-home">METTRE A JOUR</a></div>
+            <!--Modal for edit button - form for change quantity-->
+            <div class="modal" id="update-rectiMachine" tabindex="-1" aria-hidden="true" role="dialog">      
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p class="text-warning">Se connecter pour mettre a jour le stock</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End of Modal-->
+            
+            {% endif %}
         </div>
-        <div class="col-6 text-center">
-            <button type="button" class="btn btn-secondary btn-lg mt-5 p-5 btn-home">STOCK CENTRES D'USINAGE</button>
+
+        <div class="col-6 mt-3 text-center">
+            <h2 class="p-3">STOCK CENTRES D'USINAGE</h2>
+            
+            {% if is_granted('ROLE_USER') %}
+            <div><a href="{{ asset('/update/stock/cu') }}" class="btn btn-secondary btn-lg mt-5 p-5 btn-home">METTRE A JOUR</a></div>
+            
+            {% else %}
+            <div><a href="#" data-target="#update-cu" data-toggle="modal" class="btn btn-secondary btn-lg mt-5 p-5 btn-home">METTRE A JOUR</a></div>
+            <!--Modal for edit button - form for change quantity-->
+            <div class="modal" id="update-cu" tabindex="-1" aria-hidden="true" role="dialog">      
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p class="text-warning">Se connecter pour mettre a jour le stock</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End of Modal-->
+            
+            {% endif %}
         </div>
     </div>
 {% endblock %}

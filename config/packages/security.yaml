@@ -1,48 +1,48 @@
 security:
+  enable_authenticator_manager: true
 
-    enable_authenticator_manager: true
+  encoders:
+    App\Entity\User:
+      algorithm: bcrypt
 
-    encoders:
-        App\Entity\User:
-            algorithm: bcrypt
+  # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+  providers:
+    # used to reload user from session & other features (e.g. switch_user)
+    doctrine:
+      entity:
+        class: App\Entity\User
+        property: username
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
 
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    providers:
-        # used to reload user from session & other features (e.g. switch_user)
-        doctrine:
-            entity:
-                class: App\Entity\User
-                property: username
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        
-        main:
-            lazy: true
-            provider: doctrine
+    main:
+      lazy: true
+      provider: doctrine
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
+      # activate different ways to authenticate
+      # https://symfony.com/doc/current/security.html#firewalls-authentication
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+      # https://symfony.com/doc/current/security/impersonating_user.html
+      # switch_user: true
 
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
+      guard:
+        authenticators:
+          - App\Security\LoginFormAuthenticator
 
-            logout:
-                path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
+      logout:
+        path: app_logout
+        # where to redirect after logout
+        # target: app_any_route
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
-    access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/manage, roles: ROLE_SUPER_USER }
+  # Easy way to control access for large sections of your site
+  # Note: Only the *first* access control that matches will be used
+  access_control:
+    - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/manage, roles: ROLE_SUPER_USER }
+    - { path: ^/update/stock, roles: ROLE_USER }
 
-    role_hierarchy:
-        ROLE_SUPER_USER: ROLE_USER
-        ROLE_ADMIN: ROLE_SUPER_USER
+  role_hierarchy:
+    ROLE_SUPER_USER: ROLE_USER
+    ROLE_ADMIN: ROLE_SUPER_USER

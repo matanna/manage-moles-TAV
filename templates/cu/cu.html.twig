@@ -10,10 +10,13 @@
 {% block body %}
 
 <div class="d-flex justify-content-between">
-    <h2 class="ml-4 mt-4 border-bottom mb-5">Stock meules : <span class="text-uppercase">{{ cu.name }}</span></h2>
+    <h2 class="ml-3 mt-4 border-bottom">Stock meules : <span class="text-uppercase">{{ cu.name }}</span></h2>
 </div>
+{% if is_granted('ROLE_SUPER_USER') %}
+    <a href="{{ asset("/manage/wheels-cu") }}" class="btn btn-outline-success ml-3 mt-2">Enregistrer une nouvelle meule</a>
+{% endif %}
 
-<div class="row text-center font-weight-bold border-top border-bottom pt-2 pb-2 head-table">
+<div class="row text-center font-weight-bold border-top border-bottom pt-2 pb-2 mt-5 head-table">
     <div class="col-1 border-right">Categorie</div>
     <div class="col-11">
         <div class="row">

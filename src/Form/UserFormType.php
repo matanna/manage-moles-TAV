@@ -23,9 +23,9 @@ class UserFormType extends AbstractType
             ])
             ->add('roles', ChoiceType::class,[
                 'choices' => [
-                    'Opérateur' => 'USER', 
-                    'Encadrement' => 'SUPER_USER', 
-                    'Administrateur' => 'ADMIN', 
+                    'Opérateur' => 'ROLE_USER', 
+                    'Encadrement' => 'ROLE_SUPER_USER', 
+                    'Administrateur' => 'ROLE_ADMIN', 
                 ],
                 'expanded' => true,
                 'mapped' => false,

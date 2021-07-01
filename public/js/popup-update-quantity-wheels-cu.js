@@ -10,7 +10,7 @@ $(document).ready(function() {
 
         $.ajax({
             //We retrieve the courant url
-            url: "/change-quantity/" + wheelsId,
+            url: "../cu/change-quantity/" + wheelsId,
             type: "POST",
             data: {quantity: quantity},
             dataType: "json",

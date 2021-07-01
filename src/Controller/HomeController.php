@@ -15,7 +15,7 @@ class HomeController extends AbstractController
      */
     public function index(UserPasswordEncoderInterface $encoder): Response
     {
-        /**for ($i = 0; $i < 6; $i++) {
+        /*for ($i = 0; $i < 6; $i++) {
            
             $user = new User();
 

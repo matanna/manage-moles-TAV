@@ -39,9 +39,54 @@ $(document).ready(function() {
             async: true,
 
             success: function(data, status) {
-                console.log(data);
+               
+                let user = data['user'];
+
+                if (user != null) {
+                    userRole = user['roles'];
+                } else {
+                    userRole = [];
+                }
+                
+                console.log(userRole);
+
                 for (let wheels of data['wheelsCuType'].wheelsCus) {
                     
+                    let modal = ';'
+
+                    if (userRole.includes("ROLE_USER")) {
+                        html = '<form method="post" action="#">\
+                                    <div class="modal-content">\
+                                        <div class="modal-header">\
+                                            <h5 class="modal-title">Quantité en stock :</h5>\
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+                                                <span aria-hidden="true">&times;</span>\
+                                            </button>\
+                                        </div>\
+                                        <div class="modal-body">\
+                                            <input type="number" id="quantity' + wheels['id'] + '" name="quantity" >\
+                                        </div>\
+                                        <div class="modal-footer">\
+                                            <button type="button" class="btn btn-primary change-quantity" id="'+ wheels['id'] + '">Enregistrer</button>\
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>\
+                                        </div>\
+                                    </div>\
+                                </form>'
+                    } else {
+                        html = '<div class="modal-content">\
+                                    <div class="modal-header">\
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+                                            <span aria-hidden="true">&times;</span>\
+                                        </button>\
+                                    </div>\
+                                    <p class="text-warning text-center">Se connecter pour modifier les quantités</p>\
+                                    <div class="modal-footer">\
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>\
+                                    </div>\
+                                </div>'
+                                       
+                    }
+
                     $('#display-wheels-cu').append(
                         '<div class="col-12 wheels-cu">\
                             <div class="row border-bottom text-center pt-2 pb-2">\
@@ -64,23 +109,7 @@ $(document).ready(function() {
                         </div>\
                         <div class="modal" id="change-quantity' + wheels['id'] + '" tabindex="-1" aria-hidden="true" role="dialog">\
                             <div class="modal-dialog" role="document">\
-                                <form method="post" action="#">\
-                                    <div class="modal-content">\
-                                        <div class="modal-header">\
-                                            <h5 class="modal-title">Quantité en stock :</h5>\
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
-                                                <span aria-hidden="true">&times;</span>\
-                                            </button>\
-                                        </div>\
-                                        <div class="modal-body">\
-                                            <input type="number" id="quantity' + wheels['id'] + '" name="quantity" >\
-                                        </div>\
-                                        <div class="modal-footer">\
-                                            <button type="button" class="btn btn-primary change-quantity" id="'+ wheels['id'] + '">Enregistrer</button>\
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>\
-                                        </div>\
-                                    </div>\
-                                </form>\
+                            ' + html + '\
                             </div>\
                         </div>' 
                     );
