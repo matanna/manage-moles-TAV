@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,9 +16,12 @@ class UserController extends AbstractController
 {
     private $manager;
 
-    public function __construct(EntityManagerInterface $manager)
+    private $userRepository;
+
+    public function __construct(EntityManagerInterface $manager, UserRepository $userRepository)
     {
         $this->manager = $manager;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -45,8 +49,11 @@ class UserController extends AbstractController
             ]);
         }
 
+        $users = $this->userRepository->findAll();
+
         return $this->render('user/manageUsers.html.twig', [
-            'newUserForm' => $newUserForm->createView()
+            'newUserForm' => $newUserForm->createView(),
+            'users' => $users
         ]);
     }
 }
