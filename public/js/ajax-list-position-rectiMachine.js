@@ -3,16 +3,22 @@ $(document).ready(function() {
     $('.new-position').empty().append('<option value="selected=selected">Position</option>');
 });
 
+let url = $(location).attr("href");
+
 //This code block is for adapt position list when a machine is choose on add a new whells rectiMachine form page
 $(document).ready(function(){
 
     $(".new-machine").on("change", function(event) {
-         
+        
+        let id = $(this).attr('id');
+
         //We retrieve value of select rectiMachine
-        let rectiMachineName = $('#wheels_recti_machine_form_rectiMachine' + ' option:selected').text();
+        let rectiMachineName = $('#' + id + ' option:selected').text();
+
+        let positionName = id.replace('rectiMachine', 'position');
 
         $.ajax({
-            url: "/manage/wheels-rectiMachine",
+            url: url,
             type: "POST",
             data: 'rectiMachineName=' + rectiMachineName,
             dataType: "json",
@@ -21,9 +27,9 @@ $(document).ready(function(){
             success: function(data, status) {
 
                 //We retrieve the form updated with positions linked to choice rectiMachine and we change only the positions field
-                let positions = $(data.content).find('#wheels_recti_machine_form_position');
+                let positions = $(data.content).find('#' + positionName);
 
-                $('#wheels_recti_machine_form_position').replaceWith(positions);
+                $('#' + positionName).replaceWith(positions);
             }
         })
         

@@ -2,10 +2,26 @@
 
 {% block title %}Mise à jour Bilatérales / Rectilignes{% endblock %}
 
+{% block javascripts %}
+    <script src="/js/ajax-list-position-rectiMachine.js"></script>
+    <script src="/js/display-wheels-rectiMachine.js"></script>
+{% endblock %}
+
 {% block body %}
 
 <div class="row mt-3">
     <div class="col-12 ml-2"><h2>Mettre à jour le stock Bilatérales / Rectilignes</h2></div>
 </div>
+<hr>
+<div class="interligne"></div>
+
+
+{{ form_start(choicePositionOfRectiMachineForm) }}
+<div class="row">
+    <div class="col-3">{{ form_row(choicePositionOfRectiMachineForm.rectiMachine, {'placeholder': 'Choix de la machine', 'attr': {'class': 'new-machine'}}) }}</div>
+    <div class="col-3">{{ form_row(choicePositionOfRectiMachineForm.position, {'placeholder': 'Choix de la position', 'attr': {'class': 'new-position'}}) }}</div>
+    <div class="col-2"><button type="button" class="btn btn-outline-success" id="valid-choice">Valider</button></div>
+</div>
+{{ form_start(choicePositionOfRectiMachineForm) }}
 
 {% endblock %}
