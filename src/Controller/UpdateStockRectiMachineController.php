@@ -59,4 +59,24 @@ class UpdateStockRectiMachineController extends AbstractController
             'choicePositionOfRectiMachineForm' => $choicePositionOfRectiMachineForm->createView()
          ]);
     }
+
+    /**
+     * @Route("/update/stock/rectiMachine/wheels", name="update_stock_rectiMachine_wheels")
+     */
+    public function updateStockRectiMachineWheels(Request $request): Response
+    {
+        //Ajax request for display wheels in terms of position and machine
+        if ($request->isXmlHttpRequest()) {
+
+
+            $wheels = $this->wheelsRectiMachineRepository->findWheelsRectiMachineByPosition(
+                $request->get('rectiMachineName'),
+                $request->get('positionName')
+            );
+
+            return $this->json($wheels, 200, [], [
+                'groups' => 'wheels_by_position'
+            ]);
+        }
+    }
 }

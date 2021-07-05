@@ -18,11 +18,15 @@ class RectiMachine
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("wheels_by_positions")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * 
+     * @Groups("wheels_by_positions")
      */
     private $name;
 

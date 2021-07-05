@@ -17,48 +17,64 @@ class Position
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("wheels_by_positions")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups("rectiMachine_positions")
+     * @Groups("rectiMachine_positions", "wheels_by_position")
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Groups("wheels_by_positions")
      */
     private $stockMini;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups("wheels_by_positions")
      */
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups("wheels_by_positions")
      */
     private $working;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups("wheels_by_positions")
      */
     private $matters;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Groups("wheels_by_positions")
      */
     private $stockReal;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Groups("wheels_by_positions")
      */
     private $totalNotDelivered;
 
     /**
      * @ORM\ManyToOne(targetEntity=RectiMachine::class, inversedBy="positions")
+     * 
+     * @Groups("wheels_by_positions")
      */
     private $rectiMachine;
 

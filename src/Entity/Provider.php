@@ -20,14 +20,14 @@ class Provider
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_position"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_position"})
      */
     private $name;
 

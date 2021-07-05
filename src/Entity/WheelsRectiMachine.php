@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\WheelsRectiMachineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups as Groups;
 
 /**
  * @ORM\Entity(repositoryClass=WheelsRectiMachineRepository::class)
@@ -17,51 +18,71 @@ class WheelsRectiMachine
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("wheels_by_position")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups("wheels_by_position")
      */
     private $ref;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups("wheels_by_position")
      */
     private $TAVname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups("wheels_by_position")
      */
     private $grain;
 
     /**
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("wheels_by_position")
      */
     private $diameter;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Groups("wheels_by_position")
      */
     private $height;
 
     /**
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("wheels_by_position")
      */
     private $stock;
 
     /**
      * @ORM\ManyToOne(targetEntity=Provider::class, inversedBy="wheelsRectiMachines")
+     * 
+     * @Groups("wheels_by_position")
      */
     private $provider;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Groups("wheels_by_position")
      */
     private $notDelivered;
 
     /**
      * @ORM\ManyToOne(targetEntity=Position::class, inversedBy="wheelsRectiMachines")
+     * 
+     * @Groups("wheels_by_position")
      */
     private $position;
 

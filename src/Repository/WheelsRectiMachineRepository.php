@@ -59,7 +59,9 @@ class WheelsRectiMachineRepository extends ServiceEntityRepository
             ->setParameter('position', $position)
             ->getQuery()
             ->getResult();
-            
+        
+        dump($results);
+
         return $results;
     }
 
