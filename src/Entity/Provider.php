@@ -41,10 +41,16 @@ class Provider
      */
     private $wheelsCus;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RectiMachineConsumption::class, mappedBy="provider")
+     */
+    private $consumptions;
+
     public function __construct()
     {
         $this->wheelsRectiMachines = new ArrayCollection();
         $this->wheelsCus = new ArrayCollection();
+        $this->consumptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,6 +124,36 @@ class Provider
             // set the owning side to null (unless already changed)
             if ($wheelsCu->getProvider() === $this) {
                 $wheelsCu->setProvider(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RectiMachineConsumption[]
+     */
+    public function getConsumptions(): Collection
+    {
+        return $this->consumptions;
+    }
+
+    public function addConsumption(RectiMachineConsumption $consumption): self
+    {
+        if (!$this->consumptions->contains($consumption)) {
+            $this->consumptions[] = $consumption;
+            $consumption->setProvider($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConsumption(RectiMachineConsumption $consumption): self
+    {
+        if ($this->consumptions->removeElement($consumption)) {
+            // set the owning side to null (unless already changed)
+            if ($consumption->getProvider() === $this) {
+                $consumption->setProvider(null);
             }
         }
 

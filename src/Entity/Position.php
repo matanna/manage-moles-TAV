@@ -32,49 +32,49 @@ class Position
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
-     * @Groups("wheels_by_positions")
+     * @Groups("wheels_by_position")
      */
     private $stockMini;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups("wheels_by_positions")
+     * @Groups("wheels_by_position")
      */
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups("wheels_by_positions")
+     * @Groups("wheels_by_position")
      */
     private $working;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups("wheels_by_positions")
+     * @Groups("wheels_by_position")
      */
     private $matters;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
-     * @Groups("wheels_by_positions")
+     * @Groups("wheels_by_position")
      */
     private $stockReal;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
-     * @Groups("wheels_by_positions")
+     * @Groups("wheels_by_position")
      */
     private $totalNotDelivered;
 
     /**
      * @ORM\ManyToOne(targetEntity=RectiMachine::class, inversedBy="positions")
      * 
-     * @Groups("wheels_by_positions")
+     * @Groups("wheels_by_position")
      */
     private $rectiMachine;
 
@@ -83,9 +83,15 @@ class Position
      */
     private $wheelsRectiMachines;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RectiMachineConsumption::class, mappedBy="position")
+     */
+    private $consumptions;
+
     public function __construct()
     {
         $this->wheelsRectiMachines = new ArrayCollection();
+        $this->consumptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -212,6 +218,36 @@ class Position
             // set the owning side to null (unless already changed)
             if ($wheelsRectiMachine->getPosition() === $this) {
                 $wheelsRectiMachine->setPosition(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RectiMachineConsumption[]
+     */
+    public function getConsumptions(): Collection
+    {
+        return $this->consumptions;
+    }
+
+    public function addConsumption(RectiMachineConsumption $consumption): self
+    {
+        if (!$this->consumptions->contains($consumption)) {
+            $this->consumptions[] = $consumption;
+            $consumption->setPosition($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConsumption(RectiMachineConsumption $consumption): self
+    {
+        if ($this->consumptions->removeElement($consumption)) {
+            // set the owning side to null (unless already changed)
+            if ($consumption->getPosition() === $this) {
+                $consumption->setPosition(null);
             }
         }
 
