@@ -37,7 +37,7 @@ class StockWheelsCuController extends AbstractController
         $wheelsStored = $sortWheelsCu->sortWheelsCuByType($wheels);
 
         $data['user'] = $user;
-        dump($data['user']);
+      
 
         if ($request->isXmlHttpRequest()) {
             $wheelsCuType = $wheelsCuTypeRepository->findWheelsCuType($request->request->get('idWheelsCuType'));

@@ -3,8 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Cu;
-use App\Entity\WheelsCu;
 use App\Entity\Provider;
+use App\Entity\WheelsCu;
+use App\Entity\CuCategories;
 use App\Entity\WheelsCuType;
 use App\Repository\CuRepository;
 use App\Utils\TransformInAssocArray;
@@ -81,6 +82,14 @@ class WheelsCuFormType extends AbstractType
                 'mapped' => false,
                 'label' => false
             ])
+            ->add('categories', EntityType::class, [
+                'class' => CuCategories::class,
+                'choices' => $options['categories'],
+                'choice_label' => 'name',
+                'choice_value' => 'name',
+                'mapped' => false,
+                'label' => false
+            ])
             ->add('wheelsCuType', EntityType::class, [
                 'class' => WheelsCuType::class,
                 'choices' => $options['wheelsCuType'],
@@ -95,7 +104,8 @@ class WheelsCuFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => WheelsCu::class,
-            'wheelsCuType' => null
+            'wheelsCuType' => null,
+            'categories' => null
         ]);
     }
 }

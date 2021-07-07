@@ -21,7 +21,7 @@ class CuCategories
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $id;
 
@@ -29,7 +29,7 @@ class CuCategories
      * @ORM\Column(type="string", length=255)
      * 
      * @Assert\Length(min = 2, max = 5)
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $name;
 

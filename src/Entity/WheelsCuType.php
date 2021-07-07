@@ -21,35 +21,35 @@ class WheelsCuType
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * 
-     * @Groups({"cu_type_wheels", "display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups({"cu_type_wheels", "display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      */
     private $working;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups({"cu_type_wheels", "display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      */
     private $matters;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups({"cu_type_wheels", "display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      */
     private $type;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
-     * @Groups({"cu_type_wheels", "display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      * 
      */
     private $stockMini;
@@ -57,14 +57,14 @@ class WheelsCuType
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
-     * @Groups({"cu_type_wheels", "display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      */
     private $stockReal;
 
     /**
      * @ORM\ManyToOne(targetEntity=Cu::class, inversedBy="wheelsCuTypes")
      * 
-     * @Groups({"cu_type_wheels", "display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      */
     private $cu;
 
@@ -78,7 +78,7 @@ class WheelsCuType
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
-     * @Groups({"cu_type_wheels", "display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      */
     private $totalNotDelivered;
 
@@ -86,13 +86,19 @@ class WheelsCuType
      * @ORM\ManyToOne(targetEntity=CuCategories::class, inversedBy="wheelsCuTypes")
      * 
      * @Assert\NotNull
-     * @Groups({"cu_type_wheels", "display_wheels"})
+     * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      */
     private $cuCategory;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CuConsumption::class, mappedBy="wheelsCuType")
+     */
+    private $cuConsumptions;
 
     public function __construct()
     {
         $this->wheelsCu = new ArrayCollection();
+        $this->cuConsumptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,6 +237,36 @@ class WheelsCuType
     public function setTotalNotDelivered(?int $totalNotDelivered): self
     {
         $this->totalNotDelivered = $totalNotDelivered;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CuConsumption[]
+     */
+    public function getCuConsumptions(): Collection
+    {
+        return $this->cuConsumptions;
+    }
+
+    public function addCuConsumption(CuConsumption $cuConsumption): self
+    {
+        if (!$this->cuConsumptions->contains($cuConsumption)) {
+            $this->cuConsumptions[] = $cuConsumption;
+            $cuConsumption->setWheelsCuType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCuConsumption(CuConsumption $cuConsumption): self
+    {
+        if ($this->cuConsumptions->removeElement($cuConsumption)) {
+            // set the owning side to null (unless already changed)
+            if ($cuConsumption->getWheelsCuType() === $this) {
+                $cuConsumption->setWheelsCuType(null);
+            }
+        }
 
         return $this;
     }

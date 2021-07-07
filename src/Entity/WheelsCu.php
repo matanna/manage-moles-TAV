@@ -16,66 +16,70 @@ class WheelsCu
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $ref;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $tavName;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $diameter;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $height;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $grain;
 
     /**
      * @ORM\ManyToOne(targetEntity=Provider::class, inversedBy="wheelsCus")
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $provider;
 
     /**
      * @ORM\ManyToOne(targetEntity=WheelsCuType::class, inversedBy="wheelsCus")
+     * 
+     * @Groups({"wheels_by_wheelsCuType"})
      */
     private $wheelsCuType;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $stock;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Groups({"wheels_by_wheelsCuType"})
      */
     private $notDelivered;
 

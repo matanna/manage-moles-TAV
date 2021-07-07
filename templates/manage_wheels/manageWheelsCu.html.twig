@@ -21,8 +21,9 @@
 {{ form_start(form) }}
 <div class="row mb-4 ml-2">
     <div class="col-1">{{ form_row(form.cu, {'attr': {'class': 'cu'}, 'placeholder': 'Cu' }) }}</div>
+    <div class="col-1">{{ form_row(form.categories, {'placeholder': 'Categorie' }) }}</div>
     <div class="col-2">{{ form_row(form.wheelsCuType, {'attr': {'class': 'wheelsCuType'}, 'placeholder': 'Type de meule' }) }}</div>
-    <div class="col-2">{{ form_row(form.provider, { 'placeholder': 'Fournisseur' }) }}</div>
+    <div class="col-1">{{ form_row(form.provider, { 'placeholder': 'Fournisseur' }) }}</div>
     <div class="col-1">{{ form_row(form.ref) }}</div>
     <div class="col-2">{{ form_row(form.tavname) }}</div>
     <div class="col-1">{{ form_row(form.diameter) }}</div>

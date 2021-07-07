@@ -22,19 +22,24 @@ class WheelsCuRepository extends ServiceEntityRepository
     /**
     * @return WheelsCu Returns an array of WheelsCu objects
     */
-    public function findWheelsByType($cuName, $wheelsCuType)
+    public function findWheelsByType($cuName, $categoryName, $wheelsCuType)
     {
+        
         $result =  $this->createQueryBuilder('wcu')
-            ->select('wcu', 'wcut', 'cu')
+            ->select('wcu', 'wcut', 'cu', 'c')
             ->leftJoin('wcu.wheelsCuType', 'wcut')
             ->leftJoin('wcut.cu', 'cu')
-            ->andWhere('wcut.wheelsCuType = :wheelsCuType')
+            ->leftJoin('wcut.cuCategory', 'c')
+            ->andWhere('wcut.type = :wheelsCuType')
             ->andWhere('cu.name = :cuName')
+            ->andWhere('c.name = :categoryName')
             ->setParameter('wheelsCuType', $wheelsCuType)
             ->setParameter('cuName', $cuName)
+            ->setParameter('categoryName', $categoryName)
             ->getQuery()
             ->getResult()
         ;
+        dump($result);
         return $result;
     }
 

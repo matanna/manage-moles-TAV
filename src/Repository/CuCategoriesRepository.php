@@ -19,22 +19,22 @@ class CuCategoriesRepository extends ServiceEntityRepository
         parent::__construct($registry, CuCategories::class);
     }
 
-    // /**
-    //  * @return CuCategories[] Returns an array of CuCategories objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return CuCategories[] Returns an array of CuCategories objects
+     */
+    public function findCuCategoriesByCu($cuName)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('c', 'wcut', 'cu')
+            ->leftJoin('c.wheelsCuTypes', 'wcut')
+            ->leftJoin('wcut.cu', 'cu')
+            ->andWhere('cu.name = :cuName')
+            ->setParameter('cuName', $cuName)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?CuCategories

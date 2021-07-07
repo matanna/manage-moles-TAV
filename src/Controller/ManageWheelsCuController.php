@@ -42,6 +42,8 @@ class ManageWheelsCuController extends AbstractController
 
         $wheelsCu = $wheelsCuRepository->findAllWheelsCu();
 
+        $editWheelsCuFormTable = [];
+
         foreach ($wheelsCu as $wheels) {
 
             $editWheelsCuForm = $this->get('form.factory')->createNamed('wheelsCu_' . $wheels->getId(), WheelsCuFormType::class, $wheels, [

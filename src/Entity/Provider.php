@@ -20,14 +20,14 @@ class Provider
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * 
-     * @Groups({"display_wheels", "wheels_by_position"})
+     * @Groups({"display_wheels", "wheels_by_position", "wheels_by_wheelsCuType"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * 
-     * @Groups({"display_wheels", "wheels_by_position"})
+     * @Groups({"display_wheels", "wheels_by_position", "wheels_by_wheelsCuType"})
      */
     private $name;
 
@@ -46,11 +46,17 @@ class Provider
      */
     private $consumptions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CuConsumption::class, mappedBy="provider")
+     */
+    private $cuConsumptions;
+
     public function __construct()
     {
         $this->wheelsRectiMachines = new ArrayCollection();
         $this->wheelsCus = new ArrayCollection();
         $this->consumptions = new ArrayCollection();
+        $this->cuConsumptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -154,6 +160,36 @@ class Provider
             // set the owning side to null (unless already changed)
             if ($consumption->getProvider() === $this) {
                 $consumption->setProvider(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CuConsumption[]
+     */
+    public function getCuConsumptions(): Collection
+    {
+        return $this->cuConsumptions;
+    }
+
+    public function addCuConsumption(CuConsumption $cuConsumption): self
+    {
+        if (!$this->cuConsumptions->contains($cuConsumption)) {
+            $this->cuConsumptions[] = $cuConsumption;
+            $cuConsumption->setProvider($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCuConsumption(CuConsumption $cuConsumption): self
+    {
+        if ($this->cuConsumptions->removeElement($cuConsumption)) {
+            // set the owning side to null (unless already changed)
+            if ($cuConsumption->getProvider() === $this) {
+                $cuConsumption->setProvider(null);
             }
         }
 

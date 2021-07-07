@@ -22,6 +22,51 @@ class WheelsCuTypeRepository extends ServiceEntityRepository
     /**
      * @return WheelsCuType[] Returns an array of WheelsCuType objects
      */
+    public function findWheelsCuTypeByCu($cuName)
+    {
+        $result = $this->createQueryBuilder('wcut')
+            ->select('wcut', 'cu')
+            ->leftJoin('wcut.cu', 'cu')
+            ->andWhere('cu.name = :name')
+            ->setParameter('name', $cuName)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        if ($result === []) {
+            return null;
+        }
+        
+        return $result;
+    }
+
+    /**
+     * @return WheelsCuType[] Returns an array of WheelsCuType objects
+     */
+    public function findWheelsCuTypeByCuAndByCategory($cuName, $categoryName)
+    {
+        $result = $this->createQueryBuilder('wcut')
+            ->select('wcut', 'cu', 'c')
+            ->leftJoin('wcut.cu', 'cu')
+            ->leftJoin('wcut.cuCategory', 'c')
+            ->andWhere('cu.name = :name')
+            ->andWhere('c.name = :categoryName')
+            ->setParameter('name', $cuName)
+            ->setParameter('categoryName', $categoryName)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        if ($result === []) {
+            return null;
+        }
+        
+        return $result;
+    }
+
+    /**
+     * @return WheelsCuType[] Returns an array of WheelsCuType objects
+     */
     public function findWheelsCuType($id)
     {
         $result = $this->createQueryBuilder('wcut')

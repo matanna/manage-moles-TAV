@@ -20,14 +20,14 @@ class Cu
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * 
-     * @Groups({"display_wheels"})
+     * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $name;
 
