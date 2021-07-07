@@ -1,6 +1,21 @@
+
+body {  
+    position: relative;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 10em;
+}
+
 #logo {
     width: 200px;
 }
+
 .btn-home {
     font-size: 1.8em !important;
 }
@@ -92,4 +107,15 @@ h3 {
 
 .no-margin {
     margin: 0;
+}
+
+footer {
+    position: absolute;
+    margin-top: 20px;
+    width: 100%;
+    min-height: 100px;
+    bottom: 0;
+}
+#little-logo {
+    width: 100px;
 }

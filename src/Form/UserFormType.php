@@ -29,7 +29,8 @@ class UserFormType extends AbstractType
                 ],
                 'expanded' => true,
                 'mapped' => false,
-                'label' => false
+                'label' => false,
+                'data' => $options['role']
             ])
             ->add('password', PasswordType::class, [
                 'attr' => [
@@ -44,6 +45,7 @@ class UserFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'role' => null
         ]);
     }
 }

@@ -51,9 +51,27 @@ class UserController extends AbstractController
 
         $users = $this->userRepository->findAll();
 
+        $usersTable = [];
+
+        foreach ($users as $user) {
+            $userForm = $this->get('form.factory')->createNamed('form-user-' . $user->getId(), UserFormType::class, $user, [
+                'role' => $user->getRoles()[0]
+            ]);
+            $userFormView = $userForm->createView();
+            $userForm->handleRequest($request);
+
+            if ($userForm->isSubmitted() && $userForm->isValid()) {
+                $this->manager->persist($userForm);
+                $this->manager->flush();
+            }
+
+            $usersTable[$user->getId()]['user'] = $user;
+            $usersTable[$user->getId()]['userForm'] = $userFormView;
+        }
+        dump($usersTable);
         return $this->render('user/manageUsers.html.twig', [
             'newUserForm' => $newUserForm->createView(),
-            'users' => $users
+            'usersTable' => $usersTable
         ]);
     }
 }
