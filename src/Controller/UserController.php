@@ -33,22 +33,6 @@ class UserController extends AbstractController
 
         $newUserForm = $this->createForm(UserFormType::class, $newUser);
 
-        $newUserForm->handleRequest($request);
-
-        if ($newUserForm->isSubmitted() && $newUserForm->isValid()) {
-            
-            $newUser->setPassword($encoder->encodePassword($newUser, $newUser->getPassword()));
-            
-            $newUser->setRoles([$request->request->get('user_form')['roles']]);
-            
-            $this->manager->persist($newUser);
-            $this->manager->flush();
-
-            return $this->render('user/manageUsers.html.twig', [
-                'newUserForm' => $newUserForm->createView()
-            ]);
-        }
-
         $users = $this->userRepository->findAll();
 
         $usersTable = [];
@@ -60,15 +44,37 @@ class UserController extends AbstractController
             $userFormView = $userForm->createView();
             $userForm->handleRequest($request);
 
+            $usersTable[$user->getId()]['user'] = $user;
+            $usersTable[$user->getId()]['userForm'] = $userFormView;
+
             if ($userForm->isSubmitted() && $userForm->isValid()) {
                 $this->manager->persist($userForm);
                 $this->manager->flush();
-            }
 
-            $usersTable[$user->getId()]['user'] = $user;
-            $usersTable[$user->getId()]['userForm'] = $userFormView;
+                return $this->redirectToRoute('users', [
+                    'newUserForm' => $newUserForm->createView(),
+                    'usersTable' => $usersTable
+                ]);
+            }
         }
-        dump($usersTable);
+
+        $newUserForm->handleRequest($request);
+
+        if ($newUserForm->isSubmitted() && $newUserForm->isValid()) {
+            
+            $newUser->setPassword($encoder->encodePassword($newUser, $newUser->getPassword()));
+            
+            $newUser->setRoles([$request->request->get('user_form')['roles']]);
+            
+            $this->manager->persist($newUser);
+            $this->manager->flush();
+
+            return $this->redirectToRoute('users', [
+                'newUserForm' => $newUserForm->createView(),
+                'usersTable' => $usersTable
+            ]);
+        }
+
         return $this->render('user/manageUsers.html.twig', [
             'newUserForm' => $newUserForm->createView(),
             'usersTable' => $usersTable

@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -12,14 +13,20 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('target_path');
+            $referer = $request->headers->get('referer');
+            return $this->redirectToRoute($referer);
         }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
+
+        if ($error) {
+            return $this->redirectToRoute('home');
+        }
+        
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
