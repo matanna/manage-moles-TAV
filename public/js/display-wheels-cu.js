@@ -1,6 +1,6 @@
 //This file is for displaying wheels in terms of their rectiMachine and their position
 
-$(document).ready(function() {
+$(document).load(function() {
 
     $('#display-wheels-cu').children().remove();
 

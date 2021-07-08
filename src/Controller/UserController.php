@@ -51,10 +51,7 @@ class UserController extends AbstractController
                 $this->manager->persist($userForm);
                 $this->manager->flush();
 
-                return $this->redirectToRoute('users', [
-                    'newUserForm' => $newUserForm->createView(),
-                    'usersTable' => $usersTable
-                ]);
+                return $this->redirectToRoute('users');
             }
         }
 
@@ -69,10 +66,7 @@ class UserController extends AbstractController
             $this->manager->persist($newUser);
             $this->manager->flush();
 
-            return $this->redirectToRoute('users', [
-                'newUserForm' => $newUserForm->createView(),
-                'usersTable' => $usersTable
-            ]);
+            return $this->redirectToRoute('users');
         }
 
         return $this->render('user/manageUsers.html.twig', [

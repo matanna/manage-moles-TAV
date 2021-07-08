@@ -37,7 +37,7 @@ class HomeController extends AbstractController
             $manager->persist($user);
             $manager->flush();
        }*/
-
+        
         return $this->render('home/home.html.twig');
     }
 }

@@ -15,22 +15,19 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
+        $referer = $request->headers->get('referer');
+
         if ($this->getUser()) {
-            $referer = $request->headers->get('referer');
             return $this->redirectToRoute($referer);
         }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-
-        if ($error) {
-            return $this->redirectToRoute('home');
-        }
         
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('base.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        
+        return $this->$this->redirectToRoute($referer);
     }
 
     /**
