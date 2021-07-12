@@ -8,9 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use App\Repository\WheelsRectiMachineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups as Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=WheelsRectiMachineRepository::class)
+ * 
+ * @UniqueEntity("ref")
  */
 class WheelsRectiMachine
 {
@@ -153,6 +156,9 @@ class WheelsRectiMachine
 
     public function getStock(): ?int
     {
+        if ($this->stock === null) {
+            return 0;
+        }
         return $this->stock;
     }
 

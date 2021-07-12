@@ -23,14 +23,14 @@ class Position
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * 
      * @Groups("rectiMachine_positions", "wheels_by_position")
      */
     private $name;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      * 
      * @Groups("wheels_by_position")
      */
@@ -160,6 +160,9 @@ class Position
 
     public function getStockReal(): ?int
     {
+        if ($this->stockReal === null) {
+            return 0;
+        }
         return $this->stockReal;
     }
 
@@ -172,6 +175,9 @@ class Position
 
     public function getTotalNotDelivered(): ?int
     {
+        if ($this->totalNotDelivered === null) {
+            return 0;
+        }
         return $this->totalNotDelivered;
     }
 
