@@ -1,10 +1,121 @@
+
+body {  
+    position: relative;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 10em;
+}
+
 #logo {
     width: 200px;
 }
+
 .btn-home {
     font-size: 1.8em !important;
 }
 
 .interligne {
     height: 20px;
+}
+.interligne-lg {
+    height: 40px;
+    opacity: 0.5;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+.head-table {
+    background-color: #067292;
+    color: white;
+}
+
+.font-blue1 {
+    background-color: #8cd1cf;
+}
+
+.font-green1 {
+    background-color: #18bc9c;
+}
+
+.font-blue2 {
+    background-color: #2c3e50;
+    color: white;
+}
+
+.hover-cel:hover {
+    opacity: 0.9;
+    background-color: #067292;
+    color: white;
+}
+.hover-cel a:hover {
+    color: white;
+}
+
+.badge {
+    font-size: 0.9rem!important;
+}
+
+.icon {
+    color: black !important;
+}
+
+.machine-field {
+    width: 20%;
+}
+
+.position-fields {
+    border-right: solid 1px #18bc9c;
+}
+
+.border-mole {
+    border: solid 1px #2c3e50;
+}
+
+.popup {
+    width: 70%;
+    min-height: 70vh;
+    background-color:#ffffff;
+    border: 1px solid;
+    box-shadow: 1px 1px 2px #2c3e50;
+    position: absolute;
+    margin-left: 15%;
+    margin-right: 15%;
+    top: 5vh;
+}
+
+.row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.original-margin {
+    margin-left: -15px !important;
+    margin-right: -15px !important;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+footer {
+    position: absolute;
+    margin-top: 20px;
+    width: 100%;
+    min-height: 100px;
+    bottom: 0;
+}
+#little-logo {
+    width: 100px;
 }

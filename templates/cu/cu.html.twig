@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stock {{ cu.name }}{% endblock %}
+
+{% block javascripts %}
+<script src="/js/popup-display-wheels-cu.js"></script>  
+<script src="/js/popup-update-quantity-wheels-cu.js"></script>
+{% endblock %}
+
+{% block body %}
+
+<div class="d-flex justify-content-between">
+    <h2 class="ml-3 mt-4 border-bottom">Stock meules : <span class="text-uppercase">{{ cu.name }}</span></h2>
+</div>
+{% if is_granted('ROLE_SUPER_USER') %}
+    <a href="{{ asset("/manage/wheels-cu") }}" class="btn btn-outline-success ml-3 mt-2">Enregistrer une nouvelle meule</a>
+{% endif %}
+
+<div class="row text-center font-weight-bold border-top border-bottom pt-2 pb-2 mt-5 head-table">
+    <div class="col-1 border-right">Categorie</div>
+    <div class="col-11">
+        <div class="row">
+            <div class="col-2">Type</div>
+            <div class="col-2">Usinage</div>
+            <div class="col-2">Matiere</div>
+            <div class="col-1">Détail</div>
+            <div class="col-1">Non livrées</div>
+            <div class="col-1">Stock mini</div>
+            <div class="col-1">Stock total</div>
+            <div class="col-2">Commander</div>
+        </div>
+    </div>
+</div>
+
+
+{% for category, wheelsCu in wheels %}
+<div class="interligne"></div>
+<div class="row">
+    <div class="col-1 font-blue1 d-flex align-items-center justify-content-center"><h5 class="text-uppercase ">{{ category }}</h5></div>
+    <div class="col-11">
+        
+        <!-- "type" represent the name we usually give at the wheels (diameter for forest, tickness of glass for trapezoidal wheels) -->
+        {% for wheelsType in wheelsCu %}
+        <div class="row border-bottom border-top d-flex align-items-center text-center">
+            <div class="col-2 border-right ">{{ wheelsType.type }}</div>
+
+            <div class="col-2 border-right ">{{ wheelsType.working }}</div>
+            <div class="col-2 border-right ">{{ wheelsType.matters}}</div>
+            
+            <div class="col-1 border-right ">
+                <a href="#" id="{{ 'button-type-wheels-' ~ wheelsType.id }}" class="details">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="col-1 border-right ">{{ wheelsType.totalNotDelivered }}</div>
+            <div class="col-1 d-flex align-items-center justify-content-center font-blue1 pt-2 pb-2"><span class="badge badge-pill badge-dark">{{ wheelsType.stockMini }}</span></div>
+            <div class="col-1 d-flex align-items-center justify-content-center font-green1 font-weight-bold pt-2 pb-2">
+
+                {% set stockExcepted = wheelsType.stockReal + wheelsType.totalNotDelivered %}
+
+                {% if wheelsType.stockReal > wheelsType.stockMini %}
+                <span class="badge badge-pill badge-primary ">{{ wheelsType.stockReal }}</span>
+                {% elseif stockExcepted >= wheelsType.stockMini %}
+                <span class="badge badge-pill badge-warning">{{ wheelsType.stockReal }}</span>
+                {% else %}
+                <span class="badge badge-pill badge-danger">{{ wheelsType.stockReal }}</span>
+                {% endif %}
+
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-center"><button type="button" class="btn btn-outline-primary">Commander</button></div>
+        </div>
+        
+       
+    {% endfor %}
+    </div>
+</div>    
+
+{% endfor %}
+
+<!--We include the popup for display wheelsCu for each wheelsCuType-->
+<div class="popup" id="display-wheels-cu">
+    {% include("cu/base-cu-wheels.html.twig") %}
+</div>
+
+{% endblock %}
+

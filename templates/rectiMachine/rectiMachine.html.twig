@@ -1,0 +1,208 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stock {{ nameRectiMachine }}{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between">
+    <h2 class="ml-4 mt-4"><span class="border-bottom mb-5">Stock Meules <span class="text-uppercase">{{ nameRectiMachine }}</span></h2>
+    <a href="{{ asset('all-rectiMachines') }}" class="btn btn-success m-3">Stock total</a>
+</div>
+<div class="interligne"></div>
+<div class="row original-margin stock-bilat">
+    <div class="col-1">
+        <div class="row original-margin d-flex flex-column border-right text-center">
+            <div class="font-weight-bold pt-2 pb-2 head-table border-bottom ">Position</div>
+            <div class="font-weight-bold font-blue1 pt-2 pb-2">Type</div>
+            <div class="font-weight-bold font-blue1 pt-2 pb-2">Usinage</div>
+            <div class="font-weight-bold font-blue1 pt-2 pb-2">Matière</div>
+            <div class="font-weight-bold pt-2 pb-2 font-green1">Stock</div>
+            <div class="font-weight-bold pt-2 pb-2 font-blue1">Stock mini</div>
+            <div class="font-weight-bold pt-2 pb-2 font-blue1">Non livrées</div>
+        </div>
+    </div>
+
+    {% for position in positionTable %}
+    <div class="col-1 hover-cel">
+        <div class="row original-margin d-flex flex-column border-right text-center">
+
+            {% if position.name != null %}
+                <div class="font-weight-bold pt-2 pb-2 head-table border-bottom">{{ position.name }}</div>
+            {% else %}
+                <div class="font-weight-bold pt-2 pb-2 head-table">NULL</div>
+            {% endif %}
+
+            {% if position.type != null %}
+                <div class="pt-2 pb-2">{{ position.type }}</div>
+            {% else %}
+                <div class="pt-2 pb-2">NULL</div>
+            {% endif %}
+
+            {% if position.working != null %}
+                <div class="pt-2 pb-2">{{ position.working }}</div>
+            {% else %}
+                <div class="pt-2 pb-2">NULL</div>
+            {% endif %}
+
+            {% if position.matters != null %}
+                <div class="pt-2 pb-2">{{ position.matters }}</div>
+            {% else %}
+                <div class="pt-2 pb-2">NULL</div>
+            {% endif %}
+
+            <div class="font-weight-bold pt-2 pb-2 font-green1">
+            {% if position.stockReal < position.stockMini %}
+                <span class="badge badge-pill badge-danger">{{ position.stockReal }}</span>
+            {% elseif position.stockReal == position.stockMini %}
+                <span class="badge badge-pill badge-warning">{{ position.stockReal }}</span>
+            {% else %}
+                <span class="badge badge-pill badge-primary">{{ position.stockReal }}</span>
+            {% endif %}
+            </div>
+
+            {% if position.stockMini != null %}
+                <div class="pt-2 pb-2">{{ position.stockMini }}</div>
+            {% else %}
+                <div class="pt-2 pb-2">0</div>
+            {% endif %}
+
+            <div class="pt-2 pb-2 font-blue1">
+            {% if position.totalNotDelivered != null %}
+                <span class="badge badge-pill badge-info">{{ position.totalNotDelivered }}</span>
+            {% else %}
+                <span class="badge badge-pill badge-secondary">0</span>
+            {% endif %}
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="interligne"></div>
+
+<div class="row">
+    <h2 class="ml-4 mt-4"><span class="border-bottom mb-5">Détails du stock</span></h2>
+</div>
+
+{% if is_granted('ROLE_SUPER_USER') %}
+<a href="{{ asset("/manage/wheels-rectiMachine") }}" class="btn btn-outline-success ml-2 mt-2">Enregistrer une nouvelle meule</a>
+{% endif %}
+<div class="interligne"></div>
+
+<div class="row text-center font-weight-bold border-top border-bottom pt-2 pb-2 head-table">
+    <div class="col-1 border-right">Position</div>
+    <div class="col-8">
+        <div class="row">
+            <div class="col-2">Fournisseur</div>
+            <div class="col-2">Réfèrence</div>
+            <div class="col-2">Désignation TAV</div>
+            <div class="col-1">Grain</div>
+            <div class="col-1">Diamètre</div>
+            <div class="col-1">Hauteur</div>
+            <div class="col-1">Stock</div>
+            <div class="col-1">Actions</div>
+            <div class="col-1">Non livrées</div>
+        </div>
+    </div>
+    <div class="col-1">Stock mini</div>
+    <div class="col-1">Stock total</div>
+    <div class="col-1">Commander</div>
+</div>
+
+<div class="interligne"></div>
+
+{% for position in positionTable %}
+<div class="row text-center border-bottom border-top">
+    <div class="col-1 font-blue1 font-weight-bold d-flex align-items-center justify-content-center">{{ position.name }}</div>
+    <div class="col-8">
+    
+        {% for stockWheelsRectiMachineByPosition in stockWheelsRectiMachine %}
+            
+            {% if stockWheelsRectiMachineByPosition[0].position.name == position.name %}
+                
+                {% for wheels in stockWheelsRectiMachineByPosition %}
+                    <div class="row pt-2 pb-2 hover-cel">
+                        <div class="col-2">{{ wheels.provider.name }}</div>
+                        <div class="col-2">{{ wheels.ref }}</div>
+                        <div class="col-2">{{ wheels.TAVname }}</div>
+                        <div class="col-1">{{ wheels.grain }}</div>
+                        <div class="col-1">{{ wheels.diameter }}</div>
+                        <div class="col-1">{{ wheels.height }}</div>
+                        <div class="col-1"><span class="badge badge-pill badge-light">{{ wheels.stock }}</span></div>
+                        <div class="col-1">
+                            <a href="#" data-toggle="modal" data-target="{{ "#change-quantity" ~ wheels.id }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-square icon" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                  </svg>
+                            </a>
+                        </div>
+                        <div class="col-1 d-flex align-items-center justify-content-center"><span class="badge badge-pill badge-light">{{ wheels.notDelivered }}</span></div>
+                    </div>
+
+                    <!--Modal for edit button - form for change quantity-->
+                    <div class="modal" id="{{ "change-quantity" ~ wheels.id }}" tabindex="-1" aria-hidden="true" role="dialog">      
+                        <div class="modal-dialog" role="document">
+                            {% if is_granted('ROLE_USER') %}
+                            <form method="post" action="{{ asset('rectiMachine/' ~ nameRectiMachine ~ '/change-quantity/' ~ wheels.id ) }}">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title">Quantité en stock :</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="number" id="quantity" name="quantity">
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Enregistrer</a>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                    </div>
+                                </div>
+                            </form>
+                            {% else %}
+                            <div class="modal-content">
+                                
+                                <div class="modal-body">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <p class="text-warning">Se connecter pour modifier les quantités</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!--End of Modal-->
+
+                {% endfor %}
+                
+            {% endif %}
+
+        {% endfor %}
+    </div>
+    <div class="col-1 d-flex align-items-center justify-content-center font-blue1"><span class="badge badge-pill badge-dark">{{ position.stockMini }}</span></div>
+
+    <div class="col-1 d-flex align-items-center justify-content-center font-green1 font-weight-bold">
+
+        {% set stockExpected = position.stockReal + position.totalNotDelivered %}
+
+        {% if position.stockReal > position.stockMini %}
+            <span class="badge badge-pill badge-primary">{{ position.stockReal }}</span>
+        {% elseif stockExpected >= position.stockMini %}
+            <span class="badge badge-pill badge-warning">{{ position.stockReal }}</span>
+        {% else %}
+            <span class="badge badge-pill badge-danger">{{ position.stockReal }}</span>
+        {% endif %}
+
+    </div>
+    
+    <div class="col-1 d-flex align-items-center justify-content-center"><button type="button" class="btn btn-outline-primary">Commander</button></div>
+</div>
+{% endfor %}
+
+{% endblock %}

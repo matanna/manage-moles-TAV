@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mise à jour CU{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/ajax-list-wheelsCuType.js"></script>
+    <script src="/js/display-wheels-cu.js"></script>
+{% endblock %}
+
+{% block body %}
+
+<div class="row mt-3">
+    <div class="col-12 ml-2"><h2>Centres d'usinage - Mise à jour</h2></div>
+</div>
+<hr>
+<div class="interligne"></div>
+
+{{ form_start(choiceWheelsCuTypeOfCuForm) }}
+<div class="row">
+    <div class="col-2">{{ form_row(choiceWheelsCuTypeOfCuForm.cu, {'placeholder': 'Cu', 'attr': {'class': 'cu'}}) }}</div>
+    <div class="col-2">{{ form_row(choiceWheelsCuTypeOfCuForm.categories, {'attr': {'class': 'category'}, 'placeholder': 'Categorie' }) }}</div>
+    <div class="col-3">{{ form_row(choiceWheelsCuTypeOfCuForm.wheelsCuType, {'placeholder': 'Type de meule', 'attr': {'class': 'wheelsCuType'}}) }}</div>
+    <div class="col-2"><button type="button" class="btn btn-outline-success" id="valid-choice">Valider</button></div>
+</div>
+{{ form_end(choiceWheelsCuTypeOfCuForm) }}
+
+<hr>
+
+<div class="row head-table text-center pt-3 pb-3 mb-3" id="wheels-cu-head">
+    <div class="col-1">Cu</div>
+    <div class="col-1">Catégorie</div>
+    <div class="col-1">Type</div>
+    <div class="col-1">Fournisseur</div>
+    <div class="col-2">Réferences</div>
+    <div class="col-3">Désignation TAV</div>
+    <div class="col-1">Stock</div>
+    <div class="col-2">Choisir une meule</div>
+</div>
+
+<div id="display-wheels-cu"></div>
+
+{% endblock %}
