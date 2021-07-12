@@ -10,7 +10,7 @@ use App\Entity\MeulesRecti;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
-class AppFixtures1 extends Fixture
+class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {

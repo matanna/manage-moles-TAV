@@ -19,7 +19,7 @@ $(document).ready(function() {
             async: true,
 
             success: function(data, status) {
-
+                
                 let html = '';
                 
                 for (let wheels in data) {
@@ -54,6 +54,7 @@ $(document).ready(function() {
                 $('#display-wheels-rectiMachine').html(html);
 
             }
+           
         });
 
     });

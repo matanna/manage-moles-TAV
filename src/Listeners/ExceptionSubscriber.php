@@ -1,7 +1,6 @@
 <?php
 
-// src/EventSubscriber/ExceptionSubscriber.php
-namespace App\Listener;
+namespace App\Listeners;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelEvents;

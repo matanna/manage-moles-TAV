@@ -1,11 +1,11 @@
 //This file is for displaying wheels in terms of their rectiMachine and their position
 
 $(document).ready(function() {
-
+    
     $('#display-wheels-cu').children().remove();
 
     $('#valid-choice').on("click",function(event) {
-
+        
         let cuName = $('#choice_wheels_cu_type_of_cu_form_cu option:selected').val();
 
         let categoryName = $('#choice_wheels_cu_type_of_cu_form_categories option:selected').val();
@@ -13,7 +13,6 @@ $(document).ready(function() {
         let type = $('#choice_wheels_cu_type_of_cu_form_wheelsCuType option:selected').val();
 
         $.ajax({
-
             url: '../stock/cu/wheels',
             type: "POST",
             data: {cuName: cuName, categoryName: categoryName, type: type},

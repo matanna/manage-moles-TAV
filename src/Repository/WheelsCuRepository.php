@@ -39,7 +39,7 @@ class WheelsCuRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-        dump($result);
+       
         return $result;
     }
 

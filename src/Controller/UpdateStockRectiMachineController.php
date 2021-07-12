@@ -48,7 +48,7 @@ class UpdateStockRectiMachineController extends AbstractController
             $view = $this->render('manage_wheels/manageWheelsRectiMachineAjax.html.twig', [
                 'formNewWheelsRectiMachine' => $formWheelsRectiMachine->createView() 
             ]);
-            
+        
             return $this->json($view, 200);
         }
 
@@ -68,12 +68,12 @@ class UpdateStockRectiMachineController extends AbstractController
     {
         //Ajax request for display wheels in terms of position and machine
         if ($request->isXmlHttpRequest()) {
-
+            
             $wheels = $this->wheelsRectiMachineRepository->findWheelsRectiMachineByPosition(
                 $request->get('rectiMachineName'),
                 $request->get('positionName')
             );
-
+           
             $wheelsTable = [];
 
             foreach ($wheels as $eachWheels) {
@@ -97,6 +97,8 @@ class UpdateStockRectiMachineController extends AbstractController
             return $this->json($wheelsTable, 200, [], [
                 'groups' => 'wheels_by_position'
             ]);
+
+            //return $this->json('blabla', 200);
         }
     }
 
