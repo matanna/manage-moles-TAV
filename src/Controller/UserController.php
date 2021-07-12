@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
@@ -46,9 +47,14 @@ class UserController extends AbstractController
 
             $usersTable[$user->getId()]['user'] = $user;
             $usersTable[$user->getId()]['userForm'] = $userFormView;
-
+            
             if ($userForm->isSubmitted() && $userForm->isValid()) {
-                $this->manager->persist($userForm);
+                
+                $datas = $request->request->all();
+                $user->setRoles([$datas['form-user-' . $user->getId()]['roles']]);
+                $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+                
+                $this->manager->persist($user);
                 $this->manager->flush();
 
                 return $this->redirectToRoute('users');
@@ -73,5 +79,22 @@ class UserController extends AbstractController
             'newUserForm' => $newUserForm->createView(),
             'usersTable' => $usersTable
         ]);
+    }
+
+    /**
+     * @Route("admin/delete/user/{userId}", name="delete_user")
+     */
+    public function deleteUser($userId)
+    {
+        $user = $this->userRepository->findOneBy(['id' => $userId]);
+
+        if(!$user) {
+            throw new NotFoundHttpException('Cet utilisateur n\'existe pas'); 
+        }
+
+        $this->manager->remove($user);
+        $this->manager->flush();
+
+        return $this->redirectToRoute('users');
     }
 }

@@ -4,13 +4,13 @@
 
 {% block body %}
 <div class="row">
-    <h2 class="ml-4 mt-4"><span class="border-bottom mb-5">Stock Rectilignes</h2>
+    <h2 class="ml-3 mt-4"><span class="border-bottom mb-5">Stock Rectilignes</h2>
 </div>
 <div class="interligne"></div>
 {% for rectiMachine in rectiMachines %}
-<div class="d-flex justify-content-between">
-    <h3 class="mt-4 ml-3 mb-4"><span class="border-bottom mb-5"><span class="text-uppercase">{{ rectiMachine.name }}</span></h3>
-    <a href="{{ asset('rectiMachine/' ~ rectiMachine.name) }}" class="btn btn-success m-3">Voir le détail de la {{ rectiMachine.name }}</a>
+<div>
+    <h3 class="mt-4 ml-3"><span class="border-bottom mb-5"><span class="text-uppercase">{{ rectiMachine.name }}</span></h3>
+    <a href="{{ asset('rectiMachine/' ~ rectiMachine.name) }}" class="btn btn-success m-3 mb-4">Voir le détail de la {{ rectiMachine.name }}</a>
 </div>
 <div class="row original-margin stock-bilat">
     <div class="col-1">

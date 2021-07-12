@@ -43,12 +43,12 @@
 
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item {% block active %}{% endblock %} pr-3">
+                        <li class="nav-item {% block active %}{% endblock %} pr-3 border-right">
                             <a class="nav-link" href="{{ asset("/") }}">Mise à jour
                                 <span class="sr-only"></span>
                             </a>
                         </li>
-                        <li class="nav-item dropdown pr-3">
+                        <li class="nav-item dropdown pr-3 pl-3 border-right">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Stock Rectilignes/Bilatérales</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ asset('all-rectiMachines') }}">Stock total</a>
@@ -57,7 +57,7 @@
                                 {% endfor %}
                             </div>
                         </li>
-                        <li class="nav-item dropdown pr-3">
+                        <li class="nav-item dropdown pr-3 pl-3 border-right">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Stock Centres d'usinage</a>
                             <div class="dropdown-menu">
                                 {% for cu in cus %}
@@ -66,10 +66,10 @@
                             </div>
                         </li>
                         {% if is_granted('ROLE_SUPER_USER') %}
-                        <li class="nav-item pr-3">
+                        <li class="nav-item pr-3 pl-3 border-right">
                             <a class="nav-link" href="#">Commandes</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown pr-3 pl-3 border-right">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Machines/Outils</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ asset('/manage/rectiMachine') }}">Gérer les rectilignes</a>
@@ -82,7 +82,7 @@
                         {% endif %}
                         
                         {% if is_granted('ROLE_ADMIN') %}
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown pr-3 pl-3">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ asset('/admin/users') }}">Gérer les utilisateurs</a>

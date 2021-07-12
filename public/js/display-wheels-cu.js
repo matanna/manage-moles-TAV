@@ -1,6 +1,6 @@
 //This file is for displaying wheels in terms of their rectiMachine and their position
 
-$(document).load(function() {
+$(document).ready(function() {
 
     $('#display-wheels-cu').children().remove();
 
@@ -27,7 +27,7 @@ $(document).load(function() {
                 for (let wheels in data) {
                     
                     if (data[wheels]['wheels']['stock'] > 0) {
-                        console.log(data[wheels]);
+                        
                         html = html + '<div class="row text-center pt-2 pb-2 wheels-rectiMachine" id="wheels-rectiMachine-' + data[wheels]['wheels']['id'] + '">\
                                       <div class="col-1 text-uppercase">' + data[wheels]['wheels']['wheelsCuType']['cu']['name'] + '</div>\
                                       <div class="col-1">' + data[wheels]['wheels']['wheelsCuType']['cuCategory']['name'] + '</div>\

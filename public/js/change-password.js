@@ -5,7 +5,10 @@ $(document).ready(function() {
     $('.edit-user').on("click", '.change-password', function(event) {
         
         $('.password').removeAttr('hidden');
-        $('.change-password').attr('hidden');
+        $('.password').removeAttr('value');
+
+        $('.change-password').remove();
+
     });
 
 });
