@@ -32,6 +32,7 @@ class CuRepository extends ServiceEntityRepository
             ->leftJoin('wcut.cuCategory', 'c')
             ->andWhere('cu.name = :name')
             ->setParameter('name', $name)
+            ->orderBy('wcut.type', 'ASC')
             ->getQuery()
             ->getResult()
         ;

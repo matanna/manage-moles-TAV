@@ -11,6 +11,7 @@ use App\Form\WheelsCuTypeFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CuCategoriesRepository;
 use App\Repository\WheelsCuTypeRepository;
+use App\Repository\CuConsumptionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,9 +23,13 @@ class ManageCuController extends AbstractController
 {
     private $cuCategoriesRepository;
 
-    public function __construct(CuCategoriesRepository $cuCategoryRepository)
-    {
+    private $cuConsumptionRepository;
+
+    public function __construct(CuCategoriesRepository $cuCategoryRepository, 
+        CuConsumptionRepository $cuConsumptionRepository
+    ) {
         $this->cuCategoriesRepository = $cuCategoryRepository;
+        $this->cuConsumptionRepository = $cuConsumptionRepository;
     }
 
     /**
@@ -219,13 +224,19 @@ class ManageCuController extends AbstractController
         }
         
         $wheelsCus = $wheelsCuType->getWheelsCus();
+
+        $consumptions = $this->cuConsumptionRepository->findBy(['wheelsCuType' => $wheelsCuType]);
         
-        if ($wheelsCus->isEmpty()) {
+        if (!$wheelsCus->isEmpty()) {
+            $message = $this->addFlash('warning', 'Des meules sont liés à ce type de meule, la suppression est impossible.');
+        
+        } elseif ($consumptions !== []) {
+            $message = $this->addFlash('warning', 'Des consommations sont liés à ce type de meule, la suppression est impossible.'); 
+
+        } else {
             $manager = $this->getDoctrine()->getManager();
             $manager->remove($wheelsCuType);
             $manager->flush();
-        } else {
-            $message = $this->addFlash('warning', 'Des meules sont liés à ce type de meule, la suppression est impossible.'); 
         }
 
         return $this->redirectToRoute('edit_cu', [

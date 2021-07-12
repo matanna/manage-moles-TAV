@@ -29,6 +29,7 @@ class WheelsCuTypeRepository extends ServiceEntityRepository
             ->leftJoin('wcut.cu', 'cu')
             ->andWhere('cu.name = :name')
             ->setParameter('name', $cuName)
+            ->orderBy('wcut.type', 'DESC')
             ->getQuery()
             ->getResult()
         ;
@@ -53,6 +54,7 @@ class WheelsCuTypeRepository extends ServiceEntityRepository
             ->andWhere('c.name = :categoryName')
             ->setParameter('name', $cuName)
             ->setParameter('categoryName', $categoryName)
+            ->orderBy('wcut.type', 'ASC')
             ->getQuery()
             ->getResult()
         ;
