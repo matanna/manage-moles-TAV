@@ -119,3 +119,7 @@ footer {
 #little-logo {
     width: 100px;
 }
+
+.display-wheelsCuType-modal .modal-dialog{
+    max-width: 1000px;
+}
