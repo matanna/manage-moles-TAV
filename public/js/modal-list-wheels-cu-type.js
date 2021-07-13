@@ -29,16 +29,17 @@ $(document).ready(function() {
                     for (let category in data) {
                         $(".modal-body").append(
                             '<div class="row pt-2 pb-2 hover-cel">\
-                                <div class="col-6 text-uppercase font-weight-bold">' + category + '</div>\
-                                <div class="col-6 ' + category + '"></div>\
-                            </div>'
+                                <div class="col-3 text-uppercase font-weight-bold">' + category + '</div>\
+                                <div class="col-9 ' + category + '"></div>\
+                            </div>\
+                            <hr>'
                         );
                         
                         for (let key of Object.keys(data[category])) {
                             
                             $("." + category).append(
                                 '<div class="row ">\
-                                        <div class="col-12">' + data[category][key].type + '</div>\
+                                        <div class="col-12 text-center">' + data[category][key].type + '</div>\
                                 </div>'
                             );
                         }

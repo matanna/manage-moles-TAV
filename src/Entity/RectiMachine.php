@@ -8,9 +8,12 @@ use App\Repository\RectiMachineRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups as Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=RectiMachineRepository::class)
+ * 
+ * @UniqueEntity("name")
  */
 class RectiMachine
 {

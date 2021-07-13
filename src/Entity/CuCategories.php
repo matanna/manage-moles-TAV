@@ -28,7 +28,7 @@ class CuCategories
     /**
      * @ORM\Column(type="string", length=255)
      * 
-     * @Assert\Length(min = 2, max = 5)
+     * @Assert\Length(min = 2, max = 15)
      * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $name;

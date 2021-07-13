@@ -20,9 +20,9 @@
     <div class="col-2 border-right">Categorie</div>
     <div class="col-10">
         <div class="row">
-            <div class="col-3">Type</div>
+            <div class="col-4">Type</div>
             <div class="col-1">Usinage</div>
-            <div class="col-2">Matiere</div>
+            <div class="col-1">Matiere</div>
             <div class="col-1">Détail</div>
             <div class="col-1">Non livrées</div>
             <div class="col-1">Stock mini</div>
@@ -41,10 +41,11 @@
         <!-- "type" represent the name we usually give at the wheels (diameter for forest, tickness of glass for trapezoidal wheels) -->
         {% for wheelsType in wheelsCu %}
         <div class="row border-bottom border-top d-flex align-items-center text-center">
-            <div class="col-3 border-right ">{{ wheelsType.type }}</div>
+
+            <div class="col-4 border-right ">{{ wheelsType.type }}</div>
 
             <div class="col-1 border-right ">{{ wheelsType.working }}</div>
-            <div class="col-2 border-right ">{{ wheelsType.matters}}</div>
+            <div class="col-1 border-right ">{{ wheelsType.matters}}</div>
             
             <div class="col-1 border-right ">
                 <a href="#" id="{{ 'button-type-wheels-' ~ wheelsType.id }}" class="details">
