@@ -126,6 +126,7 @@
                             {{ form_row(editWheelsCuFormTable[wheels.id]._token, {'id': '_' ~ nameForm ~ '_token_' ~ wheels.id}) }}
                             {{ form_row(editWheelsCuFormTable[wheels.id].provider, {'id': '_' ~ nameForm ~ '_provider_' ~ wheels.id, 'label': 'Fournisseur'})}}
                             {{ form_row(editWheelsCuFormTable[wheels.id].cu, {'id': '_' ~ nameForm ~ '_cu_' ~ wheels.id, 'label': 'Cu', 'attr': {'class': 'edit-wheels-cu'}} ) }}
+                            {{ form_row(editWheelsCuFormTable[wheels.id].categories, {'id': '_' ~ nameForm ~ '_category_' ~ wheels.id, 'label': 'Catégorie'})}}
                             {{ form_row(editWheelsCuFormTable[wheels.id].wheelsCuType, {'id': '_' ~ nameForm ~ '_wheelsCuType_' ~ wheels.id, 'label': 'Type de meule', 'attr': {'class': 'edit-wheels-wheelsCuType'}} ) }}
                             {{ form_row(editWheelsCuFormTable[wheels.id].ref, {'id': '_' ~ nameForm ~ '_ref_' ~ wheels.id, 'label': 'Réference'}) }}
                             {{ form_row(editWheelsCuFormTable[wheels.id].tavname, {'id': '_' ~ nameForm ~ '_TAVname_' ~ wheels.id, 'label': 'Désignation TAV'}) }}

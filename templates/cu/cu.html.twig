@@ -61,8 +61,8 @@
 
                 {% set stockExcepted = wheelsType.stockReal + wheelsType.totalNotDelivered %}
 
-                {% if wheelsType.stockReal > wheelsType.stockMini %}
-                <span class="badge badge-pill badge-primary ">{{ wheelsType.stockReal }}</span>
+                {% if wheelsType.stockReal > wheelsType.stockMini or wheelsType.stockMini == 0 %}
+                <span class="badge badge-pill badge-primary">{{ wheelsType.stockReal }}</span>
                 {% elseif stockExcepted >= wheelsType.stockMini %}
                 <span class="badge badge-pill badge-warning">{{ wheelsType.stockReal }}</span>
                 {% else %}
