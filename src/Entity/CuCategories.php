@@ -12,7 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CuCategoriesRepository::class)
- * @UniqueEntity("name")
+ * @UniqueEntity(
+ *      fields={"name"},
+ *      message="Cette catégorie existe déjà"
+ * )
  */
 class CuCategories
 {
@@ -28,7 +31,13 @@ class CuCategories
     /**
      * @ORM\Column(type="string", length=255)
      * 
-     * @Assert\Length(min = 2, max = 15)
+     * @Assert\Length(
+     *      min = 2, 
+     *      max = 25, 
+     *      minMessage="Le nom d'une categorie doit avoir entre 2 et 25 caractères",
+     *      maxMessage="Le nom d'une categorie doit avoir entre 2 et 25 caractères"
+     * )
+     * 
      * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $name;

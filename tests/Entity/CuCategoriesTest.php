@@ -10,19 +10,26 @@ class CuCategoriesTest extends KernelTestCase
 {
     use EntityTestTrait;
 
-    public function testNameCuCategoriesIsUniqueOk()
+    private function create()
     {
         $newCategory = new CuCategories();
         $newCategory->setName('category8');
-        
-        $this->assertSame(0, $this->validator->validate($newCategory)->count());
+
+        return $newCategory;
+    }
+
+    public function testNameCuCategoriesIsUniqueOk()
+    {
+        $this->assertSame(0, $this->validator->validate($this->create())->count());
     }
 
     public function testNameCuCategoriesIsUniqueNoOk()
     {
-        $newCategory = new CuCategories();
-        $newCategory->setName('category1');
-        
-        $this->assertEquals(1, $this->validator->validate($newCategory)->count());
+        $this->assertEquals(1, $this->validator->validate($this->create()->setName('category1'))->count());
+    }
+
+    public function testNameCuCategoriesIsEmpty()
+    {
+        $this->assertEquals(1, $this->validator->validate($this->create()->setName(''))->count());
     }
 }

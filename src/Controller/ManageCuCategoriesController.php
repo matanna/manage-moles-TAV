@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\CuCategories;
-use App\Repository\CuCategoriesRepository;
+use App\Validator\Validator;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CuCategoriesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -15,9 +17,12 @@ class ManageCuCategoriesController extends AbstractController
 {
     private $manager;
 
-    public function __construct(EntityManagerInterface $manager)
+    private $validator;
+
+    public function __construct(EntityManagerInterface $manager, Validator $validator)
     {
         $this->manager = $manager;
+        $this->validator = $validator;
     }
     
     /**
@@ -32,6 +37,11 @@ class ManageCuCategoriesController extends AbstractController
             $newNameCategory = $request->get('addNewCategory');
 
             $newCategory->setName($newNameCategory);
+
+            $errors = $this->validator->validate($newCategory);
+            if ($errors) {
+                return $this->json($errors, 400);
+            }
 
             $this->manager->persist($newCategory);
             $this->manager->flush();
@@ -57,6 +67,11 @@ class ManageCuCategoriesController extends AbstractController
 
             $cuCategory->setName($request->get('newNameCategory'));
             
+            $errors = $this->validator->validate($cuCategory);
+            if ($errors) {
+                return $this->json($errors, 400);
+            }
+
             $this->manager->persist($cuCategory);
             $this->manager->flush();
 

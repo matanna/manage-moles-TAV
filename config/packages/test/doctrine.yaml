@@ -5,3 +5,11 @@
 #        # "host", "port", "user", & "password" can also be set to override their respective url parts
 #        #
 #        # If you're using ParaTest, "TEST_TOKEN" is set by ParaTest otherwise nothing is appended to the database name.
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver: pdo_sqlite
+                memory: true
+                path:   "%kernel.cache_dir%/db_wheels_tests.db"
