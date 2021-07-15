@@ -2,6 +2,7 @@
 
 namespace App\Tests\Entity;
 
+use App\Entity\Position;
 use App\Entity\WheelsRectiMachine;
 use App\Tests\Entity\EntityTestTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -12,59 +13,62 @@ class WheelsRectiMachineTest extends KernelTestCase
 
     private function create()
     {
-        $wheelsRectiMachine = new WheelsRectiMachine();
+        $position = $this->manager->getRepository(Position::class)->findOneBy(['id' => 1]);
 
-        $wheelsRectiMachine->setRef('Ref8')            
+        $wheelsRectiMachine = (new WheelsRectiMachine())
+                              ->setRef('Ref8')            
                               ->setTAVname('TAVname8')
-                              ->setDiameter(158);
+                              ->setGrain('grain')
+                              ->setDiameter(158)
+                              ->setHeight(40)
+                              ->setPosition($position);
         
         return $wheelsRectiMachine;
     } 
 
     public function testWheelsRectiMachineIsOk()
     {
-        $wheelsRectiMachine = $this->create();
-        
-        $this->assertSame(0, $this->validator->validate($wheelsRectiMachine)->count());
+        //dd($this->validator->validate($this->create()));
+        $this->assertSame(0, $this->validator->validate($this->create())->count());
     }
 
     public function testRefWheelsRectiMachineIsUniqueNoOk()
     {
-        $wheelsRectiMachine = new WheelsRectiMachine();
-        $wheelsRectiMachine->setRef('Ref1');
+        $this->assertEquals(1, $this->validator->validate($this->create()->setRef('RectiMachineName1position1wheels1'))->count());
+    }
 
-        $this->assertEquals(1, $this->validator->validate($wheelsRectiMachine)->count());
+    public function testRefWheelsRectiMachineIsNull()
+    {
+        $this->assertEquals(1, $this->validator->validate($this->create()->setRef(''))->count());
+    }
+
+    public function testDiamterWheelsRectiMachineIsNull()
+    {
+        $this->assertEquals(1, $this->validator->validate($this->create()->setDiameter(0))->count());
+    }
+
+    public function testDiamterWheelsRectiMachineIsNegative()
+    {
+        $this->assertEquals(1, $this->validator->validate($this->create()->setDiameter(-1))->count());
     }
 
     public function testStockWheelsRectiMachineIsNull()
     {
-        $wheelsRectiMachine = new WheelsRectiMachine();
-        $wheelsRectiMachine->getStock();
-
-        $this->assertEquals(0, $wheelsRectiMachine->getStock());
+        $this->assertEquals(0, $this->create()->getStock());
     }
 
-    public function testStockWheelsRectiMachineIsNotNull()
+    public function testStockWheelsRectiMachineIsNegative()
     {
-        $wheelsRectiMachine = new WheelsRectiMachine();
-        $wheelsRectiMachine->setStock(8);
-
-        $this->assertEquals(8, $wheelsRectiMachine->getStock());
+        $this->assertEquals(1, $this->validator->validate($this->create()->setStock(-1))->count());
     }
 
-     public function testNotDeliveredWheelsRectiMachineIsNull()
+    public function testNotDeliveredWheelsRectiMachineIsNull()
     {
-        $wheelsRectiMachine = new WheelsRectiMachine();
-        $wheelsRectiMachine->getNotDelivered();
-
-        $this->assertEquals(0, $wheelsRectiMachine->getNotDelivered());
+        $this->assertEquals(0, $this->create()->getNotDelivered());
     }
 
-    public function testNotDeliveredWheelsRectiMachineIsNotNull()
+    public function testNotDeliveredWheelsRectiMachineIsNegative()
     {
-        $wheelsRectiMachine = new WheelsRectiMachine();
-        $wheelsRectiMachine->setNotDelivered(8);
-
-        $this->assertEquals(8, $wheelsRectiMachine->getNotDelivered());
+        $this->assertEquals(1, $this->validator->validate($this->create()->setNotDelivered(-1))->count());
     }
 }

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PositionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups as Groups;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,12 +26,16 @@ class Position
     /**
      * @ORM\Column(type="string", length=255)
      * 
+     * @Assert\NotBlank
+     * 
      * @Groups("rectiMachine_positions", "wheels_by_position")
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * 
+     * @Assert\PositiveOrZero
      * 
      * @Groups("wheels_by_position")
      */
@@ -60,6 +65,8 @@ class Position
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
+     * @Assert\PositiveOrZero
+     * 
      * @Groups("wheels_by_position")
      */
     private $stockReal;
@@ -67,12 +74,16 @@ class Position
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
+     * @Assert\PositiveOrZero
+     * 
      * @Groups("wheels_by_position")
      */
     private $totalNotDelivered;
 
     /**
      * @ORM\ManyToOne(targetEntity=RectiMachine::class, inversedBy="positions")
+     * 
+     * @Assert\NotBlank
      * 
      * @Groups("wheels_by_position")
      */

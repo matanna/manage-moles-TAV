@@ -7,13 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\WheelsRectiMachineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups as Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=WheelsRectiMachineRepository::class)
  * 
- * @UniqueEntity("ref")
+ * @UniqueEntity(
+ *      fields={"ref"},
+ *      message="Cette meule existe déjà"
+ * )
  */
 class WheelsRectiMachine
 {
@@ -29,12 +33,16 @@ class WheelsRectiMachine
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
+     * @Assert\NotBlank
+     * 
      * @Groups("wheels_by_position")
      */
     private $ref;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Assert\NotBlank
      * 
      * @Groups("wheels_by_position")
      */
@@ -50,6 +58,8 @@ class WheelsRectiMachine
     /**
      * @ORM\Column(type="integer")
      * 
+     * @Assert\Positive
+     * 
      * @Groups("wheels_by_position")
      */
     private $diameter;
@@ -63,6 +73,8 @@ class WheelsRectiMachine
 
     /**
      * @ORM\Column(type="integer")
+     * 
+     * @Assert\PositiveOrZero
      * 
      * @Groups("wheels_by_position")
      */
@@ -78,12 +90,16 @@ class WheelsRectiMachine
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
+     * @Assert\PositiveOrZero
+     * 
      * @Groups("wheels_by_position")
      */
     private $notDelivered;
 
     /**
      * @ORM\ManyToOne(targetEntity=Position::class, inversedBy="wheelsRectiMachines")
+     * 
+     * @Assert\NotBlank
      * 
      * @Groups("wheels_by_position")
      */

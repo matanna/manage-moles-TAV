@@ -10,19 +10,36 @@ class CuTest extends KernelTestCase
 {
     use EntityTestTrait;
 
-    public function testNameCuIsUniqueOk()
+    private function create()
     {
         $newCu = new Cu();
         $newCu->setName('cuName8');
 
-        $this->assertSame(0, $this->validator->validate($newCu)->count());
+        return $newCu;
+    }
+
+    public function testNameCuIsUniqueOk()
+    {
+        $this->assertSame(0, $this->validator->validate($this->create())->count());
     }
 
     public function testNameCuIsUniqueNoOk()
     {
-        $newCu = new Cu();
-        $newCu->setName('cuName1');
+        $this->assertEquals(1, $this->validator->validate($this->create()->setName('cuName1'))->count());
+    }
 
-        $this->assertEquals(1, $this->validator->validate($newCu)->count());
+    public function testNameCuIsEmpty()
+    {
+        $this->assertEquals(1, $this->validator->validate($this->create()->setName(''))->count());
+    }
+
+    public function testNameCuIsOneChar()
+    {
+        $this->assertEquals(1, $this->validator->validate($this->create()->setName('a'))->count());
+    }
+
+    public function testNameCuIsTwentyOneChar()
+    {
+        $this->assertEquals(1, $this->validator->validate($this->create()->setName('abcdefghijklmnopqrstu'))->count());
     }
 }

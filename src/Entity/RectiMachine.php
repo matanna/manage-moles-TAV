@@ -7,13 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\RectiMachineRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups as Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=RectiMachineRepository::class)
  * 
- * @UniqueEntity("name")
+ * @UniqueEntity(
+ *      fields={"name"},
+ *      message="Cette machine existe déjà"
+ * )
  */
 class RectiMachine
 {
@@ -28,6 +32,13 @@ class RectiMachine
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * 
+     *  @Assert\Length(
+     *      min=2,
+     *      max=20,
+     *      minMessage="Cette valeur doit contenir entre 2 et 20 caractères",
+     *      maxMessage="Cette valeur doit contenir entre 2 et 20 caractères"
+     * )
      * 
      * @Groups("wheels_by_position")
      */

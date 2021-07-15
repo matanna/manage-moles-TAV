@@ -32,4 +32,14 @@ class CuCategoriesTest extends KernelTestCase
     {
         $this->assertEquals(1, $this->validator->validate($this->create()->setName(''))->count());
     }
+
+    public function testNameCuCategoriesIsOneChar()
+    {
+        $this->assertEquals(1, $this->validator->validate($this->create()->setName('a'))->count());
+    }
+
+    public function testNameCuCategoriesIsTwentySixChar()
+    {
+        $this->assertEquals(1, $this->validator->validate($this->create()->setName('abcdefghijqlmnopqrstuvwxyz'))->count());
+    }
 }

@@ -12,7 +12,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=WheelsCuTypeRepository::class)
- * @UniqueEntity("type")
+ * @UniqueEntity(
+ *      fields={"type"},
+ *      message="Ce type de meule existe déjà"
+ * )
  */
 class WheelsCuType
 {
@@ -42,12 +45,16 @@ class WheelsCuType
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
+     * @Assert\NotBlank
+     * 
      * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      */
     private $type;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Assert\PositiveOrZero
      * 
      * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      * 
@@ -57,12 +64,16 @@ class WheelsCuType
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
+     * @Assert\PositiveOrZero
+     * 
      * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      */
     private $stockReal;
 
     /**
      * @ORM\ManyToOne(targetEntity=Cu::class, inversedBy="wheelsCuTypes")
+     * 
+     * Assert\NotBlank
      * 
      * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      */
@@ -78,6 +89,8 @@ class WheelsCuType
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
+     * @Assert\PositiveOrZero
+     * 
      * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      */
     private $totalNotDelivered;
@@ -85,7 +98,8 @@ class WheelsCuType
     /**
      * @ORM\ManyToOne(targetEntity=CuCategories::class, inversedBy="wheelsCuTypes")
      * 
-     * @Assert\NotNull
+     * @Assert\NotBlank
+     * 
      * @Groups({"cu_type_wheels", "display_wheels", "wheels_by_wheelsCuType"})
      */
     private $cuCategory;

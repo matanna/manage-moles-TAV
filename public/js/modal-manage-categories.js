@@ -55,7 +55,7 @@ $(document).ready(function() {
     
         $("#name-category-" + nameCategory).html(
             '<form action="#" method="POST" class="d-flex">\
-                <input name="input-change-name-category-' + nameCategory + '" type="text"  placeholder="' + nameCategory + '" id="input-change-name-category-' + nameCategory + '" required="required" />\
+                <input name="input-change-name-category-' + nameCategory + '" type="text"  value="' + nameCategory + '" id="input-change-name-category-' + nameCategory + '" required="required" />\
                 <button type="button" class="btn btn-sm btn-outline-success" id="button-change-name-category-' + nameCategory + '">Valider</button>\
             </form>'
         );
