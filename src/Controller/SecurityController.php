@@ -16,8 +16,9 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
         $referer = $request->headers->get('referer');
-
+        
         if ($this->getUser()) {
+
             return $this->redirectToRoute($referer);
         }
 

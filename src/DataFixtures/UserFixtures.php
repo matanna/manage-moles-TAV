@@ -2,12 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Cu;
 use App\Entity\User;
-use App\Entity\Provider;
-use App\Entity\WheelsCu;
-use App\Entity\CuCategories;
-use App\Entity\WheelsCuType;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
@@ -17,13 +12,15 @@ class UserFixtures extends Fixture
     {
         $userAdmin = (new User())
                      ->setUsername('admin')
-                     ->setPassword('$2y$10$apqI.yOdJtkwzHs7OYdJ9OY7SOGnjwaIC0.zgXh/NRi9/KiLMpGXW');
+                     ->setPassword('$2y$10$apqI.yOdJtkwzHs7OYdJ9OY7SOGnjwaIC0.zgXh/NRi9/KiLMpGXW')
+                     ->setRoles(['ROLE_ADMIN']);
 
         $manager->persist($userAdmin);
 
         $superUser = (new User())
                      ->setUsername('superUser')
-                     ->setPassword('$2y$10$prDivxvkiCuA1u81tl5yJejjZbFScEIlGMc/Xu52Kzem1L1uviK4W');
+                     ->setPassword('$2y$10$prDivxvkiCuA1u81tl5yJejjZbFScEIlGMc/Xu52Kzem1L1uviK4W')
+                     ->setRoles(['ROLE_SUPER_USER']);
 
         $manager->persist($superUser);
         
