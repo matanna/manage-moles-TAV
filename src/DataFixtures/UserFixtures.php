@@ -17,19 +17,19 @@ class UserFixtures extends Fixture
     {
         $userAdmin = (new User())
                      ->setUsername('admin')
-                     ->setPassword('admin');
+                     ->setPassword('$2y$10$apqI.yOdJtkwzHs7OYdJ9OY7SOGnjwaIC0.zgXh/NRi9/KiLMpGXW');
 
         $manager->persist($userAdmin);
 
         $superUser = (new User())
                      ->setUsername('superUser')
-                     ->setPassword('superUser');
+                     ->setPassword('$2y$10$prDivxvkiCuA1u81tl5yJejjZbFScEIlGMc/Xu52Kzem1L1uviK4W');
 
         $manager->persist($superUser);
         
         $user = (new User())
                      ->setUsername('user')
-                     ->setPassword('user');
+                     ->setPassword('$2y$10$jnnx79Dfs463bYv8fFuNBeMO/LEzaWBoPsJrCrza/5Ce11uhEU0ca');
 
         $manager->persist($user);
 

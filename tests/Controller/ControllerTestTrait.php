@@ -19,7 +19,9 @@ trait ControllerTestTrait
 
     protected function setUp(): void
     {
-        $this->client = $client = static::createClient();
+        $this->client = static::createClient();
+
+        $this->client->request('GET', '/');
 
         $this->loadFixtures([ 
             CuCategoriesFixtures::class,
@@ -31,17 +33,25 @@ trait ControllerTestTrait
     }
 
     protected function loginAdmin()
-    {
-        $userAdmin = static::$container->get(UserRepository::class)->findOneBy(['username' => 'admin']);
+    {   
+        $csrfToken = $this->client->getContainer()->get('security.csrf.token_manager')->getToken('crsf_token');
         
-        return $this->client->loginUser($userAdmin);
+        return $this->client->request('POST', '/login', [
+            'username' => 'admin',
+            'password' => 'admin',
+            'csrf_token' => $csrfToken
+        ]);
     }
 
     protected function loginSuperUser()
     {
-        $superUser = static::$container->get(UserRepository::class)->findOneBy(['username' => 'superUser']);
-        
-        return $this->client->loginUser($superUser);
+        $csrfToken = $this->client->getContainer()->get('security.csrf.token_manager')->getToken('crsf_token');
+
+        return $this->client->request('POST', '/login', [
+            'username' => 'superUser',
+            'password' => 'superUser',
+            'csrf_token' => $csrfToken
+        ]);
     }
 
     protected function loginUser()
