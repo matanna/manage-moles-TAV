@@ -11,6 +11,7 @@ use App\Repository\WheelsCuTypeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -31,30 +32,78 @@ class ManageWheelsCuController extends AbstractController
      * @Route("/manage/wheels-cu", name="manage_wheels_cu")
      */
     public function manageWheelsCu(Request $request, CuRepository $cuRepository,
-        WheelsCuRepository $wheelsCuRepository
+        WheelsCuRepository $wheelsCuRepository, ValidatorInterface $validator
     ): Response {
 
-        $datas = null;
+        //Initialisation of session variables for adapt form new wheels when an errors happen
+        $wheelsCuTypesNew = null;
+        $categoriesNew = null;
 
-        $newWheelsCu = new WheelsCu();
-        $wheelsCuTypes = null;
+        $session = $request->getSession();
 
+        //We check if variables are in the session - if yes, we save them to add them in $form and we remove them from the session
+        if ($session->get('categoriesNew')) {
+            $categoriesNew = $session->get('categoriesNew');
+            $session->set('categoriesNew', null);
+        }
+        if ($session->get('wheelsCuTypeNew')) {
+            $wheelsCuTypesNew = $session->get('wheelsCuTypeNew');
+            $session->set('wheelsCuTypeNew', null);
+        }
+        
         $manager = $this->getDoctrine()->getManager();
 
+        //We create the form for add a new wheels
+        $newWheelsCu = new WheelsCu();
         $form = $this->get('form.factory')->createNamed('wheelsCu', WheelsCuFormType::class, $newWheelsCu, [
-            'wheelsCuType' => $wheelsCuTypes,
+            'wheelsCuType' => $wheelsCuTypesNew,
+            'categories' => $categoriesNew
         ]);
 
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        
+        //process the form
+        if ($form->isSubmitted()) {
             
-            $manager->persist($newWheelsCu);
-            $manager->flush();
+            if ($form->isValid()) {
+                $manager->persist($newWheelsCu);
+                $manager->flush();
 
-            return $this->redirectToRoute('manage_wheels_cu');
+                return $this->redirectToRoute('manage_wheels_cu');
+            }
+
+            /**
+             * if errors, we retrieve categories and wheelsCutype for send them in session. 
+             * The user don't must change the category and wheelsCuType another time
+             */
+            if ($validator->validate($newWheelsCu)->count() > 0 ) {
+                $datas = $request->request->all();
+                $categories = $this->cuCategoriesRepository->findCuCategoriesByCu([$datas['wheelsCu']['cu']]);
+                $wheelsCuTypes = $this->wheelsCuTypeRepository->findWheelsCuTypeByCuAndByCategory(
+                    $datas['wheelsCu']['cu'],
+                    $datas['wheelsCu']['categories']
+                );
+
+                $session->set('categories', $categories);
+                $session->set('wheelsCuType', $wheelsCuTypes);
+            }
+        } 
+
+        //Initialisation of session variables for adapt form edit wheels when an errors happen
+        $wheelsCuTypesEdit = null;
+        $categoriesEdit = null;
+
+        //We check if variables are in the session - if yes, we save them to add them in $form and we remove them from the session
+        if ($session->get('categoriesEdit')) {
+            $categoriesNew = $session->get('categoriesEdit');
+            $session->set('categoriesEdit', null);
+        }
+        if ($session->get('wheelsCuTypeEdit')) {
+            $wheelsCuTypesNew = $session->get('wheelsCuTypeEdit');
+            $session->set('wheelsCuTypeEdit', null);
         }
 
+        //We retrieve all wheelsCu
         $wheelsCu = $wheelsCuRepository->findAllWheelsCu();
         
         $editWheelsCuFormTable = [];
@@ -62,18 +111,38 @@ class ManageWheelsCuController extends AbstractController
         foreach ($wheelsCu as $wheels) {
             
             $editWheelsCuForm = $this->get('form.factory')->createNamed('wheelsCu_' . $wheels->getId(), WheelsCuFormType::class, $wheels, [
-                'wheelsCuType' => $wheelsCuTypes,
+                'wheelsCuType' => $wheelsCuTypesEdit,
+                'categories' => $categoriesEdit,
                 'wheels' => $wheels
             ]);
             
             $editWheelsCuForm->handleRequest($request);
 
-            if ($editWheelsCuForm->isSubmitted() && $editWheelsCuForm->isValid()) {
+            if ($editWheelsCuForm->isSubmitted()) {
                 
-                $manager->persist($wheels);
-                $manager->flush();
+                if ($editWheelsCuForm->isValid()) {
+                    
+                    $manager->persist($wheels);
+                    $manager->flush();
     
-                return $this->redirectToRoute('manage_wheels_cu');
+                    return $this->redirectToRoute('manage_wheels_cu');
+                }
+
+                /**
+                 * if errors, we retrieve categories and wheelsCutype for send them in session. 
+                 * The user don't must change the category and wheelsCuType another time
+                 */
+                if ($validator->validate($newWheelsCu)->count() > 0 ) {
+                    $datas = $request->request->all();
+                    $categories = $this->cuCategoriesRepository->findCuCategoriesByCu([$datas['wheelsCu']['cu']]);
+                    $wheelsCuTypes = $this->wheelsCuTypeRepository->findWheelsCuTypeByCuAndByCategory(
+                        $datas['wheelsCu']['cu'],
+                        $datas['wheelsCu']['categories']
+                    );
+
+                    $session->set('categories', $categoriesEdit);
+                    $session->set('wheelsCuType', $wheelsCuTypesEdit);
+                }
             }
             
             $editWheelsCuFormTable[$wheels->getId()] = $editWheelsCuForm->createView();
@@ -82,7 +151,7 @@ class ManageWheelsCuController extends AbstractController
         return $this->render('manage_wheels/manageWheelsCu.html.twig', [
             'form' => $form->createView(),
             'wheelsCu' => $wheelsCu,
-            'editWheelsCuFormTable' =>$editWheelsCuFormTable
+            'editWheelsCuFormTable' =>$editWheelsCuFormTable    
         ]);
     }
 
@@ -122,7 +191,7 @@ class ManageWheelsCuController extends AbstractController
                 $wheelsCu = new WheelsCu();
                 $nameForm = 'wheelsCu';
             }
-            dump($wheelsCuType);
+            
             $wheelsCuForm = $this->get('form.factory')->createNamed($nameForm, WheelsCuFormType::class, $wheelsCu, [
                 'wheelsCuType' => $wheelsCuType,
                 'categories' => $categories,
