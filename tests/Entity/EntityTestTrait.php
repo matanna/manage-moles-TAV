@@ -4,6 +4,7 @@ namespace App\Tests\Entity;
 
 use App\DataFixtures\CuFixtures;
 use App\DataFixtures\ProviderFixtures;
+use App\DataFixtures\WheelsCuFixtures;
 use App\DataFixtures\CuCategoriesFixtures;
 use App\DataFixtures\RectiMachineFixtures;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
@@ -21,12 +22,11 @@ trait EntityTestTrait
     {
         self::bootKernel();
 
-        $this->loadFixtures([
-            CuFixtures::class, 
+        $this->loadFixtures([ 
             CuCategoriesFixtures::class,
             ProviderFixtures::class,
+            CuFixtures::class,
             RectiMachineFixtures::class,
-            WheelsRectiMachineFixtures::class,
             
         ]);
     

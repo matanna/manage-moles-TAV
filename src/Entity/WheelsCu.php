@@ -2,12 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\WheelsCuRepository;
-use Symfony\Component\Serializer\Annotation\Groups as Groups;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\WheelsCuRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups as Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=WheelsCuRepository::class)
+ * 
+ * @UniqueEntity(
+ *      fields={"ref"},
+ *      message="Cette meule existe déjà"
+ * )
  */
 class WheelsCu
 {
@@ -23,6 +30,8 @@ class WheelsCu
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
+     * @Assert\NotBlank
+     * 
      * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $ref;
@@ -36,6 +45,8 @@ class WheelsCu
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Assert\Positive
      * 
      * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
@@ -72,12 +83,16 @@ class WheelsCu
     /**
      * @ORM\Column(type="integer", nullable=true)
      * 
+     * @Assert\PositiveOrZero
+     * 
      * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */
     private $stock;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Assert\PositiveOrZero
      * 
      * @Groups({"wheels_by_wheelsCuType"})
      */

@@ -6,12 +6,16 @@ use App\Repository\CuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups as Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CuRepository::class)
- * @UniqueEntity("name")
+ * @UniqueEntity(
+ *      fields={"name"},
+ *      message="Ce cu existe déjà"
+ * )
  */
 class Cu
 {
@@ -26,6 +30,13 @@ class Cu
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Assert\Length(
+     *      min=2,
+     *      max=20,
+     *      minMessage="Cette valeur doit contenir entre 2 et 20 caractères",
+     *      maxMessage="Cette valeur doit contenir entre 2 et 20 caractères"
+     * )
      * 
      * @Groups({"display_wheels", "wheels_by_wheelsCuType"})
      */

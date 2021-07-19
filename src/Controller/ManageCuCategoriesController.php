@@ -19,10 +19,14 @@ class ManageCuCategoriesController extends AbstractController
 
     private $validator;
 
-    public function __construct(EntityManagerInterface $manager, Validator $validator)
-    {
+    private $cuCategoriesRepository;
+
+    public function __construct(EntityManagerInterface $manager, Validator $validator,
+        CuCategoriesRepository $cuCategoriesRepository) {
+
         $this->manager = $manager;
         $this->validator = $validator;
+        $this->cuCategoriesRepository = $cuCategoriesRepository;
     }
     
     /**
@@ -53,13 +57,11 @@ class ManageCuCategoriesController extends AbstractController
     /**
      * @Route("/manage/rename/cuCategory/{nameCategory}", name="rename_cuCategory")
      */
-    public function renameCuCategory($nameCategory, CuCategoriesRepository $cuCategoriesRepository,
-        Request $request
-    ): Response {
+    public function renameCuCategory($nameCategory, Request $request): Response {
 
         if ($request->isXmlHttpRequest()) {
             
-            $cuCategory = $cuCategoriesRepository->findOneBy(['name' => $nameCategory]);
+            $cuCategory = $this->cuCategoriesRepository->findOneBy(['name' => $nameCategory]);
             
             if (!$cuCategory) {
                 throw new NotFoundHttpException('Cette catégorie n\'existe pas');
@@ -82,13 +84,11 @@ class ManageCuCategoriesController extends AbstractController
     /**
      * @Route("/manage/delete/cuCategory/{nameCategory}", name="delete_cuCategory")
      */
-    public function deleteCuCategory($nameCategory, CuCategoriesRepository $cuCategoriesRepository,
-        Request $request
-    ): Response {
+    public function deleteCuCategory($nameCategory, Request $request): Response {
 
         if ($request->isXmlHttpRequest()) {
 
-            $cuCategory = $cuCategoriesRepository->findOneBy(['name' => $nameCategory]);
+            $cuCategory = $this->cuCategoriesRepository->findOneBy(['name' => $nameCategory]);
 
             if (!$cuCategory) {
                 throw new NotFoundHttpException('Cette catégorie n\'existe pas');

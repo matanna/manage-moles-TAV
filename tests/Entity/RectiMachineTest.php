@@ -10,19 +10,37 @@ class RectiMachineTest extends KernelTestCase
 {
     use EntityTestTrait;
 
-    public function testNameRectiMachineIsUniqueOk()
+    private function create()
     {
         $newRectiMachine = new RectiMachine();
         $newRectiMachine->setName('RectiMachineName8');
 
-        $this->assertSame(0, $this->validator->validate($newRectiMachine)->count());
+        return $newRectiMachine;
+    }
+
+    public function testNameRectiMachineIsUniqueOk()
+    {
+        $this->assertSame(0, $this->validator->validate($this->create())->count());
     }
 
     public function testNameRectiMachineIsUniqueNoOk()
     {
-        $newRectiMachine = new RectiMachine();
-        $newRectiMachine->setName('RectiMachineName1');
-        
-        $this->assertSame(1, $this->validator->validate($newRectiMachine)->count());
+        $this->assertSame(1, $this->validator->validate($this->create()->setName('RectiMachineName1'))->count());
     }
+
+    public function testNameRectiMachineIsEmpty()
+    {
+        $this->assertSame(1, $this->validator->validate($this->create()->setName(''))->count());
+    }
+
+    public function testNameRectiMachineIsOneChar()
+    {
+        $this->assertSame(1, $this->validator->validate($this->create()->setName('a'))->count());
+    }
+
+    public function testNameRectiMachineIsTwentyChar()
+    {
+        $this->assertSame(1, $this->validator->validate($this->create()->setName('abcdefghijklmnopqrstu'))->count());
+    }
+    
 }

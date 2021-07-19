@@ -34,8 +34,8 @@ class CuCategories
      * @Assert\Length(
      *      min = 2, 
      *      max = 25, 
-     *      minMessage="Le nom d'une categorie doit avoir entre 2 et 25 caractères",
-     *      maxMessage="Le nom d'une categorie doit avoir entre 2 et 25 caractères"
+     *      minMessage="Cette valeur doit contenir entre 2 et 25 caractères",
+     *      maxMessage="Cette valeur doit contenir entre 2 et 25 caractères"
      * )
      * 
      * @Groups({"display_wheels", "wheels_by_wheelsCuType"})

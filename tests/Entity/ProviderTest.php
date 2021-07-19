@@ -10,19 +10,36 @@ class ProviderTest extends KernelTestCase
 {
     use EntityTestTrait;
 
-    public function testNameProviderIsUniqueOk()
+    private function create()
     {
         $provider = new Provider();
         $provider->setName('provider8');
 
-        $this->assertSame(0, $this->validator->validate($provider)->count());
+        return $provider;
+    }
+
+    public function testNameProviderIsUniqueOk()
+    {
+        $this->assertSame(0, $this->validator->validate($this->create())->count());
     }
 
     public function testNameProviderIsUniqueNoOk()
     {
-        $provider = new Provider();
-        $provider->setName('provider1');
-        
-        $this->assertEquals(1, $this->validator->validate($provider)->count());
+        $this->assertEquals(1, $this->validator->validate($this->create()->setName('provider1'))->count());
+    }
+
+    public function testNameProviderIsEmpty()
+    {
+        $this->assertEquals(1, $this->validator->validate($this->create()->setName(''))->count());
+    }
+
+    public function testNameProviderIsOneChar()
+    {
+        $this->assertEquals(1, $this->validator->validate($this->create()->setName('a'))->count());
+    }
+
+     public function testNameProviderIsTwentyOneChar()
+    {
+        $this->assertEquals(1, $this->validator->validate($this->create()->setName('abcdefghijqlmnopqrstu'))->count());
     }
 }
