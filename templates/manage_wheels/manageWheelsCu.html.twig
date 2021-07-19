@@ -12,35 +12,37 @@
 <div class="interligne"></div>
 
 <!-- The form for add a new rectiligne in database -->
-<div class="row ml-2">
-    <div class="col-12">
-        <h5 class="mb-3">Ajouter une meule :</h5>
+<div id="add-new-wheels">
+    <div class="row ml-2">
+        <div class="col-12">
+            <h5 class="mb-3">Ajouter une meule :</h5>
+        </div>
     </div>
-</div>
 
-{{ form_start(form) }}
-<div class="row mb-4 ml-2">
-    <div class="col-1">{{ form_row(form.cu, {'attr': {'class': 'cu'}, 'placeholder': 'Cu' }) }}</div>
-    <div class="col-1">{{ form_row(form.categories, {'placeholder': 'Categorie' }) }}</div>
-    <div class="col-2">{{ form_row(form.wheelsCuType, {'attr': {'class': 'wheelsCuType'}, 'placeholder': 'Type de meule' }) }}</div>
-    <div class="col-1">{{ form_row(form.provider, { 'placeholder': 'Fournisseur' }) }}</div>
-    <div class="col-1">{{ form_row(form.ref) }}</div>
-    <div class="col-2">{{ form_row(form.tavname) }}</div>
-    <div class="col-1">{{ form_row(form.diameter) }}</div>
-    <div class="col-1">{{ form_row(form.height) }}</div>
-    <div class="col-1">{{ form_row(form.grain) }}</div>
-    <div class="col-1">{{ form_row(form.stock) }}</div>
-</div>
-<div class="row mb-4 ml-2">
-    <div class="col-2"><button type="submit" class="btn btn-primary">Enregistrer</button></div>
-</div>
-{{ form_end(form) }}
+    {{ form_start(form) }}
+    <div class="row mb-4 ml-2">
+        <div class="col-1">{{ form_row(form.cu, {'attr': {'class': 'cu'}, 'placeholder': 'Cu' }) }}</div>
+        <div class="col-1">{{ form_row(form.categories, {'placeholder': 'Categorie', 'attr': {'class': 'category'}} ) }}</div>
+        <div class="col-2">{{ form_row(form.wheelsCuType, {'attr': {'class': 'wheelsCuType'}, 'placeholder': 'Type de meule' }) }}</div>
+        <div class="col-1">{{ form_row(form.provider, { 'placeholder': 'Fournisseur' }) }}</div>
+        <div class="col-1">{{ form_row(form.ref) }}</div>
+        <div class="col-2">{{ form_row(form.tavname) }}</div>
+        <div class="col-1">{{ form_row(form.diameter) }}</div>
+        <div class="col-1">{{ form_row(form.height) }}</div>
+        <div class="col-1">{{ form_row(form.grain) }}</div>
+        <div class="col-1">{{ form_row(form.stock) }}</div>
+    </div>
+    <div class="row mb-4 ml-2">
+        <div class="col-2"><button type="submit" class="btn btn-primary">Enregistrer</button></div>
+    </div>
+    {{ form_end(form) }}
 
-<hr>
+    <hr>
+</div>
 
 <h4 class="ml-3 mb-3">Meules enregistrées:</h4>
 
-<table class="table table-hover">
+<table class="table table-hover" id="all-wheels-cu">
     <thead>
       <tr class="table-primary text-center">
             <th scope="col"><a href="{{ asset('/manage/wheels-cu/provider') }}" class="text-white">Fournisseur</a></th>
@@ -94,7 +96,7 @@
             {% endif %}
            
             <td>
-                <a href="#" class="mr-4" data-toggle="modal" data-target="{{ "#modify-wheels" ~ wheels.id }}">
+                <a href="#" class="mr-2" data-toggle="modal" data-target="{{ "#modify-wheels" ~ wheels.id }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="" class="bi bi-pencil-square" viewBox="0 0 16 16">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -126,7 +128,7 @@
                             {{ form_row(editWheelsCuFormTable[wheels.id]._token, {'id': '_' ~ nameForm ~ '_token_' ~ wheels.id}) }}
                             {{ form_row(editWheelsCuFormTable[wheels.id].provider, {'id': '_' ~ nameForm ~ '_provider_' ~ wheels.id, 'label': 'Fournisseur'})}}
                             {{ form_row(editWheelsCuFormTable[wheels.id].cu, {'id': '_' ~ nameForm ~ '_cu_' ~ wheels.id, 'label': 'Cu', 'attr': {'class': 'edit-wheels-cu'}} ) }}
-                            {{ form_row(editWheelsCuFormTable[wheels.id].categories, {'id': '_' ~ nameForm ~ '_category_' ~ wheels.id, 'label': 'Catégorie'})}}
+                            {{ form_row(editWheelsCuFormTable[wheels.id].categories, {'id': '_' ~ nameForm ~ '_category_' ~ wheels.id, 'label': 'Catégorie', 'attr': {'class': 'edit-wheels-categories'}})}}
                             {{ form_row(editWheelsCuFormTable[wheels.id].wheelsCuType, {'id': '_' ~ nameForm ~ '_wheelsCuType_' ~ wheels.id, 'label': 'Type de meule', 'attr': {'class': 'edit-wheels-wheelsCuType'}} ) }}
                             {{ form_row(editWheelsCuFormTable[wheels.id].ref, {'id': '_' ~ nameForm ~ '_ref_' ~ wheels.id, 'label': 'Réference'}) }}
                             {{ form_row(editWheelsCuFormTable[wheels.id].tavname, {'id': '_' ~ nameForm ~ '_TAVname_' ~ wheels.id, 'label': 'Désignation TAV'}) }}

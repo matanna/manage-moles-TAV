@@ -1,6 +1,14 @@
 //First, we empty position list on new-wheels-form
 $(document).ready(function() {
-    $('.new-position').empty().append('<option value="selected=selected">Position</option>');
+    if (!document.getElementById('add-new-wheels').getElementsByClassName('form-error-message')) {
+        $('.new-position').empty().append('<option value="selected=selected">Position</option>');
+    }
+    
+    if (document.getElementById('all-wheels-rectiMachine').getElementsByClassName('form-error-message')) {
+        console.log($('.form-error-message').parents('.modal'));
+        $('.form-error-message').parents('.modal').modal('show');
+    }
+
 });
 
 let url = $(location).attr("href");

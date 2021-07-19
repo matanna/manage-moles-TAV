@@ -189,6 +189,9 @@ class WheelsCu
 
     public function getStock(): ?int
     {
+        if ($this->stock === null) {
+            return 0;
+        }
         return $this->stock;
     }
 

@@ -32,6 +32,14 @@ class WheelsCuFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $cus = $this->transformInAssocArray->changeKeyByNameValue($this->cuRepository->findAll());
+        
+        if ($options['wheels'] && $options['wheels']->getId()) {
+            $cu = $options['wheels']->getWheelsCuType()->getCu();
+            $category = $options['wheels']->getWheelsCuType()->getCuCategory();
+        } else {
+            $cu = null;
+            $category = null;
+        }
 
         $builder
             ->add('ref', TextType::class, [
@@ -80,7 +88,8 @@ class WheelsCuFormType extends AbstractType
                 'choice_label' => 'name',
                 'choice_value' => 'name',
                 'mapped' => false,
-                'label' => false
+                'label' => false,
+                'data' => $cu
             ])
             ->add('categories', EntityType::class, [
                 'class' => CuCategories::class,
@@ -88,7 +97,8 @@ class WheelsCuFormType extends AbstractType
                 'choice_label' => 'name',
                 'choice_value' => 'name',
                 'mapped' => false,
-                'label' => false
+                'label' => false,
+                'data' => $category
             ])
             ->add('wheelsCuType', EntityType::class, [
                 'class' => WheelsCuType::class,
@@ -105,7 +115,8 @@ class WheelsCuFormType extends AbstractType
         $resolver->setDefaults([
             'data_class' => WheelsCu::class,
             'wheelsCuType' => null,
-            'categories' => null
+            'categories' => null,
+            'wheels' => null
         ]);
     }
 }

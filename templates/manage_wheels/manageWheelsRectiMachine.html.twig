@@ -37,7 +37,7 @@
 </div>
 <h4 class="ml-4 mb-3">Meules enregistrées:</h4>
 
-<table class="table table-hover">
+<table class="table table-hover" id="all-wheels-rectiMachine">
     <thead>
       <tr class="table-primary text-center">
         <th scope="col"><a href="{{ asset('/manage/wheels-rectiMachine/provider') }}" class="text-white">Fournisseur</a></th>
@@ -108,15 +108,15 @@
                         </div>
                         <div class="modal-body" id="{{ "js-edit-wheels-" ~ wheels.id}}">
                             {{ form_row(formEditWheelsTable[wheels.id]._token, {'id': '_' ~ nameForm ~ '_token_' ~ wheels.id}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].provider, {'id': '_' ~ nameForm ~ '_provider_' ~ wheels.id})}}
-                            {{ form_row(formEditWheelsTable[wheels.id].ref, {'id': '_' ~ nameForm ~ '_ref_' ~ wheels.id}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].TAVname, {'id': '_' ~ nameForm ~ '_TAVname_' ~ wheels.id}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].grain, {'id': '_' ~ nameForm ~ '_grain_' ~ wheels.id}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].diameter, {'id': '_' ~ nameForm ~ '_diameter_' ~ wheels.id}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].height, {'id': '_' ~ nameForm ~ '_height_' ~ wheels.id}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].stock, {'id': '_' ~ nameForm ~ '_stock_' ~ wheels.id}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].rectiMachine, {'id': '_' ~ nameForm ~ '_rectiMachine_' ~ wheels.id, 'attr': {'class': 'edit-machine'}}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].position, {'id': '_' ~ nameForm ~ '_position_' ~ wheels.id, 'attr': {'class': 'edit-position'}}) }}
+                            {{ form_row(formEditWheelsTable[wheels.id].provider, {'id': '_' ~ nameForm ~ '_provider_' ~ wheels.id, 'label': 'Fournisseur'})}}
+                            {{ form_row(formEditWheelsTable[wheels.id].ref, {'id': '_' ~ nameForm ~ '_ref_' ~ wheels.id, 'label': 'Ref'}) }}
+                            {{ form_row(formEditWheelsTable[wheels.id].TAVname, {'id': '_' ~ nameForm ~ '_TAVname_' ~ wheels.id, 'label': 'Désignation TAV'}) }}
+                            {{ form_row(formEditWheelsTable[wheels.id].grain, {'id': '_' ~ nameForm ~ '_grain_' ~ wheels.id, 'label': 'Grain'}) }}
+                            {{ form_row(formEditWheelsTable[wheels.id].diameter, {'id': '_' ~ nameForm ~ '_diameter_' ~ wheels.id, 'label': 'Diamètre'}) }}
+                            {{ form_row(formEditWheelsTable[wheels.id].height, {'id': '_' ~ nameForm ~ '_height_' ~ wheels.id, 'label': 'Hauteur'}) }}
+                            {{ form_row(formEditWheelsTable[wheels.id].stock, {'id': '_' ~ nameForm ~ '_stock_' ~ wheels.id, 'label': 'Stock'}) }}
+                            {{ form_row(formEditWheelsTable[wheels.id].rectiMachine, {'id': '_' ~ nameForm ~ '_rectiMachine_' ~ wheels.id, 'label': 'Machine', 'attr': {'class': 'edit-machine'}}) }}
+                            {{ form_row(formEditWheelsTable[wheels.id].position, {'id': '_' ~ nameForm ~ '_position_' ~ wheels.id, 'label': 'Position', 'attr': {'class': 'edit-position'}}) }}
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Enregistrer</a>

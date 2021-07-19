@@ -81,8 +81,6 @@ class ManageWheelsRectiMachineController extends AbstractController
                 ]
             );
 
-            $editWheelsFormTableView[$editWheels->getId()] = $editWheelsFormTable[$editWheels->getId()]->createView();
-
             $editWheelsFormTable[$editWheels->getId()]->handleRequest($request);
             
             if ($editWheelsFormTable[$editWheels->getId()]->isSubmitted() && $editWheelsFormTable[$editWheels->getId()]->isValid()) {
@@ -93,6 +91,8 @@ class ManageWheelsRectiMachineController extends AbstractController
                 
                 return $this->redirectToRoute('manage_wheels-rectiMachine');
             }
+
+            $editWheelsFormTableView[$editWheels->getId()] = $editWheelsFormTable[$editWheels->getId()]->createView();
         }
 
         $wheelsRectiMachines  = $wheelsRectiMachineRepository->findAllWheelsRectiMachine($param);

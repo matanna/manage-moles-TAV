@@ -23,13 +23,17 @@ class DatabaseActivityRectiSubscriber implements EventSubscriber
 
     private $rectiMachineRepository;
 
+    private $positionRepository;
+
     private $manager;
 
     public function __construct(WheelsRectiMachineRepository $wheelsRectiMachineRepository, 
-        RectiMachineRepository $rectiMachineRepository, EntityManagerInterface $manager
+        RectiMachineRepository $rectiMachineRepository, EntityManagerInterface $manager,
+        PositionRepository $positionRepository
     ) {
         $this->wheelsRectiMachineRepository = $wheelsRectiMachineRepository;
         $this->rectiMachineRepository = $rectiMachineRepository;
+        $this->positionRepository = $positionRepository;
         $this->manager = $manager;
     }
 
@@ -66,24 +70,23 @@ class DatabaseActivityRectiSubscriber implements EventSubscriber
             return;
         }
 
-        $nameRectiMachine = $entity->getPosition()->getRectiMachine()->getName();
+        $positions = $this->positionRepository->findAll();
 
-        $namePosition = $entity->getPosition()->getName();
+        foreach ($positions as $position) {
+            
+            $wheelsByPositions = $this->wheelsRectiMachineRepository->findBy(['position' => $position]);
 
-        //We call datatbase for retrieve wheels corresponding to the rectiMachine name and the position linked
-        //Only one duo between position and rectiMachine is ok
-        $wheels = $this->wheelsRectiMachineRepository->findWheelsRectiMachineByPosition($nameRectiMachine, $namePosition);
+            $stockTotal = 0;
 
-        $stockTotal = 0;
+            //We do sum on stock for moles having the same positions
+            foreach ($wheelsByPositions as $wheels) {
+                $stockTotal += $wheels->getStock();
+            }
+            
+            $position->setStockReal($stockTotal);
 
-        //We do sum on stock for moles having the same positions
-        foreach ($wheels as $meule) {
-            $stockTotal += $meule->getStock();
+            $this->manager->persist($position);
+            $this->manager->flush();
         }
-        
-        $entity->getPosition()->setStockReal($stockTotal);
-
-        $this->manager->persist($entity->getPosition());
-        $this->manager->flush();
     }
 }

@@ -65,19 +65,22 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
             return;
         }
 
-        $wheelsCuType = $this->wheelsCuTypeRepository->findOneBy(['id' => $entity->getWheelsCuType()->getId()]);
+        $wheelsCuTypes = $this->wheelsCuTypeRepository->findAll();
 
-        $wheelsCuByType = $this->wheelsCuRepository->findBy(['wheelsCuType' => $wheelsCuType]);
+        foreach ($wheelsCuTypes as $wheelsCuType) {
 
-        $stockTotal = 0;
+            $wheelsCuByType = $this->wheelsCuRepository->findBy(['wheelsCuType' => $wheelsCuType]);
 
-        foreach ($wheelsCuByType as $wheels) {
-            $stockTotal += $wheels->getStock();
-        }
+            $stockTotal = 0;
 
-        $wheelsCuType->setStockReal($stockTotal);
-
-        $this->manager->persist($wheelsCuType);
-        $this->manager->flush();
+            foreach ($wheelsCuByType as $wheels) {
+                $stockTotal += $wheels->getStock();
+            }
+    
+            $wheelsCuType->setStockReal($stockTotal);
+    
+            $this->manager->persist($wheelsCuType);
+            $this->manager->flush();
+        } 
     }
 }
