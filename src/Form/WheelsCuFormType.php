@@ -7,9 +7,8 @@ use App\Entity\Provider;
 use App\Entity\WheelsCu;
 use App\Entity\CuCategories;
 use App\Entity\WheelsCuType;
-use App\Repository\CuRepository;
-use App\Utils\TransformInAssocArray;
 use Symfony\Component\Form\AbstractType;
+use App\Listeners\FormValidationSubscriber;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,15 +17,11 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class WheelsCuFormType extends AbstractType
 {
-    private $cuRepository;
+    private $formValidationSubscriber;
 
-    private $transformInAssocArray;
-
-    public function __construct(CuRepository $cuRepository, 
-        TransformInAssocArray $transformInAssocArray
-    ) {
-        $this->cuRepository = $cuRepository;
-        $this->transformInAssocArray = $transformInAssocArray;
+    public function __construct(FormValidationSubscriber $formValidationSubscriber) 
+    {
+        $this->formValidationSubscriber = $formValidationSubscriber;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -104,7 +99,9 @@ class WheelsCuFormType extends AbstractType
                 'choice_label' => 'type',
                 'choice_value' => 'type',
                 'label' => false
-            ])
+            ]);
+
+            //$builder->addEventSubscriber($this->formValidationSubscriber);
         ;
     }
 

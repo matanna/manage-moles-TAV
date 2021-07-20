@@ -41,7 +41,6 @@ class ManageWheelsCuController extends AbstractController
 
         $session = $request->getSession();
         
-
         //We check if variables are in the session - if yes, we save them to add them in $form and we remove them from the session
         if ($session->get('categoriesNew')) {
             $categoriesNew = $session->get('categoriesNew');
@@ -54,7 +53,7 @@ class ManageWheelsCuController extends AbstractController
         }
         
         $manager = $this->getDoctrine()->getManager();
-
+       
         //We create the form for add a new wheels
         $newWheelsCu = new WheelsCu();
         $form = $this->get('form.factory')->createNamed('wheelsCu', WheelsCuFormType::class, $newWheelsCu, [
@@ -70,7 +69,7 @@ class ManageWheelsCuController extends AbstractController
             if ($form->isValid()) {
                 $manager->persist($newWheelsCu);
                 $manager->flush();
-
+                
                 return $this->redirectToRoute('manage_wheels_cu');
             }
 
@@ -97,11 +96,11 @@ class ManageWheelsCuController extends AbstractController
 
         //We check if variables are in the session - if yes, we save them to add them in $form and we remove them from the session
         if ($session->get('categoriesEdit')) {
-            $categoriesNew = $session->get('categoriesEdit');
+            $categoriesEdit = $session->get('categoriesEdit');
             $session->set('categoriesEdit', null);
         }
         if ($session->get('wheelsCuTypeEdit')) {
-            $wheelsCuTypesNew = $session->get('wheelsCuTypeEdit');
+            $wheelsCuTypesEdit = $session->get('wheelsCuTypeEdit');
             $session->set('wheelsCuTypeEdit', null);
         }
 
@@ -111,12 +110,13 @@ class ManageWheelsCuController extends AbstractController
         $editWheelsCuFormTable = [];
 
         foreach ($wheelsCu as $wheels) {
-            
+
             $editWheelsCuForm = $this->get('form.factory')->createNamed('wheelsCu_' . $wheels->getId(), WheelsCuFormType::class, $wheels, [
                 'wheelsCuType' => $wheelsCuTypesEdit,
                 'categories' => $categoriesEdit,
                 'wheels' => $wheels
             ]);
+            
             
             $editWheelsCuForm->handleRequest($request);
 
@@ -136,8 +136,8 @@ class ManageWheelsCuController extends AbstractController
                  */
                 if ($validator->validate($newWheelsCu)->count() > 0 ) {
                     $datas = $request->request->all();
-                    $categories = $this->cuCategoriesRepository->findCuCategoriesByCu([$datas['wheelsCu']['cu']]);
-                    $wheelsCuTypes = $this->wheelsCuTypeRepository->findWheelsCuTypeByCuAndByCategory(
+                    $categoriesEdit = $this->cuCategoriesRepository->findCuCategoriesByCu([$datas['wheelsCu']['cu']]);
+                    $wheelsCuTypesEdit = $this->wheelsCuTypeRepository->findWheelsCuTypeByCuAndByCategory(
                         $datas['wheelsCu']['cu'],
                         $datas['wheelsCu']['categories']
                     );
@@ -149,7 +149,7 @@ class ManageWheelsCuController extends AbstractController
             
             $editWheelsCuFormTable[$wheels->getId()] = $editWheelsCuForm->createView();
         }
-
+        
         return $this->render('manage_wheels/manageWheelsCu.html.twig', [
             'form' => $form->createView(),
             'wheelsCu' => $wheelsCu,

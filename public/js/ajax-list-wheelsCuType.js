@@ -47,7 +47,8 @@ $(document).ready(function() {
             success: function(data, status) {
 
                 let wheelsCuTypes = $(data.content).find('#' + id + '_categories').html();
-                $('#' + id + '_categories').empty().append(wheelsCuTypes);
+                $('#' + id + '_categories').empty().append('<option value="selected=selected">Type de meule</option>');
+                $('#' + id + '_categories').append(wheelsCuTypes);
                 
             }
         })
