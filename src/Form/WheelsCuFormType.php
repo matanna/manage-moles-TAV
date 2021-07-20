@@ -40,7 +40,7 @@ class WheelsCuFormType extends AbstractType
             $cu = null;
             $category = null;
         }
-
+        dump($options['wheelsCuType']);
         $builder
             ->add('ref', TextType::class, [
                 'label' => false,

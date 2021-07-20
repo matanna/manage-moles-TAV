@@ -12,13 +12,13 @@ if (url == "update/stock/cu") {
 
 //First, we empty wheelsCuType list on new-wheels-form
 $(document).ready(function() {
-   
-    if (!document.getElementById('add-new-wheels').getElementsByClassName('form-error-message')){
+
+    if ($('#add-new-wheels').find('.form-error-message').length == 0){
         $('.category').empty().append('<option value="selected=selected">Catégorie</option>');
         $('.wheelsCuType').empty().append('<option value="selected=selected">Type de meule</option>');
     }
 
-    if (document.getElementById('all-wheels-cu').getElementsByClassName('form-error-message')) {
+    if ($('#all-wheels-cu').find('.form-error-message').length > 0) {
         $('.form-error-message').parents('.modal').modal('show');
     }
 });
