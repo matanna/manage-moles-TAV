@@ -40,11 +40,13 @@ class ManageWheelsCuController extends AbstractController
         $categoriesNew = null;
 
         $session = $request->getSession();
+        
 
         //We check if variables are in the session - if yes, we save them to add them in $form and we remove them from the session
         if ($session->get('categoriesNew')) {
             $categoriesNew = $session->get('categoriesNew');
             $session->set('categoriesNew', null);
+
         }
         if ($session->get('wheelsCuTypeNew')) {
             $wheelsCuTypesNew = $session->get('wheelsCuTypeNew');
@@ -84,8 +86,8 @@ class ManageWheelsCuController extends AbstractController
                     $datas['wheelsCu']['categories']
                 );
 
-                $session->set('categories', $categories);
-                $session->set('wheelsCuType', $wheelsCuTypes);
+                $session->set('categoriesNew', $categories);
+                $session->set('wheelsCuTypeNew', $wheelsCuTypes);
             }
         } 
 

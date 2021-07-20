@@ -31,16 +31,14 @@ class WheelsCuFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $cus = $this->transformInAssocArray->changeKeyByNameValue($this->cuRepository->findAll());
-        
+        $category = null;
+        $cu = null;
+
         if ($options['wheels'] && $options['wheels']->getId()) {
-            $cu = $options['wheels']->getWheelsCuType()->getCu();
-            $category = $options['wheels']->getWheelsCuType()->getCuCategory();
-        } else {
-            $cu = null;
-            $category = null;
-        }
-        dump($options['wheelsCuType']);
+            $cu = $options['wheels']->getWheelsCuType() ? $options['wheels']->getWheelsCuType()->getCu() : null;
+            $category = $options['wheels']->getWheelsCuType() ? $options['wheels']->getWheelsCuType()->getCuCategory() : null;
+        } 
+       
         $builder
             ->add('ref', TextType::class, [
                 'label' => false,
