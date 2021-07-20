@@ -31,122 +31,52 @@ class ManageWheelsCuController extends AbstractController
     /**
      * @Route("/manage/wheels-cu", name="manage_wheels_cu")
      */
-    public function manageWheelsCu(Request $request, CuRepository $cuRepository,
-        WheelsCuRepository $wheelsCuRepository, ValidatorInterface $validator
+    public function manageWheelsCu(Request $request, WheelsCuRepository $wheelsCuRepository, 
+        ValidatorInterface $validator
     ): Response {
 
-        //Initialisation of session variables for adapt form new wheels when an errors happen
-        $wheelsCuTypesNew = null;
-        $categoriesNew = null;
-
-        $session = $request->getSession();
-        
-        //We check if variables are in the session - if yes, we save them to add them in $form and we remove them from the session
-        if ($session->get('categoriesNew')) {
-            $categoriesNew = $session->get('categoriesNew');
-            $session->set('categoriesNew', null);
-
-        }
-        if ($session->get('wheelsCuTypeNew')) {
-            $wheelsCuTypesNew = $session->get('wheelsCuTypeNew');
-            $session->set('wheelsCuTypeNew', null);
-        }
-        
         $manager = $this->getDoctrine()->getManager();
        
         //We create the form for add a new wheels
         $newWheelsCu = new WheelsCu();
-        $form = $this->get('form.factory')->createNamed('wheelsCu', WheelsCuFormType::class, $newWheelsCu, [
-            'wheelsCuType' => $wheelsCuTypesNew,
-            'categories' => $categoriesNew
-        ]);
+        $form = $this->get('form.factory')->createNamed('wheelsCu', WheelsCuFormType::class, $newWheelsCu);
 
         $form->handleRequest($request);
         
         //process the form
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             
-            if ($form->isValid()) {
-                $manager->persist($newWheelsCu);
-                $manager->flush();
+            $manager->persist($newWheelsCu);
+            $manager->flush();
                 
-                return $this->redirectToRoute('manage_wheels_cu');
-            }
-
-            /**
-             * if errors, we retrieve categories and wheelsCutype for send them in session. 
-             * The user don't must change the category and wheelsCuType another time
-             */
-            if ($validator->validate($newWheelsCu)->count() > 0 ) {
-                $datas = $request->request->all();
-                $categories = $this->cuCategoriesRepository->findCuCategoriesByCu([$datas['wheelsCu']['cu']]);
-                $wheelsCuTypes = $this->wheelsCuTypeRepository->findWheelsCuTypeByCuAndByCategory(
-                    $datas['wheelsCu']['cu'],
-                    $datas['wheelsCu']['categories']
-                );
-
-                $session->set('categoriesNew', $categories);
-                $session->set('wheelsCuTypeNew', $wheelsCuTypes);
-            }
-        } 
-
-        //Initialisation of session variables for adapt form edit wheels when an errors happen
-        $wheelsCuTypesEdit = null;
-        $categoriesEdit = null;
-
-        //We check if variables are in the session - if yes, we save them to add them in $form and we remove them from the session
-        if ($session->get('categoriesEdit')) {
-            $categoriesEdit = $session->get('categoriesEdit');
-            $session->set('categoriesEdit', null);
-        }
-        if ($session->get('wheelsCuTypeEdit')) {
-            $wheelsCuTypesEdit = $session->get('wheelsCuTypeEdit');
-            $session->set('wheelsCuTypeEdit', null);
+            return $this->redirectToRoute('manage_wheels_cu');
         }
 
-        //We retrieve all wheelsCu
+        //We retrieve all wheelsCu for display
         $wheelsCu = $wheelsCuRepository->findAllWheelsCu();
         
+        //Initialize array for all formView of each wheelsCu
         $editWheelsCuFormTable = [];
 
+         //We create the form for each wheelsCu with an unique name
         foreach ($wheelsCu as $wheels) {
 
             $editWheelsCuForm = $this->get('form.factory')->createNamed('wheelsCu_' . $wheels->getId(), WheelsCuFormType::class, $wheels, [
-                'wheelsCuType' => $wheelsCuTypesEdit,
-                'categories' => $categoriesEdit,
                 'wheels' => $wheels
             ]);
             
-            
             $editWheelsCuForm->handleRequest($request);
 
-            if ($editWheelsCuForm->isSubmitted()) {
+            //process the form
+            if ($editWheelsCuForm->isSubmitted() && $editWheelsCuForm->isValid()) {
                 
-                if ($editWheelsCuForm->isValid()) {
-                    
-                    $manager->persist($wheels);
-                    $manager->flush();
+                $manager->persist($wheels);
+                $manager->flush();
     
-                    return $this->redirectToRoute('manage_wheels_cu');
-                }
-
-                /**
-                 * if errors, we retrieve categories and wheelsCutype for send them in session. 
-                 * The user don't must change the category and wheelsCuType another time
-                 */
-                if ($validator->validate($newWheelsCu)->count() > 0 ) {
-                    $datas = $request->request->all();
-                    $categoriesEdit = $this->cuCategoriesRepository->findCuCategoriesByCu([$datas['wheelsCu']['cu']]);
-                    $wheelsCuTypesEdit = $this->wheelsCuTypeRepository->findWheelsCuTypeByCuAndByCategory(
-                        $datas['wheelsCu']['cu'],
-                        $datas['wheelsCu']['categories']
-                    );
-
-                    $session->set('categories', $categoriesEdit);
-                    $session->set('wheelsCuType', $wheelsCuTypesEdit);
-                }
+                return $this->redirectToRoute('manage_wheels_cu');
             }
             
+            //We put each formView in an associative array with id of wheelsCu for key
             $editWheelsCuFormTable[$wheels->getId()] = $editWheelsCuForm->createView();
         }
         

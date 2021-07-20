@@ -9,128 +9,144 @@
 {% block body %}
 
 <div class="interligne"></div>
-<h2 class="ml-4">Gérer les meules rectiligne</h2>
+<h2 class="ml-3">Gérer les meules rectiligne</h2>
 <hr>
 <div class="interligne"></div>
 
 <!-- The form for add a new mole in database -->
-<div class="row" id="add-new-wheels">
-    <div class="col-12 mb-4 ml-2">
-        <h5 class="mb-3">Ajouter une meule :</h5>
-        {{ form_start(formNewWheelsRectiMachine) }}
-        
-        <div class="row" id="js-new-mole">
-          <div class="col-1" id="machine">{{ form_row(formNewWheelsRectiMachine.rectiMachine, {'attr': {'class': 'new-machine'}, 'placeholder': 'Rectiligne' }) }}</div>
-          <div class="col-1" id="position">{{ form_row(formNewWheelsRectiMachine.position, {'attr': {'class': 'new-position'}, 'placeholder': 'Position'}) }}</div>
-          <div class="col-1">{{ form_row(formNewWheelsRectiMachine.provider, {'placeholder': 'Fournisseur'}) }}</div>
-          <div class="col-1">{{ form_row(formNewWheelsRectiMachine.ref) }}</div>
-          <div class="col-2">{{ form_row(formNewWheelsRectiMachine.TAVname) }}</div>
-          <div class="col-1">{{ form_row(formNewWheelsRectiMachine.grain) }}</div>
-          <div class="col-1">{{ form_row(formNewWheelsRectiMachine.diameter) }}</div>
-          <div class="col-1">{{ form_row(formNewWheelsRectiMachine.height) }}</div>
-          <div class="col-1">{{ form_row(formNewWheelsRectiMachine.stock) }}</div>
+<div id="add-new-wheels">
+    <div class="row ml-2">
+        <div class="col-12">
+            <h5 class="mb-3">Ajouter une meule :</h5>
         </div>
-           
-        <button type="submit" class="btn btn-primary">Ajouter la meule</button>
-        {{ form_end(formNewWheelsRectiMachine) }} 
+    </div>
+
+    {{ form_start(formNewWheelsRectiMachine) }}
+    <div class="row" id="js-new-mole">
+        <div class="col-1" id="machine">{{ form_row(formNewWheelsRectiMachine.rectiMachine, {'attr': {'class': 'new-machine'}, 'placeholder': 'Rectiligne' }) }}</div>
+        <div class="col-1" id="position">{{ form_row(formNewWheelsRectiMachine.position, {'attr': {'class': 'new-position'}, 'placeholder': 'Position'}) }}</div>
+        <div class="col-1">{{ form_row(formNewWheelsRectiMachine.provider, {'placeholder': 'Fournisseur'}) }}</div>
+        <div class="col-1">
+            {{ form_widget(formNewWheelsRectiMachine.ref) }}
+            {{ form_errors(formNewWheelsRectiMachine.ref) }}
+        </div>
+        <div class="col-2">{{ form_row(formNewWheelsRectiMachine.TAVname) }}</div>
+        <div class="col-1">{{ form_row(formNewWheelsRectiMachine.grain) }}</div>
+        <div class="col-1">{{ form_row(formNewWheelsRectiMachine.diameter) }}</div>
+        <div class="col-1">{{ form_row(formNewWheelsRectiMachine.height) }}</div>
+        <div class="col-1">{{ form_row(formNewWheelsRectiMachine.stock) }}</div>
+    </div>
+    <div class="row mb-4 ml-2">
+        <div class="col-2"><button type="submit" class="btn btn-primary">Ajouter la meule</button></div>
+    </div>
+    {{ form_end(formNewWheelsRectiMachine) }} 
+
+    <hr>
+</div>
+
+
+<div class="row ml-2">
+    <div class="col-12">
+        <h4 class="ml-2 mb-3">Meules enregistrées:</h4>
     </div>
 </div>
-<h4 class="ml-4 mb-3">Meules enregistrées:</h4>
 
-<table class="table table-hover" id="all-wheels-rectiMachine">
-    <thead>
-      <tr class="table-primary text-center">
-        <th scope="col"><a href="{{ asset('/manage/wheels-rectiMachine/provider') }}" class="text-white">Fournisseur</a></th>
-        <th scope="col">Réfèrence</th>
-        <th scope="col">Désignation TAV</th>
-        <th scope="col">Grain</th>
-        <th scope="col">Diamètre</th>
-        <th scope="col">Hauteur</th>
-        <th scope="col">Stock</th>
-        <th scope="col">Non Livrées</th>
-        <th scope="col"><a href="{{ asset('/manage/wheels-rectiMachine/rectiMachine') }}" class="text-white">Machine</a></th>
-        <th scope="col">Position</th>
-        <th scope="col">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for wheels in wheelsRectiMachines %}
-        <tr class="table-default text-center">
-            <th scope="row">{{ wheels.provider.name }}</th>
-            <td>{{ wheels.ref }}</td>
-            <td>{{ wheels.TAVname }}</td>
-            <td>{{ wheels.grain }}</td>
-            <td>{{ wheels.diameter }}</td>
-            <td>{{ wheels.height }}</td>
-            <td>{{ wheels.stock }}</td>
-            <td>{{ wheels.notDelivered }}</td>
-            
-            {% if wheels.position != null and wheels.position.rectiMachine != null %}
-                <td class="text-uppercase">{{ wheels.position.rectiMachine.name }}</td>
-            {% else %}
+<div id="all-wheels-rectiMachine">
+    <table class="table table-hover">
+        <thead>
+            <tr class="table-primary text-center">
+                <th scope="col"><a href="{{ asset('/manage/wheels-rectiMachine/provider') }}" class="text-white">Fournisseur</a></th>
+                <th scope="col">Réfèrence</th>
+                <th scope="col">Désignation TAV</th>
+                <th scope="col">Grain</th>
+                <th scope="col">Diamètre</th>
+                <th scope="col">Hauteur</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Non Livrées</th>
+                <th scope="col"><a href="{{ asset('/manage/wheels-rectiMachine/rectiMachine') }}" class="text-white">Machine</a></th>
+                <th scope="col">Position</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for wheels in wheelsRectiMachines %}
+            <tr class="table-default text-center">
+                <th scope="row">{{ wheels.provider.name }}</th>
+                <td>{{ wheels.ref }}</td>
+                <td>{{ wheels.TAVname }}</td>
+                <td>{{ wheels.grain }}</td>
+                <td>{{ wheels.diameter }}</td>
+                <td>{{ wheels.height }}</td>
+                <td>{{ wheels.stock }}</td>
+                <td>{{ wheels.notDelivered }}</td>
+                
+                {% if wheels.position != null and wheels.position.rectiMachine != null %}
+                    <td class="text-uppercase">{{ wheels.position.rectiMachine.name }}</td>
+                {% else %}
+                    <td>NULL</td>           
+                {% endif %}
+                
+                {% if wheels.position != null and wheels.position.rectiMachine != null %}
+                <td>{{ wheels.position.name }}</td>
+                {% else %}
                 <td>NULL</td>           
-            {% endif %}
-            
-            {% if wheels.position != null and wheels.position.rectiMachine != null %}
-            <td>{{ wheels.position.name }}</td>
-            {% else %}
-            <td>NULL</td>           
-            {% endif %}
+                {% endif %}
 
-            <td>
-                <a href="#" class="mr-4" data-toggle="modal" data-target="{{ "#modify-wheels" ~ wheels.id }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                    </svg>
-                </a>
-                <a href="{{ asset('/manage/delete/wheels-rectiMachine/' ~ wheels.id) }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25 " height="25" fill="" class="bi bi-trash" viewBox="0 0 16 16">
-                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                    </svg>
-                </a>
-            </td>
-        </tr>
+                <td>
+                    <a href="#" class="mr-4" data-toggle="modal" data-target="{{ "#modify-wheels" ~ wheels.id }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                        </svg>
+                    </a>
+                    <a href="{{ asset('/manage/delete/wheels-rectiMachine/' ~ wheels.id) }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25 " height="25" fill="" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                    </a>
+                </td>
+            </tr>
 
-        <!--Modal for edit button - form for change quantity-->
-        <div class="modal" id="{{ "modify-wheels" ~ wheels.id }}" tabindex="-1" aria-hidden="true" role="dialog">      
-            <div class="modal-dialog" role="document">
-                
-                {{ form_start(formEditWheelsTable[wheels.id]) }}
-                    {% set nameForm =  formEditWheelsTable[wheels.id].vars.name %}
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Modifier la meule</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+            <!--Modal for edit button - form for change quantity-->
+            <div class="modal" id="{{ "modify-wheels" ~ wheels.id }}" tabindex="-1" aria-hidden="true" role="dialog">      
+                <div class="modal-dialog" role="document">
+                    
+                    {{ form_start(formEditWheelsTable[wheels.id]) }}
+                        {% set nameForm =  formEditWheelsTable[wheels.id].vars.name %}
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Modifier la meule</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="{{ "js-edit-wheels-" ~ wheels.id}}">
+                                {{ form_row(formEditWheelsTable[wheels.id]._token, {'id': '_' ~ nameForm ~ '_token_' ~ wheels.id}) }}
+                                {{ form_row(formEditWheelsTable[wheels.id].provider, {'id': '_' ~ nameForm ~ '_provider_' ~ wheels.id, 'label': 'Fournisseur'})}}
+                                {{ form_row(formEditWheelsTable[wheels.id].ref, {'id': '_' ~ nameForm ~ '_ref_' ~ wheels.id, 'label': 'Ref'}) }}
+                                {{ form_row(formEditWheelsTable[wheels.id].TAVname, {'id': '_' ~ nameForm ~ '_TAVname_' ~ wheels.id, 'label': 'Désignation TAV'}) }}
+                                {{ form_row(formEditWheelsTable[wheels.id].grain, {'id': '_' ~ nameForm ~ '_grain_' ~ wheels.id, 'label': 'Grain'}) }}
+                                {{ form_row(formEditWheelsTable[wheels.id].diameter, {'id': '_' ~ nameForm ~ '_diameter_' ~ wheels.id, 'label': 'Diamètre'}) }}
+                                {{ form_row(formEditWheelsTable[wheels.id].height, {'id': '_' ~ nameForm ~ '_height_' ~ wheels.id, 'label': 'Hauteur'}) }}
+                                {{ form_row(formEditWheelsTable[wheels.id].stock, {'id': '_' ~ nameForm ~ '_stock_' ~ wheels.id, 'label': 'Stock'}) }}
+                                {{ form_row(formEditWheelsTable[wheels.id].rectiMachine, {'id': '_' ~ nameForm ~ '_rectiMachine_' ~ wheels.id, 'label': 'Machine', 'attr': {'class': 'edit-machine'}}) }}
+                                {{ form_row(formEditWheelsTable[wheels.id].position, {'id': '_' ~ nameForm ~ '_position_' ~ wheels.id, 'label': 'Position', 'attr': {'class': 'edit-position'}}) }}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Enregistrer</a>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                            </div>
                         </div>
-                        <div class="modal-body" id="{{ "js-edit-wheels-" ~ wheels.id}}">
-                            {{ form_row(formEditWheelsTable[wheels.id]._token, {'id': '_' ~ nameForm ~ '_token_' ~ wheels.id}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].provider, {'id': '_' ~ nameForm ~ '_provider_' ~ wheels.id, 'label': 'Fournisseur'})}}
-                            {{ form_row(formEditWheelsTable[wheels.id].ref, {'id': '_' ~ nameForm ~ '_ref_' ~ wheels.id, 'label': 'Ref'}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].TAVname, {'id': '_' ~ nameForm ~ '_TAVname_' ~ wheels.id, 'label': 'Désignation TAV'}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].grain, {'id': '_' ~ nameForm ~ '_grain_' ~ wheels.id, 'label': 'Grain'}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].diameter, {'id': '_' ~ nameForm ~ '_diameter_' ~ wheels.id, 'label': 'Diamètre'}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].height, {'id': '_' ~ nameForm ~ '_height_' ~ wheels.id, 'label': 'Hauteur'}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].stock, {'id': '_' ~ nameForm ~ '_stock_' ~ wheels.id, 'label': 'Stock'}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].rectiMachine, {'id': '_' ~ nameForm ~ '_rectiMachine_' ~ wheels.id, 'label': 'Machine', 'attr': {'class': 'edit-machine'}}) }}
-                            {{ form_row(formEditWheelsTable[wheels.id].position, {'id': '_' ~ nameForm ~ '_position_' ~ wheels.id, 'label': 'Position', 'attr': {'class': 'edit-position'}}) }}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Enregistrer</a>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                        </div>
-                    </div>
-                {{ form_end(formEditWheelsTable[wheels.id]) }}
-                
+                    {{ form_end(formEditWheelsTable[wheels.id]) }}
+                    
+                </div>
             </div>
-        </div>
-        <!--End of Modal-->
-        
-    {% endfor %}
-    </tbody>
-</table>
+            <!--End of Modal-->
+            
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
 

@@ -33,7 +33,7 @@ class RectiMachine
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * 
-     *  @Assert\Length(
+     * @Assert\Length(
      *      min=2,
      *      max=20,
      *      minMessage="Cette valeur doit contenir entre 2 et 20 caractères",

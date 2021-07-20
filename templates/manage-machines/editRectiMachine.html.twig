@@ -59,6 +59,7 @@
 <hr>
 
 <!-- Form is render in a loop for display all positions of one machine-->
+<div>
 {{ form_start(formRectiMachine) }}
     {{ form_row(formRectiMachine.name, {'attr': {'hidden': 'hidden'}, 'label': false }) }}
     {% for position in formRectiMachine.positions %}
@@ -99,6 +100,7 @@
     </div>
     {% endfor %}
 {{ form_end(formRectiMachine) }}
+</div>
 
 <h4 class="ml-3">Ajouter une position : </h4>
 <hr>

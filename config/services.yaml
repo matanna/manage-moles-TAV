@@ -43,10 +43,6 @@ services:
         tags: 
             - { name: 'kernel.exception' }
 
-    App\Listener\FormValidationSubscriber: 
-        tags: 
-            - { name: 'validation.event_subscriber' }
-
     App\Twig\TwigGlobalVarsSubscriber:
         tags:
             - { name: 'twig.globalVars_subscriber', event: kernel.controller }
