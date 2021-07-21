@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\WheelsRectiMachine;
 use App\Repository\PositionRepository;
 use App\Form\WheelsRectiMachineFormType;
-use App\Repository\RectiMachineRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\WheelsRectiMachineRepository;
@@ -18,7 +17,7 @@ class ManageWheelsRectiMachineController extends AbstractController
      * @Route("/manage/wheels-rectiMachine/{param}", name="manage_wheels-rectiMachine_sort")
      */
     public function manageWheelsRectiMachine(WheelsRectiMachineRepository $wheelsRectiMachineRepository,
-        RectiMachineRepository $rectiMachineRepository, PositionRepository $positionRepository, $param = null
+        PositionRepository $positionRepository, $param = null
     ): Response {
 
         $request = $this->get('request_stack')->getCurrentRequest();
@@ -49,8 +48,8 @@ class ManageWheelsRectiMachineController extends AbstractController
             'positions' => $positions
         ]);
         
-        $formNewWheelsRectiMachine->handleRequest($request);
-
+        $test = $formNewWheelsRectiMachine->handleRequest($request);
+            
         if ($formNewWheelsRectiMachine->isSubmitted() && $formNewWheelsRectiMachine->isValid()) {
             
             $manager = $this->getDoctrine()->getManager();
