@@ -2,8 +2,10 @@
 
 namespace App\Listeners;
 
+use App\Entity\User;
 use App\Entity\WheelsCu;
 use Doctrine\ORM\Events;
+use App\Notifiers\Notifications;
 use App\Repository\CuRepository;
 use Doctrine\Common\EventSubscriber;
 use App\Repository\WheelsCuRepository;
@@ -15,21 +17,24 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
 {
     const NAME = 'database.cu.subscriber';
 
-    private $cuRepository;
-
     private $wheelsCuRepository;
 
     private $wheelsCuTypeRepository;
 
     private $manager;
 
-    public function __construct(CuRepository $cuRepository, WheelsCuRepository $wheelsCuRepository, 
-        WheelsCuTypeRepository $wheelsCuTypeRepository, EntityManagerInterface $manager
+    private $notifications;
+
+    public function __construct(
+        WheelsCuRepository $wheelsCuRepository, 
+        WheelsCuTypeRepository $wheelsCuTypeRepository, 
+        EntityManagerInterface $manager,
+        Notifications $notifications
     ) {
-        $this->cuRepository = $cuRepository;
         $this->wheelsCuRepository = $wheelsCuRepository;
         $this->wheelsCuTypeRepository = $wheelsCuTypeRepository;
         $this->manager = $manager;
+        $this->notifications = $notifications;
     }
 
     public function getSubscribedEvents()
@@ -59,6 +64,9 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
 
     public function logActivity(string $action, LifecycleEventArgs $args)
     {
+        /*$users = $this->container->getDoctrine()->getRepository(User::class)->findBy(['isNotifiable' => true]);
+            dump($users);*/
+
         $entity = $args->getObject();
 
         if (!$entity instanceof WheelsCu) {
@@ -78,9 +86,14 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
             }
     
             $wheelsCuType->setStockReal($stockTotal);
-    
+
             $this->manager->persist($wheelsCuType);
             $this->manager->flush();
+
+            
+            /*if ($wheelsCuType->getStockReal() <= $wheelsCuType->getStockMini()) {
+                $this->notifications->alertStockNotification($users, $wheelsCuType, null);
+            }*/
         } 
     }
 }

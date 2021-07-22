@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups as Groups;
 
@@ -41,6 +42,25 @@ class User implements UserInterface
      * 
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Assert\Email(
+     *      message = "Cet email n'est pas valide."
+     * )
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * 
+     * @Assert\Expression(
+     *      "(this.getEmail() != null and value in [true, false]) or (this.getEmail() == null and value == false)",
+     *      message="Pour assigner des notifications à un utilisateur, il faut renseigner un email"  
+     * )
+     */
+    private $isNotifiable;
 
     public function getId(): ?int
     {
@@ -116,5 +136,29 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getIsNotifiable(): ?bool
+    {
+        return $this->isNotifiable;
+    }
+
+    public function setIsNotifiable(bool $isNotifiable): self
+    {
+        $this->isNotifiable = $isNotifiable;
+
+        return $this;
     }
 }
