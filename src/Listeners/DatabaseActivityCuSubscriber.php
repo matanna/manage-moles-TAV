@@ -64,8 +64,8 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
 
     public function logActivity(string $action, LifecycleEventArgs $args)
     {
-        /*$users = $this->container->getDoctrine()->getRepository(User::class)->findBy(['isNotifiable' => true]);
-            dump($users);*/
+        //$users = $this->container->getDoctrine()->getRepository(User::class)->findBy(['isNotifiable' => true]);
+           // dump($users);
 
         $entity = $args->getObject();
 

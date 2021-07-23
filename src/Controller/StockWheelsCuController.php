@@ -69,9 +69,9 @@ class StockWheelsCuController extends AbstractController
             }
 
             $data = (int)($request->get('quantity'));
-        
-            if ($data) {
-
+            
+            if ($data !== null) {
+                dump($data);
                 $wheels->setStock($data);
             
                 $manager = $this->getDoctrine()->getManager();
