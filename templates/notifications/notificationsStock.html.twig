@@ -1,0 +1,6 @@
+{% for wheels in wheelsNeeded['recti']  %}
+    <p>{{ wheels.rectiMachine.name|upper }} : Position {{ wheels.name }} -> reste {{ wheels.stockReal }} meules pour un stock mini de {{ wheels.stockMini }}</p>
+{% endfor %}}}
+{% for wheels in wheelsNeeded['cu']  %}
+    <p>{{ wheels.cu.name|upper }} : {{ wheels.type }} -> reste {{ wheels.stockReal }} meules pour un stock mini de {{ wheels.stockMini }}</p>
+{% endfor %}

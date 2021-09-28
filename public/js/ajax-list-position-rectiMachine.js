@@ -5,11 +5,17 @@ $(document).ready(function() {
     }
     
     if (document.getElementById('all-wheels-rectiMachine').getElementsByClassName('form-error-message')) {
-        console.log($('.form-error-message').parents('.modal'));
         $('.form-error-message').parents('.modal').modal('show');
     }
 
 });
+console.log($("#add-new-wheels"));
+//If violation on form, the modal can not be closed
+$('body').on("click", function(event) {
+    if ($("#all-wheels-rectiMachine").find('.form-error-message').length > 0) {
+        $('.form-error-message').parents('.modal').modal('show');
+    }
+})
 
 let url = $(location).attr("href");
 

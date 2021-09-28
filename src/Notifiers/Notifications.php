@@ -3,6 +3,7 @@
 namespace App\Notifiers;
 
 use Twig\Environment;
+use App\Entity\Position;
 use App\Entity\WheelsCuType;
 use App\Entity\WheelsRectiMachine;
 use Symfony\Component\Notifier\NotifierInterface;
@@ -13,37 +14,30 @@ class Notifications
 {
     private $notifier;
 
-    private $rendered;
+    private $twig;
 
-    public function __construct(NotifierInterface $notifier, Environment $rendered)
+    public function __construct(NotifierInterface $notifier, Environment $twig)
     {
         $this->notifier = $notifier;
-        $this->rendered = $rendered;
+        $this->twig = $twig;
     }
 
     /**
      * Send notifications by email to predefined users
      *
      * @param Array $users Array of User objects
-     * @param WheelsCu $wheelsCu
-     * @param WheelsRectiMachine $wheelsRectiMachine
+     * @param Array $wheelsNeeded
      * @return void
      */
-    public function alertStockNotification(Array $users, WheelsCuType $wheelsCuType = null, 
-        Position $position = null
-    ) {
-        if ($wheelsCuType) {
-            $content = "Le stock mini pour $wheelsCuType est atteint.";
-        }
-
-        if ($position) {
-            $content = "Le stock mini pour $position est atteint.";
-        }
-
-        $notification = (new Notification('Outils à commander !', ['email']))
-            ->content($content);
-        dump($content);
-
+    public function alertStockNotification(Array $users, $wheelsNeeded) 
+    {   
+        $contentEmail = $this->twig->render('/notifications/notificationsStock.html.twig', [
+            'wheelsNeeded' => $wheelsNeeded
+        ]);
+        dump($contentEmail);
+        //$notification = (new Notification('Outils à commander !', ['email']))->content($content);
+        
+        
         foreach ($users as $user) {
 
             $recipient = new Recipient(
@@ -51,8 +45,7 @@ class Notifications
             );
 
             //$this->notifier->send($notification, $recipient);
-        }
-        
-
+        }   
     }
+    
 }

@@ -42,11 +42,10 @@ class UserController extends AbstractController
             $userForm = $this->get('form.factory')->createNamed('form-user-' . $user->getId(), UserFormType::class, $user, [
                 'role' => $user->getRoles()[0]
             ]);
-            $userFormView = $userForm->createView();
+            
             $userForm->handleRequest($request);
 
             $usersTable[$user->getId()]['user'] = $user;
-            $usersTable[$user->getId()]['userForm'] = $userFormView;
             
             if ($userForm->isSubmitted() && $userForm->isValid()) {
                 
@@ -59,6 +58,9 @@ class UserController extends AbstractController
 
                 return $this->redirectToRoute('users');
             }
+            
+            $userFormView = $userForm->createView();
+            $usersTable[$user->getId()]['userForm'] = $userFormView;
         }
 
         $newUserForm->handleRequest($request);
@@ -74,7 +76,7 @@ class UserController extends AbstractController
 
             return $this->redirectToRoute('users');
         }
-
+        
         return $this->render('user/manageUsers.html.twig', [
             'newUserForm' => $newUserForm->createView(),
             'usersTable' => $usersTable

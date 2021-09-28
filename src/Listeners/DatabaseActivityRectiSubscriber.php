@@ -2,14 +2,16 @@
 
 namespace App\Listeners;
 
-use App\Entity\WheelsRectiMachine;
+use App\Entity\User;
 use Doctrine\ORM\Events;
-use App\Repository\RectiMachineRepository;
+use App\Notifiers\Notifications;
+use App\Entity\WheelsRectiMachine;
+use Doctrine\Common\EventSubscriber;
 use App\Repository\PositionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\RectiMachineRepository;
 use App\Repository\WheelsRectiMachineRepository;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Doctrine\Common\EventSubscriber;
 
 /**
  * This listener is run at each call to the database with doctrine. Event doctrine listener
@@ -25,15 +27,21 @@ class DatabaseActivityRectiSubscriber implements EventSubscriber
 
     private $positionRepository;
 
+    private $notifications;
+
     private $manager;
 
-    public function __construct(WheelsRectiMachineRepository $wheelsRectiMachineRepository, 
-        RectiMachineRepository $rectiMachineRepository, EntityManagerInterface $manager,
+    public function __construct(
+        WheelsRectiMachineRepository $wheelsRectiMachineRepository, 
+        RectiMachineRepository $rectiMachineRepository, 
+        EntityManagerInterface $manager,
+        Notifications $notifications,
         PositionRepository $positionRepository
     ) {
         $this->wheelsRectiMachineRepository = $wheelsRectiMachineRepository;
         $this->rectiMachineRepository = $rectiMachineRepository;
         $this->positionRepository = $positionRepository;
+        $this->notifications = $notifications;
         $this->manager = $manager;
     }
 
@@ -87,6 +95,7 @@ class DatabaseActivityRectiSubscriber implements EventSubscriber
 
             $this->manager->persist($position);
             $this->manager->flush();
+
         }
     }
 }

@@ -64,9 +64,6 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
 
     public function logActivity(string $action, LifecycleEventArgs $args)
     {
-        //$users = $this->container->getDoctrine()->getRepository(User::class)->findBy(['isNotifiable' => true]);
-           // dump($users);
-
         $entity = $args->getObject();
 
         if (!$entity instanceof WheelsCu) {
@@ -74,7 +71,7 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
         }
 
         $wheelsCuTypes = $this->wheelsCuTypeRepository->findAll();
-
+        
         foreach ($wheelsCuTypes as $wheelsCuType) {
 
             $wheelsCuByType = $this->wheelsCuRepository->findBy(['wheelsCuType' => $wheelsCuType]);
@@ -89,11 +86,7 @@ class DatabaseActivityCuSubscriber implements EventSubscriber
 
             $this->manager->persist($wheelsCuType);
             $this->manager->flush();
-
             
-            /*if ($wheelsCuType->getStockReal() <= $wheelsCuType->getStockMini()) {
-                $this->notifications->alertStockNotification($users, $wheelsCuType, null);
-            }*/
         } 
     }
 }
